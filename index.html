@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Projet Mécatronique — ICAM Grand Paris Sud</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --orange: #F7941D;
+      --grey:   #63666A;
+      --grey-light: #F2F2F2;
+      --grey-mid:   #D8D8D8;
+      --white:  #FFFFFF;
+      --text:   #222222;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Montserrat', sans-serif; background: var(--white); color: var(--text); font-size: 15px; line-height: 1.65; }
+
+    /* ── HEADER ── */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--white);
+      border-bottom: 3px solid var(--orange);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 3rem; height: 68px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    }
+    .logo { display: flex; align-items: center; gap: 0.8rem; }
+    .logo-icam { font-size: 1.8rem; font-weight: 800; color: var(--orange); font-style: italic; }
+    .logo-sep { width: 1px; height: 28px; background: var(--grey-mid); }
+    .logo-text { font-size: 0.75rem; font-weight: 600; color: var(--grey); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.3; }
+    .logo-text span { display: block; font-weight: 800; color: var(--orange); }
+    .header-right { display: flex; align-items: center; gap: 1rem; }
+    nav { display: flex; gap: 0.1rem; }
+    nav a { font-size: 0.73rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--grey); text-decoration: none; padding: 0.5rem 0.85rem; transition: color 0.15s, background 0.15s; }
+    nav a:hover { color: var(--orange); background: rgba(247,148,29,0.07); }
+    .lang-btn { background: var(--orange); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
+    .lang-btn:hover { background: #d97d10; }
+
+    /* ── HERO ── */
+    .hero-wrap { background: linear-gradient(140deg, #fff 55%, #fff8f0 100%); border-bottom: 1px solid var(--grey-mid); }
+    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 4rem; display: grid; grid-template-columns: 1fr 360px; gap: 3rem; align-items: center; }
+    .hero-tag { display: inline-block; background: var(--orange); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.3rem 0.85rem; margin-bottom: 1.4rem; }
+    .hero h1 { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.1rem; }
+    .hero h1 em { font-style: normal; color: var(--orange); }
+    .hero-sub { font-size: 0.97rem; color: var(--grey); max-width: 500px; line-height: 1.75; margin-bottom: 2rem; }
+    .hero-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--orange); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.8rem; border: 2px solid var(--orange); text-decoration: none; display: inline-block; transition: background 0.15s; }
+    .btn-primary:hover { background: #d97d10; border-color: #d97d10; }
+    .btn-ghost { background: transparent; color: var(--grey); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.8rem; border: 2px solid var(--grey-mid); text-decoration: none; display: inline-block; transition: border-color 0.15s, color 0.15s; }
+    .btn-ghost:hover { border-color: var(--grey); color: var(--text); }
+    .hero-card { background: var(--orange); color: #fff; padding: 2rem; }
+    .hero-card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; margin-bottom: 1.2rem; }
+    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .stat { background: rgba(255,255,255,0.15); padding: 1rem; }
+    .stat-num { font-size: 2rem; font-weight: 800; line-height: 1; }
+    .stat-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; margin-top: 0.2rem; }
+
+    /* ── SHARED ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem; }
+    .section-label { display: flex; align-items: center; gap: 0.6rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.6rem; }
+    .section-label::before { content: ''; display: inline-block; width: 22px; height: 3px; background: var(--orange); border-radius: 2px; }
+    .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.7rem; }
+    .section-intro { color: var(--grey); font-size: 0.97rem; max-width: 640px; line-height: 1.75; margin-bottom: 2.8rem; }
+    .bg-light { background: var(--grey-light); }
+
+    /* ── OBJECTIFS ── */
+    .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
+    .obj-card { background: var(--white); border-top: 4px solid var(--orange); padding: 1.8rem; transition: box-shadow 0.2s; }
+    .obj-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .obj-num { font-size: 2rem; font-weight: 800; color: var(--grey-mid); line-height: 1; margin-bottom: 0.8rem; }
+    .obj-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
+    .obj-text { font-size: 0.87rem; color: var(--grey); line-height: 1.65; }
+
+    /* ── SUJETS ── */
+    .sujets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.2rem; }
+    .sujet-card { border: 1px solid var(--grey-mid); padding: 2rem; position: relative; overflow: hidden; transition: border-color 0.18s, box-shadow 0.18s; }
+    .sujet-card:hover { border-color: var(--orange); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+    .sujet-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--orange); }
+    .sujet-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+    .sujet-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
+    .sujet-desc { font-size: 0.86rem; color: var(--grey); line-height: 1.65; }
+    .sujet-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+    .badge { background: rgba(247,148,29,0.1); color: var(--orange); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.22rem 0.55rem; border-radius: 2px; }
+
+    /* ── TABS A4 / I3 ── */
+    .tabs-section { background: var(--white); }
+    .tabs-header { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 0; }
+    .tabs-nav { display: flex; gap: 0; border-bottom: 2px solid var(--grey-mid); margin-top: 2rem; }
+    .tab-btn { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.9rem 2.5rem; border: none; background: transparent; color: var(--grey); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; }
+    .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+    .tab-btn:hover:not(.active) { color: var(--text); background: var(--grey-light); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* groupes grid */
+    .groups-banner { background: var(--orange); color: #fff; padding: 2rem 3rem; max-width: 1100px; margin: 2rem auto 0; }
+    .groups-banner p { font-size: 0.95rem; line-height: 1.75; max-width: 700px; }
+    .groups-banner strong { font-weight: 700; }
+    .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--grey-mid); border: 1px solid var(--grey-mid); margin-top: 1.5rem; }
+    .group-card { background: var(--white); padding: 1.6rem; transition: background 0.15s; }
+    .group-card:hover { background: #fff8f0; }
+    .group-num { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.3rem; }
+    .group-name { font-size: 0.9rem; font-weight: 700; color: var(--grey); margin-bottom: 0.3rem; }
+    .group-link { font-size: 0.7rem; color: var(--grey-mid); font-style: italic; }
+
+    /* tab inner container */
+    .tab-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 3rem 5rem; }
+    .tab-desc { font-size: 0.95rem; color: var(--grey); line-height: 1.75; max-width: 680px; margin-bottom: 0.5rem; }
+    .tab-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0 2rem; }
+    .meta-pill { background: var(--grey-light); border: 1px solid var(--grey-mid); color: var(--grey); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 20px; }
+    .meta-pill.orange { background: rgba(247,148,29,0.1); border-color: rgba(247,148,29,0.3); color: var(--orange); }
+
+    /* ── EQUIPE ── */
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.2rem; }
+    .team-card { background: var(--white); padding: 2rem; border-bottom: 4px solid var(--orange); transition: box-shadow 0.2s; }
+    .team-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+    .team-role { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.4rem; }
+    .team-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem; }
+    .team-detail { font-size: 0.84rem; color: var(--grey); line-height: 1.6; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--grey); color: rgba(255,255,255,0.75); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    .footer-brand { display: flex; align-items: center; gap: 0.7rem; }
+    .footer-dot { width: 10px; height: 10px; background: var(--orange); border-radius: 50%; }
+    .footer-text { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.9); }
+    .footer-copy { font-size: 0.7rem; }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-card { display: none; }
+      header { padding: 0 1.2rem; }
+      nav { display: none; }
+      .container, .tab-inner, .tabs-header { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .groups-banner { padding: 1.8rem 1.2rem; }
+      footer { padding: 1.5rem 1.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-icam">icam</div>
+    <div class="logo-sep"></div>
+    <div class="logo-text">Grand Paris Sud <span>Mécatronique</span></div>
+  </div>
+  <div class="header-right">
+    <nav>
+      <a href="#objectifs">Objectifs</a>
+      <a href="#sujets">Sujets</a>
+      <a href="#projets">Projets</a>
+      <a href="#equipe">Équipe</a>
+    </nav>
+    <a href="index_en.html" class="lang-btn">EN</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero-wrap">
+  <div class="hero">
+    <div>
+      <div class="hero-tag">A4 · I3 · 2025 – 2026</div>
+      <h1>Projet<br/><em>Mécatronique</em><br/>ICAM GPS</h1>
+      <p class="hero-sub">
+        Conception et réalisation d'un système pluridisciplinaire intégrant mécanique, électronique et automatique — du besoin initial au prototype fonctionnel. Un projet commun aux filières <strong>A4</strong> et <strong>I3</strong>.
+      </p>
+      <div class="hero-cta">
+        <a href="#projets" class="btn-primary">Voir les projets</a>
+        <a href="#objectifs" class="btn-ghost">En savoir plus</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-label">Le projet en chiffres</div>
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-num">A4</div><div class="stat-label">7 étudiants/équipe</div></div>
+        <div class="stat"><div class="stat-num">I3</div><div class="stat-label">3–4 étudiants/équipe</div></div>
+        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Semestres</div></div>
+        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Domaines</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OBJECTIFS -->
+<div id="objectifs" class="bg-light">
+  <div class="container">
+    <div class="section-label reveal">Pourquoi ce projet</div>
+    <h2 class="section-title reveal">Objectifs pédagogiques</h2>
+    <p class="section-intro reveal">Le projet mécatronique vous confronte à la réalité d'un développement pluridisciplinaire, de l'idée au prototype testé et validé. Commun aux filières A4 et I3, il intègre mécanique, électronique et automatique.</p>
+    <div class="obj-grid reveal">
+      <div class="obj-card">
+        <div class="obj-num">01</div>
+        <div class="obj-title">Système intégré</div>
+        <div class="obj-text">Concevoir et réaliser un système complet combinant mécanique, électronique et automatique en équipe.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">02</div>
+        <div class="obj-title">Multi-domaines</div>
+        <div class="obj-text">Appliquer les acquis (MME, EEE, MIA, ESE) et découvrir leurs interactions concrètes sur un vrai projet.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">03</div>
+        <div class="obj-title">Innovation & Gestion</div>
+        <div class="obj-text">Mettre en oeuvre une démarche d'innovation, de gestion de projet, de management d'équipe et d'éco-conception.</div>
+      </div>
+      <div class="obj-card">
+        <div class="obj-num">04</div>
+        <div class="obj-title">Théorie / Expérimentation</div>
+        <div class="obj-text">Confronter résultats théoriques et simulations à l'expérimentation sur un système multi-physique réel.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SUJETS -->
+<div id="sujets">
+  <div class="container">
+    <div class="section-label reveal">Thématiques 2025–2026</div>
+    <h2 class="section-title reveal">Sujets proposés</h2>
+    <p class="section-intro reveal">Trois sujets sont proposés cette année. Chaque équipe choisit son sujet et développe sa propre solution technique, de la conception à la réalisation.</p>
+    <div class="sujets-grid reveal">
+      <div class="sujet-card">
+        <div class="sujet-icon">🛒</div>
+        <div class="sujet-title">Chariot Autonome</div>
+        <div class="sujet-desc">Conception et réalisation d'un chariot capable de naviguer de façon autonome dans un environnement défini, avec détection d'obstacles et suivi de trajectoire.</div>
+        <div class="sujet-badges">
+          <span class="badge">Navigation</span>
+          <span class="badge">Capteurs</span>
+          <span class="badge">Automatique</span>
+          <span class="badge">Embarqué</span>
+        </div>
+      </div>
+      <div class="sujet-card">
+        <div class="sujet-icon">🦾</div>
+        <div class="sujet-title">Bras Robotique 3 Axes</div>
+        <div class="sujet-desc">Conception et réalisation d'un bras robotique à 3 axes articulés, commandé par une interface numérique, capable d'effectuer des tâches de manipulation précises.</div>
+        <div class="sujet-badges">
+          <span class="badge">Robotique</span>
+          <span class="badge">Servomoteurs</span>
+          <span class="badge">CAO</span>
+          <span class="badge">Commande</span>
+        </div>
+      </div>
+      <div class="sujet-card">
+        <div class="sujet-icon">⚙️</div>
+        <div class="sujet-title">Convoyeur</div>
+        <div class="sujet-desc">Conception et réalisation d'un système de convoyage automatisé, intégrant tri, détection et contrôle de flux, avec supervision en temps réel.</div>
+        <div class="sujet-badges">
+          <span class="badge">Automatisation</span>
+          <span class="badge">Motorisation</span>
+          <span class="badge">Supervision</span>
+          <span class="badge">Tri</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJETS A4 / I3 avec onglets -->
+<div id="projets" class="tabs-section">
+  <div class="tabs-header">
+    <div class="section-label reveal">Travaux des équipes</div>
+    <h2 class="section-title reveal">Les projets par filière</h2>
+    <p class="section-intro reveal">Chaque équipe dispose de sa propre page pour présenter son projet. Sélectionnez votre filière pour accéder aux projets correspondants.</p>
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('a4')">Filière A4</button>
+      <button class="tab-btn" onclick="switchTab('i3')">Filière I3</button>
+    </div>
+  </div>
+
+  <!-- TAB A4 -->
+  <div id="tab-a4" class="tab-content active">
+    <div class="tab-inner">
+      <p class="tab-desc">Équipes de <strong>7 étudiants</strong> — Projet sur 2 semestres. Soutenance finale les 23 et 24 juin 2026.</p>
+      <div class="tab-meta">
+        <span class="meta-pill orange">7 étudiants / équipe</span>
+        <span class="meta-pill">S1 : Conception & Simulation</span>
+        <span class="meta-pill">S2 : Fabrication & Tests</span>
+        <span class="meta-pill">Soutenance : 23–24 juin 2026</span>
+      </div>
+      <div class="groups-grid">
+        <div class="group-card"><div class="group-num">A4 — Groupe 1</div><div class="group-name">Chariot Autonome</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 2</div><div class="group-name">Chariot Autonome</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 3</div><div class="group-name">Bras Robotique 3 Axes</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 4</div><div class="group-name">Bras Robotique 3 Axes</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 5</div><div class="group-name">Convoyeur</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 6</div><div class="group-name">Convoyeur</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 7</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">A4 — Groupe 8</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB I3 -->
+  <div id="tab-i3" class="tab-content">
+    <div class="tab-inner">
+      <p class="tab-desc">Équipes de <strong>3 à 4 étudiants</strong> — Projet sur 2 semestres. Soutenance finale les 21 et 22 mai 2026.</p>
+      <div class="tab-meta">
+        <span class="meta-pill orange">3–4 étudiants / équipe</span>
+        <span class="meta-pill">S1 : Conception & Simulation</span>
+        <span class="meta-pill">S2 : Fabrication & Tests</span>
+        <span class="meta-pill">Soutenance : 21–22 mai 2026</span>
+      </div>
+      <div class="groups-grid">
+        <div class="group-card"><div class="group-num">I3 — Groupe 1</div><div class="group-name">Chariot Autonome</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">I3 — Groupe 2</div><div class="group-name">Bras Robotique 3 Axes</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">I3 — Groupe 3</div><div class="group-name">Convoyeur</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">I3 — Groupe 4</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">I3 — Groupe 5</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
+        <div class="group-card"><div class="group-num">I3 — Groupe 6</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EQUIPE -->
+<div id="equipe" class="bg-light">
+  <div class="container">
+    <div class="section-label reveal">Encadrement</div>
+    <h2 class="section-title reveal">L'équipe pédagogique</h2>
+    <p class="section-intro reveal">Trois référents assurent le suivi et l'accompagnement des équipes A4 et I3 tout au long du projet. Bureau K103.</p>
+    <div class="team-grid reveal">
+      <div class="team-card">
+        <div class="team-role">Référent Électronique · Suivi projet</div>
+        <div class="team-name">Adil Guessous</div>
+        <div class="team-detail">Enseignant en électronique — Domaine MIA<br/>Gestion du magasin et suivi des stocks</div>
+      </div>
+      <div class="team-card">
+        <div class="team-role">Référente Mécanique · Suivi projet</div>
+        <div class="team-name">Khaoula Abou Zaid</div>
+        <div class="team-detail">E.C en mécanique — Domaine MME<br/>Bureau K103</div>
+      </div>
+      <div class="team-card">
+        <div class="team-role">Coordinatrice · Gestion budget</div>
+        <div class="team-name">Meriem Labourel</div>
+        <div class="team-detail">RES déléguée MIA & EEE<br/>E.C en automatique — Bureau K103</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <div class="footer-dot"></div>
+    <div class="footer-text">ICAM Grand Paris Sud — Projet Mécatronique</div>
+  </div>
+  <div class="footer-copy">A4 · I3 · 2025 – 2026</div>
+</footer>
+
+<script>
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
