@@ -3,143 +3,438 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Projet Mécatronique — ICAM Grand Paris Sud</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <title>Mécatronique — ICAM Grand Paris Sud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;1,9..144,300&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --orange: #F7941D;
-      --grey:   #63666A;
-      --grey-light: #F2F2F2;
-      --grey-mid:   #D8D8D8;
-      --white:  #FFFFFF;
-      --text:   #222222;
+      --orange:       #F7941D;
+      --orange-dark:  #d97d10;
+      --orange-light: #fff4e6;
+      --orange-mid:   #fde8c4;
+      --white:        #ffffff;
+      --off-white:    #fafaf8;
+      --light:        #f4f4f2;
+      --border:       #e8e4df;
+      --text:         #1a1a18;
+      --text-mid:     #4a4a44;
+      --text-light:   #8a8a80;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Montserrat', sans-serif; background: var(--white); color: var(--text); font-size: 15px; line-height: 1.65; }
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--white);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
 
     /* ── HEADER ── */
     header {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--white);
-      border-bottom: 3px solid var(--orange);
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 3rem; height: 68px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      padding: 0 3.5rem; height: 72px;
+      box-shadow: 0 1px 20px rgba(0,0,0,0.04);
     }
-    .logo { display: flex; align-items: center; gap: 0.8rem; }
-    .logo-icam { font-size: 1.8rem; font-weight: 800; color: var(--orange); font-style: italic; }
-    .logo-sep { width: 1px; height: 28px; background: var(--grey-mid); }
-    .logo-text { font-size: 0.75rem; font-weight: 600; color: var(--grey); text-transform: uppercase; letter-spacing: 0.06em; line-height: 1.3; }
-    .logo-text span { display: block; font-weight: 800; color: var(--orange); }
-    .header-right { display: flex; align-items: center; gap: 1rem; }
-    nav { display: flex; gap: 0.1rem; }
-    nav a { font-size: 0.73rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--grey); text-decoration: none; padding: 0.5rem 0.85rem; transition: color 0.15s, background 0.15s; }
-    nav a:hover { color: var(--orange); background: rgba(247,148,29,0.07); }
-    .lang-btn { background: var(--orange); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 0.9rem; border: none; cursor: pointer; text-decoration: none; display: inline-block; }
-    .lang-btn:hover { background: #d97d10; }
+    .logo { display: flex; align-items: center; gap: 1rem; text-decoration: none; }
+    .logo-badge {
+      background: var(--orange); color: #fff;
+      font-weight: 900; font-size: 1.15rem; letter-spacing: -0.02em;
+      padding: 0.35rem 0.75rem;
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
+    }
+    .logo-text { font-size: 0.72rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.1em; line-height: 1.5; }
+    .logo-text span { display: block; color: var(--text); font-weight: 700; }
+    nav { display: flex; align-items: center; gap: 0.2rem; }
+    nav a {
+      font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-mid);
+      text-decoration: none; padding: 0.5rem 0.9rem;
+      transition: color 0.15s, background 0.15s;
+    }
+    nav a:hover { color: var(--orange); background: var(--orange-light); }
+    .nav-cta {
+      margin-left: 0.4rem;
+      background: var(--orange) !important; color: #fff !important;
+      padding: 0.6rem 1.3rem !important;
+      clip-path: polygon(0 0, calc(100% - 7px) 0, 100% 7px, 100% 100%, 7px 100%, 0 calc(100% - 7px));
+    }
+    .nav-cta:hover { background: var(--orange-dark) !important; }
 
     /* ── HERO ── */
-    .hero-wrap { background: linear-gradient(140deg, #fff 55%, #fff8f0 100%); border-bottom: 1px solid var(--grey-mid); }
-    .hero { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 4rem; display: grid; grid-template-columns: 1fr 360px; gap: 3rem; align-items: center; }
-    .hero-tag { display: inline-block; background: var(--orange); color: #fff; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; padding: 0.3rem 0.85rem; margin-bottom: 1.4rem; }
-    .hero h1 { font-size: clamp(2.2rem, 4vw, 3.2rem); font-weight: 800; line-height: 1.1; margin-bottom: 1.1rem; }
+    .hero-wrap {
+      background: var(--white);
+      position: relative; overflow: visible;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-deco {
+      position: absolute; right: 0; top: 0;
+      width: 52%; height: 100%;
+      pointer-events: none; overflow: hidden;
+    }
+    .hero-deco-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--light) 0%, var(--orange-light) 100%);
+      clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+    .hero-deco-circle1 {
+      position: absolute; top: -80px; right: -80px;
+      width: 360px; height: 360px; border-radius: 50%;
+      background: rgba(247,148,29,0.1);
+    }
+    .hero-deco-circle2 {
+      position: absolute; bottom: 60px; left: 8%;
+      width: 160px; height: 160px; border-radius: 50%;
+      border: 2px solid rgba(247,148,29,0.2);
+    }
+    .hero-deco-dot-grid {
+      position: absolute; top: 15%; left: 20%;
+      width: 180px; height: 180px;
+      background-image: radial-gradient(circle, rgba(247,148,29,0.25) 1.5px, transparent 1.5px);
+      background-size: 20px 20px;
+    }
+    .hero-inner {
+      max-width: 1280px; margin: 0 auto;
+      padding: 0 3.5rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 72px);
+      align-items: center;
+      position: relative; z-index: 1; width: 100%;
+      overflow: visible;
+    }
+    .hero-left { padding: 5rem 4rem 5rem 0; overflow: visible; }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--orange-light); border: 1px solid var(--orange-mid);
+      color: var(--orange-dark);
+      font-size: 0.64rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 0.35rem 0.9rem; margin-bottom: 1.8rem;
+    }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; background: var(--orange); border-radius: 50%; }
+    .hero h1 {
+      font-size: clamp(3rem, 5.5vw, 5.2rem);
+      font-weight: 900; line-height: 0.92;
+      letter-spacing: -0.04em; margin-bottom: 1.6rem;
+    }
     .hero h1 em { font-style: normal; color: var(--orange); }
-    .hero-sub { font-size: 0.97rem; color: var(--grey); max-width: 500px; line-height: 1.75; margin-bottom: 2rem; }
-    .hero-cta { display: flex; gap: 0.8rem; flex-wrap: wrap; }
-    .btn-primary { background: var(--orange); color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.8rem; border: 2px solid var(--orange); text-decoration: none; display: inline-block; transition: background 0.15s; }
-    .btn-primary:hover { background: #d97d10; border-color: #d97d10; }
-    .btn-ghost { background: transparent; color: var(--grey); font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.8rem 1.8rem; border: 2px solid var(--grey-mid); text-decoration: none; display: inline-block; transition: border-color 0.15s, color 0.15s; }
-    .btn-ghost:hover { border-color: var(--grey); color: var(--text); }
-    .hero-card { background: var(--orange); color: #fff; padding: 2rem; }
-    .hero-card-label { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; margin-bottom: 1.2rem; }
-    .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .stat { background: rgba(255,255,255,0.15); padding: 1rem; }
-    .stat-num { font-size: 2rem; font-weight: 800; line-height: 1; }
-    .stat-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.85; margin-top: 0.2rem; }
+    .hero h1 .h1-light {
+      font-family: 'Fraunces', serif; font-weight: 300; font-style: italic;
+      font-size: 0.75em; color: var(--text-mid); display: block; letter-spacing: 0;
+    }
+    .hero-sub {
+      font-size: 1rem; color: var(--text-mid);
+      max-width: 460px; line-height: 1.8; margin-bottom: 2.5rem;
+    }
+    .hero-sub strong { color: var(--orange); font-weight: 600; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; overflow: visible; }
+    .btn-primary {
+      background: var(--orange); color: #fff;
+      font-weight: 700; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 2.2rem; text-decoration: none; display: inline-block;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      transition: background 0.15s, transform 0.15s;
+    }
+    .btn-primary:hover { background: var(--orange-dark); transform: translateY(-2px); }
+
+    /* ── DROPDOWN LIVRET ── */
+    .dropdown-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .btn-dropdown {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: transparent; color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 1rem 1.6rem 1rem 2rem;
+      border: 1.5px solid var(--border);
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+    .btn-dropdown:hover,
+    .btn-dropdown.open {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: var(--orange-light);
+    }
+    .btn-dropdown svg {
+      width: 14px; height: 14px; flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+    .btn-dropdown.open svg { transform: rotate(180deg); }
+    .dropdown-menu {
+      position: absolute; top: calc(100% + 6px); left: 0;
+      background: var(--white);
+      border: 1.5px solid var(--orange);
+      min-width: 180px;
+      box-shadow: 0 8px 24px rgba(247,148,29,0.12);
+      z-index: 9999;
+      display: none;
+    }
+    .dropdown-menu.open { display: block; }
+    .dropdown-menu a {
+      display: block;
+      padding: 0.85rem 1.2rem;
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--text); text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s, color 0.15s;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover { background: var(--orange-light); color: var(--orange); }
+
+    /* hero stats */
+    .hero-right {
+      display: flex; align-items: center; justify-content: center;
+      padding: 4rem 0 4rem 3rem; position: relative; z-index: 1;
+    }
+    .stats-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.07), 0 4px 12px rgba(247,148,29,0.05);
+      padding: 2.5rem; width: 340px;
+    }
+    .stats-card-label {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 1.8rem;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .stats-card-label::after { content: ''; flex: 1; height: 1px; background: var(--orange-mid); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); }
+    .stat { background: var(--white); padding: 1.6rem 1.2rem; transition: background 0.15s; cursor: default; }
+    .stat:hover { background: var(--orange-light); }
+    .stat-num { font-size: 2.4rem; font-weight: 900; color: var(--orange); line-height: 1; letter-spacing: -0.03em; }
+    .stat-label { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-top: 0.4rem; }
 
     /* ── SHARED ── */
-    .container { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem; }
-    .section-label { display: flex; align-items: center; gap: 0.6rem; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.6rem; }
-    .section-label::before { content: ''; display: inline-block; width: 22px; height: 3px; background: var(--orange); border-radius: 2px; }
-    .section-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.1; margin-bottom: 0.7rem; }
-    .section-intro { color: var(--grey); font-size: 0.97rem; max-width: 640px; line-height: 1.75; margin-bottom: 2.8rem; }
-    .bg-light { background: var(--grey-light); }
+    .container { max-width: 1280px; margin: 0 auto; padding: 6rem 3.5rem; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--orange); margin-bottom: 0.7rem;
+    }
+    .eyebrow::before { content: ''; width: 22px; height: 2px; background: var(--orange); display: block; }
+    .section-title {
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      font-weight: 800; line-height: 1.0; letter-spacing: -0.03em;
+      color: var(--text); margin-bottom: 0.8rem;
+    }
+    .section-title em { font-style: italic; font-family: 'Fraunces', serif; font-weight: 300; color: var(--orange); }
+    .section-intro {
+      font-size: 1rem; color: var(--text-mid);
+      max-width: 1400px; line-height: 1.8; margin-bottom: 3.5rem;
+    }
+    .bg-light { background: var(--off-white); }
 
     /* ── OBJECTIFS ── */
-    .obj-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.2rem; }
-    .obj-card { background: var(--white); border-top: 4px solid var(--orange); padding: 1.8rem; transition: box-shadow 0.2s; }
-    .obj-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-    .obj-num { font-size: 2rem; font-weight: 800; color: var(--grey-mid); line-height: 1; margin-bottom: 0.8rem; }
-    .obj-title { font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.5rem; }
-    .obj-text { font-size: 0.87rem; color: var(--grey); line-height: 1.65; }
+    .obj-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--border);
+    }
+    .obj-card {
+      padding: 2.5rem 2rem;
+      border-right: 1px solid var(--border);
+      position: relative; overflow: hidden;
+      transition: background 0.2s; cursor: default;
+    }
+    .obj-card:last-child { border-right: none; }
+    .obj-card:hover { background: var(--orange-light); }
+    .obj-card::after {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--orange); transform: scaleX(0); transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    .obj-card:hover::after { transform: scaleX(1); }
+    .obj-num { font-size: 4rem; font-weight: 900; color: var(--orange-mid); line-height: 1; margin-bottom: 1rem; letter-spacing: -0.04em; }
+    .obj-title { font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text); margin-bottom: 0.7rem; }
+    .obj-text { font-size: 0.87rem; color: var(--text-mid); line-height: 1.7; }
 
     /* ── SUJETS ── */
-    .sujets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1.2rem; }
-    .sujet-card { border: 1px solid var(--grey-mid); padding: 2rem; position: relative; overflow: hidden; transition: border-color 0.18s, box-shadow 0.18s; }
-    .sujet-card:hover { border-color: var(--orange); box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
-    .sujet-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--orange); }
-    .sujet-icon { font-size: 2rem; margin-bottom: 0.8rem; }
-    .sujet-title { font-size: 1rem; font-weight: 800; margin-bottom: 0.5rem; color: var(--text); }
-    .sujet-desc { font-size: 0.86rem; color: var(--grey); line-height: 1.65; }
-    .sujet-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
-    .badge { background: rgba(247,148,29,0.1); color: var(--orange); font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.22rem 0.55rem; border-radius: 2px; }
+    .sujets-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .sujet-card {
+      border: 1px solid var(--border); padding: 2.5rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.25s, transform 0.2s;
+      background: var(--white);
+    }
+    .sujet-card:hover { border-color: var(--orange); box-shadow: 0 12px 40px rgba(247,148,29,0.1); transform: translateY(-5px); }
+    .sujet-card::before {
+      content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%;
+      background: linear-gradient(180deg, var(--orange), var(--orange-light));
+    }
+    .sujet-icon { font-size: 2.8rem; margin-bottom: 1.2rem; display: block; }
+    .sujet-title { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 0.8rem; letter-spacing: -0.01em; }
+    .sujet-desc { font-size: 0.87rem; color: var(--text-mid); line-height: 1.75; }
+    .sujet-badges { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem; }
+    .badge {
+      background: var(--orange-light); border: 1px solid var(--orange-mid); color: var(--orange-dark);
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+    }
 
-    /* ── TABS A4 / I3 ── */
-    .tabs-section { background: var(--white); }
-    .tabs-header { max-width: 1100px; margin: 0 auto; padding: 5rem 3rem 0; }
-    .tabs-nav { display: flex; gap: 0; border-bottom: 2px solid var(--grey-mid); margin-top: 2rem; }
-    .tab-btn { font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.9rem 2.5rem; border: none; background: transparent; color: var(--grey); cursor: pointer; border-bottom: 3px solid transparent; margin-bottom: -2px; transition: color 0.15s, border-color 0.15s; }
-    .tab-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
-    .tab-btn:hover:not(.active) { color: var(--text); background: var(--grey-light); }
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
+    /* ── STRIP ── */
+    .strip {
+      background: var(--orange); padding: 2.5rem 3.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem; position: relative; overflow: hidden;
+    }
+    .strip::after {
+      content: 'MÉCATRONIQUE'; position: absolute; right: -30px; top: 50%;
+      transform: translateY(-50%);
+      font-size: 6rem; font-weight: 900; color: rgba(255,255,255,0.07);
+      letter-spacing: -0.04em; pointer-events: none; white-space: nowrap;
+    }
+    .strip-text { color: #fff; }
+    .strip-text h3 { font-size: 1.3rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
+    .strip-text p { font-size: 0.88rem; opacity: 0.85; }
+    .strip-pills { display: flex; flex-wrap: wrap; gap: 0.7rem; }
+    .strip-pill {
+      background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.35); color: #fff;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.5rem 1.2rem;
+    }
 
-    /* groupes grid */
-    .groups-banner { background: var(--orange); color: #fff; padding: 2rem 3rem; max-width: 1100px; margin: 2rem auto 0; }
-    .groups-banner p { font-size: 0.95rem; line-height: 1.75; max-width: 700px; }
-    .groups-banner strong { font-weight: 700; }
-    .groups-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--grey-mid); border: 1px solid var(--grey-mid); margin-top: 1.5rem; }
-    .group-card { background: var(--white); padding: 1.6rem; transition: background 0.15s; }
-    .group-card:hover { background: #fff8f0; }
-    .group-num { font-size: 0.63rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.3rem; }
-    .group-name { font-size: 0.9rem; font-weight: 700; color: var(--grey); margin-bottom: 0.3rem; }
-    .group-link { font-size: 0.7rem; color: var(--grey-mid); font-style: italic; }
+    /* ── VIDÉOS ── */
+    .videos-section { background: var(--off-white); }
+    .videos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .video-card {
+      position: relative; overflow: hidden;
+      border: 1px solid var(--border); background: var(--light);
+    }
+    .video-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--orange); z-index: 2;
+    }
+    .video-card video {
+      width: 100%; height: 480px; object-fit: cover; display: block;
+      transition: transform 0.5s ease;
+    }
+    .video-card:hover video { transform: scale(1.03); }
+    .video-overlay {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(15,10,0,0.72));
+      padding: 2.5rem 1.8rem 1.5rem; z-index: 1;
+    }
+    .video-tag {
+      display: inline-block; background: var(--orange); color: #fff;
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.25rem 0.7rem; margin-bottom: 0.6rem;
+    }
+    .video-title { font-size: 1rem; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+    .video-sub { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; }
 
-    /* tab inner container */
-    .tab-inner { max-width: 1100px; margin: 0 auto; padding: 2.5rem 3rem 5rem; }
-    .tab-desc { font-size: 0.95rem; color: var(--grey); line-height: 1.75; max-width: 680px; margin-bottom: 0.5rem; }
-    .tab-meta { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 1rem 0 2rem; }
-    .meta-pill { background: var(--grey-light); border: 1px solid var(--grey-mid); color: var(--grey); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 20px; }
-    .meta-pill.orange { background: rgba(247,148,29,0.1); border-color: rgba(247,148,29,0.3); color: var(--orange); }
+    /* ── INTERVENANTS ── */
+    .intervenants-section {
+      background: var(--white);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .marquee-wrap { position: relative; overflow: hidden; padding: 1rem 0 2.5rem; }
+    .marquee-wrap::before,
+    .marquee-wrap::after {
+      content: ''; position: absolute; top: 0; bottom: 0; width: 140px; z-index: 2; pointer-events: none;
+    }
+    .marquee-wrap::before { left: 0; background: linear-gradient(90deg, var(--white), transparent); }
+    .marquee-wrap::after  { right: 0; background: linear-gradient(-90deg, var(--white), transparent); }
+    .marquee-track {
+      display: flex; gap: 1.2rem;
+      animation: marquee 32s linear infinite; width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    .collab-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      padding: 1rem 1rem;
+      text-align: center;
+      min-width: 160px;
+      flex: 0 0 auto;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .collab-card:hover {
+      border-color: var(--orange);
+      box-shadow: 0 8px 24px rgba(247,148,29,0.1);
+      transform: translateY(-4px);
+    }
+    img { height: 200px; }
+    .collab-avatar {
+      width: 55px; height: 55px;
+      border-radius: 50%;
+      background: var(--orange-light);
+      border: 2px solid var(--orange-mid);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 0.7rem;
+      font-size: 1rem; font-weight: 800; color: var(--orange);
+    }
+    .collab-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .collab-role { font-size: 0.7rem; color: var(--text-light); line-height: 1.4; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-    /* ── EQUIPE ── */
-    .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1.2rem; }
-    .team-card { background: var(--white); padding: 2rem; border-bottom: 4px solid var(--orange); transition: box-shadow 0.2s; }
-    .team-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
-    .team-role { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.4rem; }
-    .team-name { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.4rem; }
-    .team-detail { font-size: 0.84rem; color: var(--grey); line-height: 1.6; }
+    /* ── ÉQUIPE ── */
+    .team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .team-card {
+      background: var(--white); border: 1px solid var(--border); padding: 2.5rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .team-card::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: var(--orange);
+    }
+    .team-card:hover { border-color: var(--orange-mid); transform: translateY(-4px); box-shadow: 0 12px 40px rgba(247,148,29,0.08); }
+    .team-role { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.6rem; }
+    .team-name { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 0.6rem; letter-spacing: -0.02em; }
+    .team-detail { font-size: 0.84rem; color: var(--text-mid); line-height: 1.7; }
 
     /* ── FOOTER ── */
-    footer { background: var(--grey); color: rgba(255,255,255,0.75); padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-    .footer-brand { display: flex; align-items: center; gap: 0.7rem; }
-    .footer-dot { width: 10px; height: 10px; background: var(--orange); border-radius: 50%; }
-    .footer-text { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: rgba(255,255,255,0.9); }
+    footer {
+      background: var(--text); color: rgba(255,255,255,0.5);
+      padding: 3rem 3.5rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1.5rem;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 1rem; }
+    .footer-badge {
+      background: var(--orange); color: #fff; font-weight: 900; font-size: 0.9rem;
+      padding: 0.3rem 0.65rem;
+      clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px));
+    }
+    .footer-name { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.75); text-transform: uppercase; letter-spacing: 0.08em; }
     .footer-copy { font-size: 0.7rem; }
+    .footer-copy span { color: var(--orange); }
 
     /* ── REVEAL ── */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .obj-grid { grid-template-columns: 1fr 1fr; }
+      .obj-card { border-bottom: 1px solid var(--border); }
+      .sujets-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
     @media (max-width: 860px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-card { display: none; }
-      header { padding: 0 1.2rem; }
+      header { padding: 0 1.5rem; }
       nav { display: none; }
-      .container, .tab-inner, .tabs-header { padding-left: 1.2rem; padding-right: 1.2rem; }
-      .groups-banner { padding: 1.8rem 1.2rem; }
-      footer { padding: 1.5rem 1.2rem; }
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-left { padding: 4rem 0; }
+      .hero-right, .hero-deco { display: none; }
+      .container, .tab-inner, .tabs-header { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .groups-banner, .strip { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .videos-grid { grid-template-columns: 1fr; }
+      .video-card video { height: 320px; }
+      .team-grid, .obj-grid { grid-template-columns: 1fr; }
+      footer { padding: 2rem 1.5rem; flex-direction: column; }
+      .collab-photo {
+        width: 70px; height: 70px;
+        border-radius: 50%; object-fit: cover;
+        margin-bottom: 12px; border: 3px solid #ffffff20;
+      }
     }
   </style>
 </head>
@@ -147,43 +442,65 @@
 
 <!-- HEADER -->
 <header>
-  <div class="logo">
-    <div class="logo-icam">icam</div>
-    <div class="logo-sep"></div>
+  <a href="#" class="logo">
+    <div class="logo-badge">icam</div>
     <div class="logo-text">Grand Paris Sud <span>Mécatronique</span></div>
-  </div>
-  <div class="header-right">
-    <nav>
-      <a href="#objectifs">Objectifs</a>
-      <a href="#sujets">Sujets</a>
-      <a href="#projets">Projets</a>
-      <a href="#equipe">Équipe</a>
-    </nav>
-    <a href="index_en.html" class="lang-btn">EN</a>
-  </div>
+  </a>
+  <nav>
+    <a href="#objectifs">Objectifs</a>
+    <a href="#sujets">Sujets</a>
+    <a href="page22.html">Filières</a>
+    <a href="#videos">Réalisations</a>
+    <a href="#intervenants">Intervenants</a>
+    <a href="#equipe" class="nav-cta">Équipe</a>
+  </nav>
 </header>
 
 <!-- HERO -->
 <div class="hero-wrap">
-  <div class="hero">
-    <div>
-      <div class="hero-tag">A4 · I3 · 2025 – 2026</div>
-      <h1>Projet<br/><em>Mécatronique</em><br/>ICAM GPS</h1>
-      <p class="hero-sub">
-        Conception et réalisation d'un système pluridisciplinaire intégrant mécanique, électronique et automatique — du besoin initial au prototype fonctionnel. Un projet commun aux filières <strong>A4</strong> et <strong>I3</strong>.
+  <div class="hero-deco">
+    <div class="hero-deco-bg"></div>
+    <div class="hero-deco-circle1"></div>
+    <div class="hero-deco-circle2"></div>
+    <div class="hero-deco-dot-grid"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tag">A4 · I3 · FISE · FISA · 2025–2026</div>
+      <h1>
+        Projet<br>
+        <em>Mécatronique</em>
+        <span class="h1-light">ICAM Grand Paris Sud</span>
+      </h1>
+      <p class="hero-sub" style="text-align: justify;">
+        Conception et réalisation d'un système pluridisciplinaire intégrant <strong>mécanique</strong>, <strong>matériaux</strong>, <strong>électronique</strong>, <strong>informatique</strong> et <strong>automatique</strong> — du besoin initial au prototype fonctionnel.
       </p>
       <div class="hero-cta">
-        <a href="#projets" class="btn-primary">Voir les projets</a>
-        <a href="#objectifs" class="btn-ghost">En savoir plus</a>
+        <a href="#videos" class="btn-primary">Voir les réalisations</a>
+
+        <div class="dropdown-wrap">
+          <button class="btn-dropdown" id="dropBtn" onclick="toggleDropdown(event)">
+            Livrets mécatronique
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </button>
+          <div class="dropdown-menu" id="dropMenu">
+            <a href="Livret Mécatronique I3.pdf" target="_blank">Livret I3</a>
+            <a href="Livret Mécatronique A4.pdf" target="_blank">Livret A4</a>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="hero-card">
-      <div class="hero-card-label">Le projet en chiffres</div>
-      <div class="hero-stats">
-        <div class="stat"><div class="stat-num">A4</div><div class="stat-label">7 étudiants/équipe</div></div>
-        <div class="stat"><div class="stat-num">I3</div><div class="stat-label">3–4 étudiants/équipe</div></div>
-        <div class="stat"><div class="stat-num">2</div><div class="stat-label">Semestres</div></div>
-        <div class="stat"><div class="stat-num">3</div><div class="stat-label">Domaines</div></div>
+    <div class="hero-right">
+      <div class="stats-card">
+        <div class="stats-card-label">Le projet en chiffres</div>
+        <div class="stats-grid">
+          <div class="stat"><div class="stat-num">A4</div><div class="stat-label">7 étudiants/équipe</div></div>
+          <div class="stat"><div class="stat-num">I3</div><div class="stat-label">3–4 étudiants/équipe</div></div>
+          <div class="stat"><div class="stat-num">2</div><div class="stat-label">Semestres</div></div>
+          <div class="stat"><div class="stat-num">5</div><div class="stat-label">Domaines</div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -192,29 +509,29 @@
 <!-- OBJECTIFS -->
 <div id="objectifs" class="bg-light">
   <div class="container">
-    <div class="section-label reveal">Pourquoi ce projet</div>
-    <h2 class="section-title reveal">Objectifs pédagogiques</h2>
-    <p class="section-intro reveal">Le projet mécatronique vous confronte à la réalité d'un développement pluridisciplinaire, de l'idée au prototype testé et validé. Commun aux filières A4 et I3, il intègre mécanique, électronique et automatique.</p>
+    <div class="eyebrow reveal">Pourquoi ce projet</div>
+    <h2 class="section-title reveal">Objectifs <em>pédagogiques</em></h2>
+    <p class="section-intro reveal">Le projet mécatronique vous confronte à la réalité d'un développement pluridisciplinaire, de l'idée au prototype testé et validé.</p>
     <div class="obj-grid reveal">
       <div class="obj-card">
         <div class="obj-num">01</div>
         <div class="obj-title">Système intégré</div>
-        <div class="obj-text">Concevoir et réaliser un système complet combinant mécanique, électronique et automatique en équipe.</div>
+        <div class="obj-text" style="text-align: justify;">Concevoir et réaliser un système complet combinant mécanique, électronique, matériaux, informatique et automatique en équipe.</div>
       </div>
       <div class="obj-card">
         <div class="obj-num">02</div>
         <div class="obj-title">Multi-domaines</div>
-        <div class="obj-text">Appliquer les acquis (MME, EEE, MIA, ESE) et découvrir leurs interactions concrètes sur un vrai projet.</div>
+        <div class="obj-text" style="text-align: justify;">Appliquer les acquis (MME, EEE, MIA, ESE) et découvrir leurs interactions concrètes sur un vrai projet.</div>
       </div>
       <div class="obj-card">
         <div class="obj-num">03</div>
         <div class="obj-title">Innovation & Gestion</div>
-        <div class="obj-text">Mettre en oeuvre une démarche d'innovation, de gestion de projet, de management d'équipe et d'éco-conception.</div>
+        <div class="obj-text" style="text-align: justify;">Mettre en œuvre une démarche d'innovation, de gestion de projet, de management d'équipe et d'éco-conception.</div>
       </div>
       <div class="obj-card">
         <div class="obj-num">04</div>
-        <div class="obj-title">Théorie / Expérimentation</div>
-        <div class="obj-text">Confronter résultats théoriques et simulations à l'expérimentation sur un système multi-physique réel.</div>
+        <div class="obj-title">Théorie / Pratique</div>
+        <div class="obj-text" style="text-align: justify;">Confronter résultats théoriques et simulations à l'expérimentation sur un système multi-physique réel.</div>
       </div>
     </div>
   </div>
@@ -223,123 +540,201 @@
 <!-- SUJETS -->
 <div id="sujets">
   <div class="container">
-    <div class="section-label reveal">Thématiques 2025–2026</div>
-    <h2 class="section-title reveal">Sujets proposés</h2>
+    <div class="eyebrow reveal">Thématiques 2025–2026</div>
+    <h2 class="section-title reveal">Sujets <em>proposés</em></h2>
     <p class="section-intro reveal">Trois sujets sont proposés cette année. Chaque équipe choisit son sujet et développe sa propre solution technique, de la conception à la réalisation.</p>
     <div class="sujets-grid reveal">
       <div class="sujet-card">
-        <div class="sujet-icon">🛒</div>
+        <span class="sujet-icon"><center><img src="chario.jpg"></center></span>
         <div class="sujet-title">Chariot Autonome</div>
         <div class="sujet-desc">Conception et réalisation d'un chariot capable de naviguer de façon autonome dans un environnement défini, avec détection d'obstacles et suivi de trajectoire.</div>
         <div class="sujet-badges">
-          <span class="badge">Navigation</span>
-          <span class="badge">Capteurs</span>
-          <span class="badge">Automatique</span>
-          <span class="badge">Embarqué</span>
+          <span class="badge">Navigation</span><span class="badge">Capteurs</span><span class="badge">Automatique</span><span class="badge">Embarqué</span>
         </div>
       </div>
       <div class="sujet-card">
-        <div class="sujet-icon">🦾</div>
+        <span class="sujet-icon"><center><img src="bras.jpg"></center></span>
         <div class="sujet-title">Bras Robotique 3 Axes</div>
         <div class="sujet-desc">Conception et réalisation d'un bras robotique à 3 axes articulés, commandé par une interface numérique, capable d'effectuer des tâches de manipulation précises.</div>
         <div class="sujet-badges">
-          <span class="badge">Robotique</span>
-          <span class="badge">Servomoteurs</span>
-          <span class="badge">CAO</span>
-          <span class="badge">Commande</span>
+          <span class="badge">Robotique</span><span class="badge">Servomoteurs</span><span class="badge">CAO</span><span class="badge">Commande</span>
         </div>
       </div>
       <div class="sujet-card">
-        <div class="sujet-icon">⚙️</div>
-        <div class="sujet-title">Convoyeur</div>
+        <span class="sujet-icon"><center><img src="conv.jpg"></center></span>
+        <div class="sujet-title">Convoyeur Automatisé</div>
         <div class="sujet-desc">Conception et réalisation d'un système de convoyage automatisé, intégrant tri, détection et contrôle de flux, avec supervision en temps réel.</div>
         <div class="sujet-badges">
-          <span class="badge">Automatisation</span>
-          <span class="badge">Motorisation</span>
-          <span class="badge">Supervision</span>
-          <span class="badge">Tri</span>
+          <span class="badge">Automatisation</span><span class="badge">Motorisation</span><span class="badge">Supervision</span><span class="badge">Tri</span>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- PROJETS A4 / I3 avec onglets -->
-<div id="projets" class="tabs-section">
-  <div class="tabs-header">
-    <div class="section-label reveal">Travaux des équipes</div>
-    <h2 class="section-title reveal">Les projets par filière</h2>
-    <p class="section-intro reveal">Chaque équipe dispose de sa propre page pour présenter son projet. Sélectionnez votre filière pour accéder aux projets correspondants.</p>
-    <div class="tabs-nav">
-      <button class="tab-btn active" onclick="switchTab('a4')">Filière A4</button>
-      <button class="tab-btn" onclick="switchTab('i3')">Filière I3</button>
-    </div>
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-text">
+    <h3>Un projet commun aux deux filières</h3>
+    <p>De la conception jusqu'au prototype — A4 et I3.<br> Un même sujet, plusieurs façons de le réaliser.</p>
   </div>
-
-  <!-- TAB A4 -->
-  <div id="tab-a4" class="tab-content active">
-    <div class="tab-inner">
-      <p class="tab-desc">Équipes de <strong>7 étudiants</strong> — Projet sur 2 semestres. Soutenance finale les 23 et 24 juin 2026.</p>
-      <div class="tab-meta">
-        <span class="meta-pill orange">7 étudiants / équipe</span>
-        <span class="meta-pill">S1 : Conception & Simulation</span>
-        <span class="meta-pill">S2 : Fabrication & Tests</span>
-        <span class="meta-pill">Soutenance : 23–24 juin 2026</span>
-      </div>
-      <div class="groups-grid">
-        <div class="group-card"><div class="group-num">A4 — Groupe 1</div><div class="group-name">Chariot Autonome</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 2</div><div class="group-name">Chariot Autonome</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 3</div><div class="group-name">Bras Robotique 3 Axes</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 4</div><div class="group-name">Bras Robotique 3 Axes</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 5</div><div class="group-name">Convoyeur</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 6</div><div class="group-name">Convoyeur</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 7</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">A4 — Groupe 8</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
-      </div>
-    </div>
+  <div class="strip-pills">
+    <span class="strip-pill">Mécanique</span>
+    <span class="strip-pill">Électronique</span>
+    <span class="strip-pill">Informatique</span>
+    <span class="strip-pill">Matériaux</span>
+    <span class="strip-pill">Automatique</span>
+    <span class="strip-pill">Gestion de projet</span>
   </div>
+</div>
 
-  <!-- TAB I3 -->
-  <div id="tab-i3" class="tab-content">
-    <div class="tab-inner">
-      <p class="tab-desc">Équipes de <strong>3 à 4 étudiants</strong> — Projet sur 2 semestres. Soutenance finale les 21 et 22 mai 2026.</p>
-      <div class="tab-meta">
-        <span class="meta-pill orange">3–4 étudiants / équipe</span>
-        <span class="meta-pill">S1 : Conception & Simulation</span>
-        <span class="meta-pill">S2 : Fabrication & Tests</span>
-        <span class="meta-pill">Soutenance : 21–22 mai 2026</span>
+<!-- VIDÉOS -->
+<div id="videos" class="videos-section">
+  <div class="container">
+    <div class="eyebrow reveal">Prototypes & Démonstrations</div>
+    <h2 class="section-title reveal">Réalisations <em>étudiantes</em></h2>
+    <p class="section-intro reveal">Les projets prennent vie. Découvrez les prototypes développés par les équipes lors des sessions précédentes.</p>
+    <div class="videos-grid reveal">
+      <div class="video-card">
+        <video autoplay muted loop playsinline>
+          <source src="RFID.mp4" type="video/mp4">
+        </video>
+        <div class="video-overlay">
+          <div class="video-tag">Électronique</div>
+          <div class="video-title">Système RFID</div>
+          <div class="video-sub">Identification & contrôle d'accès embarqué</div>
+        </div>
       </div>
-      <div class="groups-grid">
-        <div class="group-card"><div class="group-num">I3 — Groupe 1</div><div class="group-name">Chariot Autonome</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">I3 — Groupe 2</div><div class="group-name">Bras Robotique 3 Axes</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">I3 — Groupe 3</div><div class="group-name">Convoyeur</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">I3 — Groupe 4</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">I3 — Groupe 5</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
-        <div class="group-card"><div class="group-num">I3 — Groupe 6</div><div class="group-name">Nom du projet</div><div class="group-link">→ page à venir</div></div>
+      <div class="video-card">
+        <video autoplay muted loop playsinline>
+          <source src="VideoPrototypeFinal.mov" type="video/mp4">
+        </video>
+        <div class="video-overlay">
+          <div class="video-tag">Prototype final</div>
+          <div class="video-title">Démonstration jury</div>
+          <div class="video-sub">Présentation et validation du prototype</div>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- EQUIPE -->
+<!-- INTERVENANTS -->
+<div id="intervenants" class="intervenants-section">
+  <div class="container" style="padding-bottom: 1.5rem;">
+    <div class="eyebrow reveal">Professionnels & Experts</div>
+    <h2 class="section-title reveal">Intervenants</h2>
+    <p class="section-intro reveal" style="margin-bottom:0">Des intervenants spécialisés contribuent à travers l'encadrement pédagogique, l'évaluation technique des solutions et leur participation aux revues et soutenances.</p>
+  </div>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="collab-card">
+        <img src="nada.jpg" alt="Intervenant Robotique" class="collab-photo">
+        <h3>BENABDESSALAM Nada</h3>
+        <div class="collab-name">Référente Informatique</div>
+        <div class="collab-role">E.C en Informatique, Domaine MIA</div>
+        <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span>
+      </div>
+      <div class="collab-card">
+        <img src="norberto.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>LABRADOR Norberto</h3>
+        <div class="collab-name">Référent Matériaux</div>
+        <div class="collab-role">E.C en Matériaux, Domaine MME</div>
+        <span style="font-size: 14px; margin-left: 90px;">Bureau K102</span>
+      </div>
+      <div class="collab-card">
+        <img src="zeina.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>ELRAWASHDEH Zeina</h3>
+        <div class="collab-name">Référente Électronique</div>
+        <div class="collab-role">E.C en Électronique, Domaine EEE</div>
+        <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span>
+      </div>
+
+ <div class="collab-card">
+        <img src="anne.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>DELPIERRE Anne-Sophie</h3>
+        <div class="collab-name">Responsable du management de projet</div>
+        <div class="collab-role">Dirigeante consultante de Vakom Melun</div>
+       
+      </div>
+
+ <div class="collab-card">
+        <img src="julien.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>DACLAT Julien </h3>
+        <div class="collab-name">Responsable ingénierie des systèmes et gestion de projet</div>
+        <div class="collab-role">Chef de projet externe</div>
+       
+      </div>
+
+
+
+      <!-- DUPLICATE FOR LOOP -->
+      <div class="collab-card">
+        <img src="nada.jpg" alt="Intervenant Robotique" class="collab-photo">
+        <h3>BENABDESSALAM Nada</h3>
+        <div class="collab-name">Référente Informatique</div>
+        <div class="collab-role">E.C en Informatique, Domaine MIA</div>
+        <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span>
+      </div>
+      <div class="collab-card">
+        <img src="norberto.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>LABRADOR Norberto</h3>
+        <div class="collab-name">Référent Matériaux</div>
+        <div class="collab-role">E.C en Matériaux, Domaine MME</div>
+        <span style="font-size: 14px; margin-left: 90px;">Bureau K102</span>
+      </div>
+      <div class="collab-card">
+        <img src="zeina.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>ELRAWASHDEH Zeina</h3>
+        <div class="collab-name">Référente Électronique</div>
+        <div class="collab-role">E.C en Électronique, Domaine EEE</div>
+        <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span>
+      </div>
+
+<div class="collab-card">
+        <img src="anne.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>DELPIERRE Anne-Sophie</h3>
+        <div class="collab-name">Responsable du management de projet</div>
+        <div class="collab-role">Dirigeante consultante de Vakom Melun</div>
+       
+      </div>
+
+ <div class="collab-card">
+        <img src="julien.jpg" alt="Expert Systèmes" class="collab-photo">
+        <h3>DACLAT Julien </h3>
+        <div class="collab-name">Responsable ingénierie des systèmes et gestion de projet</div>
+        <div class="collab-role">Chef de projet externe</div>
+       
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+<!-- ÉQUIPE -->
 <div id="equipe" class="bg-light">
   <div class="container">
-    <div class="section-label reveal">Encadrement</div>
-    <h2 class="section-title reveal">L'équipe pédagogique</h2>
-    <p class="section-intro reveal">Trois référents assurent le suivi et l'accompagnement des équipes A4 et I3 tout au long du projet. Bureau K103.</p>
+    <div class="eyebrow reveal">Encadrement</div>
+    <h2 class="section-title reveal">L'équipe <em>pédagogique</em></h2>
+    <p class="section-intro reveal">Trois référents assurent le suivi et l'accompagnement des équipes A4 et I3 tout au long du projet — Bureau K103.</p>
     <div class="team-grid reveal">
       <div class="team-card">
-        <div class="team-role">Référent Électronique · Suivi projet</div>
+        <center><img src="adil.jpg" alt="Adil Guessous" class="team-photo"></center>
+        <div class="team-role" style="text-align: center;">Référent Électronique · Suivi projet</div>
         <div class="team-name">Adil Guessous</div>
         <div class="team-detail">Enseignant en électronique — Domaine MIA<br/>Gestion du magasin et suivi des stocks</div>
       </div>
       <div class="team-card">
-        <div class="team-role">Référente Mécanique · Suivi projet</div>
+        <center><img src="khaoula.jpg" alt="khaoula" class="team-photo"></center>
+        <div class="team-role" style="text-align: center;">Référente Mécanique · Suivi projet</div>
         <div class="team-name">Khaoula Abou Zaid</div>
         <div class="team-detail">E.C en mécanique — Domaine MME<br/>Bureau K103</div>
       </div>
       <div class="team-card">
-        <div class="team-role">Coordinatrice · Gestion budget</div>
+        <center><img src="meriem.jpg" alt="meriem" class="team-photo"></center>
+        <div class="team-role" style="text-align: center;">Coordinatrice · Gestion budget</div>
         <div class="team-name">Meriem Labourel</div>
         <div class="team-detail">RES déléguée MIA & EEE<br/>E.C en automatique — Bureau K103</div>
       </div>
@@ -350,23 +745,41 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-brand">
-    <div class="footer-dot"></div>
-    <div class="footer-text">ICAM Grand Paris Sud — Projet Mécatronique</div>
+    <div class="footer-badge">icam</div>
+    <div class="footer-name">Grand Paris Sud — Projet Mécatronique</div>
   </div>
-  <div class="footer-copy">A4 · I3 · 2025 – 2026</div>
+  <div class="footer-copy">© <span id="year"></span> · <span>A4 · I3 · FISE · FISA</span> · 2025–2026</div>
 </footer>
 
 <script>
-  function switchTab(tab) {
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  function switchTab(tab, event) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
     event.currentTarget.classList.add('active');
   }
+
   const obs = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  function toggleDropdown(e) {
+    e.stopPropagation();
+    const btn  = document.getElementById('dropBtn');
+    const menu = document.getElementById('dropMenu');
+    const isOpen = menu.classList.toggle('open');
+    btn.classList.toggle('open', isOpen);
+  }
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown-wrap')) {
+      document.getElementById('dropMenu').classList.remove('open');
+      document.getElementById('dropBtn').classList.remove('open');
+    }
+  });
 </script>
 </body>
 </html>

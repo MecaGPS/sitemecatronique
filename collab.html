@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mécatronique - ICAM</title>
+  <link rel="icon" href="icam.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      color: #1a1a1a;
+      background-color: #f2f2f2; /* arrière-plan légèrement gris */
+    }
+
+    /* Header */
+    header {
+      background: #fff;
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand img { height: 40px; }
+
+    nav a {
+      color: #1a1a1a;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    nav a:hover { color: #f28e1c; }
+
+    /* Titre principal */
+    .main-title {
+      text-align: center;
+      margin: 0;
+      font-size: 40px;
+      color: #f28e1c;
+      margin-left: 250px;
+    }
+
+    .sous-titre a {
+      color: #8b5e2a;
+      font-size: 22px;
+      font-weight: normal;
+      text-decoration: none;
+    }
+
+    .sous-titre a:visited { color: #d97400; }
+    .sous-titre a:hover { text-decoration: underline; }
+
+    /* Section collaborateurs */
+   .collaborateurs {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.collab-box {
+  flex: 0 0 48%;   /* largeur fixe pour 2 boxes par ligne */
+  display: flex;
+  gap: 20px;
+  background: rgba(255,255,255,0.95);
+  padding: 20px;
+  border-radius: 10px;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-sizing: border-box; /* inclut padding dans la largeur */
+}
+
+    .collab-box img {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .collab-desc h3 {
+      margin: 0 0 10px 0;
+      color: #f28e1c;
+    }
+
+    .collab-desc p {
+      margin: 0;
+      font-size: 16px;
+      text-align: justify;
+    }
+
+    /* Responsive : une seule box par ligne sur petit écran */
+    @media (max-width: 700px) {
+      .collab-box {
+        flex: 1 1 100%;
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .collab-box img {
+        margin-bottom: 10px;
+      }
+    }
+
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <img src="icam.jpg" alt="Logo ICAM">
+      </div>
+
+      <h1 class="main-title">
+        Mécatronique<br>
+        <span class="sous-titre">
+          <a href="#">FISE</a> &nbsp;&amp;&nbsp;
+          <a href="#">FISA</a>
+        </span>
+      </h1>
+
+      <nav>
+        <a href="site mecatronique .html">Mécatronique</a>
+        <a href="collab.html">Intervenants</a>
+        <a href="projets.html">Projets</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="collaborateurs" id="collaborateurs">
+    <div class="collab-box">
+      <img src="adil.jpg" alt="Adil Guessous">
+      <div class="collab-desc">
+        <h3>Adil Guessous</h3>
+        
+  <p>
+  <em><span style="font-size: 16px;text-align: center;">Suivi de projet & Référent Électronique</span><br><br>
+  <span style="font-size: 14px; margin-left: 40px;  ">Enseignant en électronique</span><br>
+  <span style="font-size: 14px; margin-left: 40px;">Domaine MIA, Bureau K103</span></em>
+</p>
+      </div>
+    </div>
+
+    <div class="collab-box">
+      <img src="meriem.jpg" alt="Meriem XXX">
+      <div class="collab-desc">
+        <h3>Meriem Labourel</h3>
+         <p>
+  <em><span style="font-size: 16px;text-align: center;">Coord.  projet & Gestion de budget</span><br><br>
+  <span style="font-size: 14px; margin-left: 40px;  ">RES déléguée MIA & EEE,   
+</span><br>
+  <span style="font-size: 14px; margin-left: 40px;">E.C en automatique, Bureau K103</span></em>
+</p>
+      </div>
+    </div>
+
+    <div class="collab-box">
+      <img src="khaoula.jpg" alt="Khaoula XXX">
+      <div class="collab-desc">
+        <h3>Khaoula abou Zaid</h3>
+<p>
+  <em><span style="font-size: 16px;text-align: center;">Suivi de projet & Référente Mécanique
+</span><br><br>
+  <span style="font-size: 14px; margin-left: 40px;  ">E.C en mécanique, Domaine MME
+</span><br>
+  <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span></em>
+</p>
+      </div>
+    </div>
+
+    <div class="collab-box">
+      <img src="nada.jpg" alt="Autre Collaborateur">
+      <div class="collab-desc">
+        <h3>Nada BENABDESSALAM</h3>
+  <p>
+  <em><span style="font-size: 16px;text-align: center;">Référente Informatique</span><br><br>
+  <span style="font-size: 14px; margin-left: 40px;  ">E.C en Informatique, Domaine MIA</span><br>
+  <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span></em>
+</p>
+      </div>
+    </div>
+
+    <div class="collab-box">
+      <img src="norberto.jpg" alt="Autre Collaborateur">
+      <div class="collab-desc">
+        <h3>LABRADOR Norberto</h3>
+  <p>
+  <em><span style="font-size: 16px;text-align: center;">Référent Matériaux</span><br><br>
+  <span style="font-size: 14px; margin-left: 40px;  ">E.C en Matériaux, Domaine MME</span><br>
+  <span style="font-size: 14px; margin-left: 90px;">Bureau K102</span></em>
+</p>
+      </div>
+    </div>
+
+   <div class="collab-box">
+      <img src="zeina.jpg" alt="Autre Collaborateur">
+      <div class="collab-desc">
+        <h3>ELRAWASHDEH Zeina</h3>
+  <p>
+  <em><span style="font-size: 16px;text-align: center;">Référente Électronique</span><br><br>
+  <span style="font-size: 14px; margin-left: 40px;  ">E.C en Électronique, Domaine EEE</span><br>
+  <span style="font-size: 14px; margin-left: 90px;">Bureau K103</span></em>
+</p>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+  </section>
+
+  <footer>
+    © <span id="year"></span> Projets Mécatronique — ICAM
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
