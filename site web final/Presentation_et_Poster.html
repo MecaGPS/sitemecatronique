@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STAL : Présentation & Poster</title>
+
+    <link rel="icon" type="image/png" href="Logo STAL.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* # VARIABLES GLOBALES */
+        :root {
+            --icam-black: #000000;
+            --icam-orange: rgb(209, 147, 30); /* Couleur orange principale */
+            --icam-white: #FFFFFF;
+            --icam-grey: #CFCFCF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* # CORPS DE LA PAGE (Mode Sombre par défaut) */
+        body {
+            background: linear-gradient(135deg, var(--icam-black), var(--icam-grey));
+            color: var(--icam-white);
+            overflow-x: hidden;
+            font-family: "Poppins", sans-serif;
+            padding-top: 80px; /* Espace pour le header fixe */
+        }
+
+        body.light {
+            /* Fond du mode clair (Orange vers Gris) */
+            background: linear-gradient(160deg, var(--icam-orange), var(--icam-grey)45%);
+            color: #111; /* Texte global en noir/gris foncé */
+        }
+        
+        /* # TITRES DE SECTION (H2) */
+        h2 {
+            font-size: 40px;
+            margin-bottom: 5px; 
+            background: none;
+            
+            /* EFFET 3D / RELIEF */
+            color: var(--icam-white); 
+            text-shadow: 2px 2px 4px var(--icam-orange), 
+                         0 0 10px rgba(0, 0, 0, 0.8);
+            
+            -webkit-text-fill-color: unset; 
+            text-align: center;
+        }
+        
+        /* Ajustement H2 pour le mode clair */
+        body.light h2 {
+            color: var(--icam-black);
+            text-shadow: 2px 2px 3px var(--icam-white);
+        }
+
+        /* # HEADER (RÉPLIQUE STYLES DU SITE PRINCIPAL) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--icam-orange);
+            z-index: 1000;
+        }
+
+        body.light header {
+             background: rgba(255, 255, 255, 0.781);
+             backdrop-filter: blur(10px);
+             border-bottom: 2px solid var(--icam-orange);
+             z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            height: 45px;
+            width: auto;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            /* Dégradé Mode Sombre (Orange vers Blanc) */
+            background: linear-gradient(45deg, var(--icam-orange), var(--icam-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Dégradé Mode Clair (Orange vers Noir) */
+        body.light header h1 {
+            background: linear-gradient(45deg, var(--icam-orange), var(--icam-black));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* # NAVIGATION PRINCIPALE (Menu de droite) */
+        nav { display: flex; gap: 10px; }
+        nav a, nav button {
+            text-decoration: none;
+            color: var(--icam-white);
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        body.light nav a, body.light nav button {
+            color: var(--icam-black);
+        }
+        
+        nav a:hover, nav button:hover {
+            background: var(--icam-orange);
+            color: var(--icam-black);
+            box-shadow: 0 0 10px var(--icam-orange);
+        }
+
+        /* # MENU MOBILE */
+        .menu-btn { 
+            display: none; 
+            cursor: pointer; 
+            font-size: 30px; 
+            color: var(--icam-white);
+        }
+        body.light .menu-btn {
+             color: var(--icam-black);
+        }
+
+        @media(max-width: 992px){
+             header { padding: 10px 20px; }
+             nav { display: none; position: absolute; top: 65px; right: 20px; background: rgba(0,0,0,0.8); padding: 20px; border-radius: 15px; flex-direction: column; }
+             nav.open { display: flex; }
+             .menu-btn { display: block; }
+        }
+        
+        /* # BOX MODERNE / Conteneur de section */
+        .section-container {
+             margin: 40px 40px 20px;
+             padding: 30px;
+             border-radius: 20px;
+             background: rgba(255, 255, 255, 0.03);
+             backdrop-filter: blur(1px);
+             transition: background 0.3s, box-shadow 0.3s;
+        }
+        .section-container:hover {
+             background: rgba(255, 255, 255, 0.07);
+             box-shadow: 0 0 15px rgba(235, 168, 43, 0.6);
+        }
+        body.light .section-container {
+             background: rgba(255, 255, 255, 0.8);
+        }
+        body.light .section-container:hover {
+             background: rgba(255, 255, 255, 0.9);
+             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Case (Conteneurs secondaires pour le texte) */
+        .case {
+            background: rgba(255, 255, 255, 0.03); /* Fond subtil */
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0; /* Espacement vertical */
+            box-shadow: none; 
+            transition: background 0.3s, box-shadow 0.3s;
+        }   
+
+        /* Effet HALO au survol de la case */
+        .case:hover {
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 10px rgba(235, 168, 43, 0.4);
+        }
+
+        .case h3 {
+            color: var(--icam-orange); /* H3 en orange pour le contraste */
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        body.light .case p {
+            color: var(--icam-black); /* p en noir pour le contraste */
+        }
+        
+        /* Liste (pour la liste des consignes) */
+        ul.list-items {
+            list-style-type: none; 
+            padding-left: 0;       
+        }
+        ul.list-items li::before {
+             content: "•"; 
+             color: var(--icam-orange); 
+             margin-right: 8px;
+        }
+        ul.list-items li {
+            margin-bottom: 8px;
+            color: var(--icam-white);
+        }
+        /* CORRECTION CONTRASTE */
+        body.light ul.list-items li,
+        body.light .case p { 
+            color: #111; 
+        }
+
+        /* Conteneur vidéo pour s'assurer que l'iframe ou la vidéo est bien responsive */
+        .video-responsive {
+            overflow: hidden;
+            padding-bottom: 56.25%; /* Rapport 16:9 */
+            position: relative;
+            height: 0;
+            margin-top: 15px;
+            border-radius: 15px;
+        }
+        .video-responsive iframe, .video-responsive video {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+        }
+        
+        /* Images (Diagrammes et Poster) */
+        .img-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .img-container img {
+             max-width: 100%;
+             height: auto;
+             border-radius: 15px;
+             box-shadow: 0 10px 20px rgba(0,0,0,0.4); 
+             margin-top: 15px;
+        }
+        
+        /* # FOOTER */
+        .Fin {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 40px;
+            border-top: 2px solid var(--icam-orange);
+            text-align: center;
+            margin-top: 40px;
+        }
+        /* Styles du mode clair pour le footer */
+        body.light .Fin { background: rgba(255, 255, 255, 0.9); border-top-color: #333; }
+        body.light .Fin h5, 
+        body.light .Fin p, 
+        body.light .Fin i { 
+            color: #111; 
+        }
+
+        .Fin h5 {
+            text-align: left;
+            color: var(--icam-white);
+        }
+
+        .Fin i {
+            color: var(--icam-white);
+            transition: color 0.3s;
+            font-size: 24px;
+        }
+
+        .Fin i:hover {
+            color: var(--icam-orange);
+        }
+
+        .Fin p {
+            text-align: center;
+            color: var(--icam-grey);
+            font-size: 14px;
+        }
+        
+        /* # BOUTONS FLOTTANTS */
+        .floating-btns {
+             position: fixed;
+             bottom: 20px;
+             left: 20px;
+             z-index: 999;
+             display: flex;
+             gap: 10px;
+             align-items: center;
+        }
+        
+        /* # BOUTON MODE CLAIR/SOMBRE */
+        #modeBtn {
+             padding: 12px 20px; 
+             border-radius: 30px; 
+             background: var(--icam-orange); 
+             color: var(--icam-black); 
+             border: none; 
+             cursor: pointer; 
+             font-weight: bold; 
+        }
+        body.light #modeBtn { background: var(--icam-black); color: var(--icam-white); }
+        
+        /* # BOUTON PDF (Poster) */
+        #printPdfBtn {
+             padding: 12px 20px; 
+             border-radius: 30px; 
+             background: var(--icam-white); 
+             color: var(--icam-black); 
+             border: 2px solid var(--icam-orange); 
+             cursor: pointer; 
+             font-weight: bold; 
+             transition: background 0.3s;
+        }
+        #printPdfBtn:hover {
+             background: var(--icam-orange);
+             color: var(--icam-white);
+        }
+        body.light #printPdfBtn {
+             background: var(--icam-black);
+             color: var(--icam-white);
+             border-color: var(--icam-orange);
+        }
+        body.light #printPdfBtn:hover {
+             background: var(--icam-orange);
+             color: var(--icam-black);
+        }
+
+        /* # BOUTON BACK TO TOP */
+       .back-to-top {
+            position: fixed;       
+            bottom: 30px;          
+            right: 30px;           
+            background-color: var(--icam-orange);
+            color: var(--icam-black);
+            padding: 10px 15px;    
+            font-size: 24px;       
+            border-radius: 50%;    
+            text-decoration: none; 
+            display: none;         
+            z-index: 1000;         
+            transition: background 0.3s;
+        }
+
+        .back-to-top:hover {
+            background-color: rgb(255, 232, 188);
+            cursor: pointer;
+        }
+        
+        /* # POP-UP MODAL (Structure Générique) */
+        .modal-backdrop{
+            position:fixed; 
+            inset:0; 
+            background:rgba(0,0,0,.65); 
+            display:none; 
+            align-items:center; 
+            justify-content:center; 
+            padding:16px; 
+            z-index:2000;
+            backdrop-filter: blur(6px);
+        }
+        
+        .modal-backdrop.open{
+            display:flex 
+        }
+        
+        .modal{
+            max-width:720px; 
+            width:100%; 
+            background:rgba(0,0,0,0.85); 
+            border:2px solid var(--icam-orange);
+            border-radius:20px; 
+            padding:25px 35px; 
+            box-shadow:0 10px 30px rgba(0,0,0,.5); 
+            position:relative;
+            color: var(--icam-white);
+            animation: popupFade 0.35s ease; 
+        }
+
+        @keyframes popupFade {
+             from { transform: scale(0.7); opacity: 0; }
+             to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal h3{
+            margin:0 0 .6rem; 
+            color: var(--icam-orange);
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .modal p {
+            text-align: center;
+        }
+
+        .mail-list{
+            display:grid; 
+            gap:15px; 
+            margin-top: 20px;
+        }
+
+        @media (min-width:640px){ .mail-list{ grid-template-columns:1fr 1fr } }
+
+        .mail{
+            display:flex; 
+            align-items:center; 
+            justify-content:space-between; 
+            gap:8px;
+            border:1px solid rgba(255,255,255,0.2); 
+            border-radius:15px; 
+            padding:10px; 
+            border: 2px solid var(--icam-orange);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mail a{
+            font-weight:500;
+            text-decoration: none;
+            color: var(--icam-white);
+            font-size: 14px;
+        }
+        /* Correction du lien en mode clair */
+        body.light .mail a {
+             color: var(--icam-black); 
+        }
+    
+        .mail .act{
+            display:flex; 
+            gap:6px
+        }
+
+        .mail button {
+             background: var(--icam-orange);
+             border: none;
+             padding: 5px 10px;
+             border-radius: 8px;
+             cursor: pointer;
+             font-weight: bold;
+             color: var(--icam-white);
+             transition: 0.2s;
+             font-size: 12px;
+        }
+        .mail button:hover {
+            background: #d4952d; 
+            transform: scale(1.05);
+        }
+    
+        .close-x{
+            position:absolute; 
+            right:15px; 
+            top:15px; 
+            background:var(--icam-black); 
+            border:2px solid var(--icam-orange); 
+            border-radius:999px; 
+            padding:2px 10px; 
+            cursor:pointer;
+            color: var(--icam-white);
+            font-size: 20px;
+            transition: 0.2s;
+        }
+        .close-x:hover {
+            background: var(--icam-orange);
+            color: var(--icam-black);
+        }
+
+    </style>
+</head>
+<body class="dark">
+
+    <header>
+        <div class="header-logo">
+            <img src="Logo entreprise.png" alt="Logo STAL" />
+            <h1>Présentation & Poster</h1>
+        </div>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <nav id="navMenu">
+            <a href="essai site web.html">Retour à l'accueil</a>
+            <a href="#presentation-orale">Présentation Orale</a>
+            <a href="#poster">Poster</a>
+            <button class="btn" id="openContact" type="button">Mails</button>
+        </nav>
+    </header>
+    
+    <div class="modal-backdrop" id="contactModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-labelledby="contactTitle" aria-modal="true">
+            <button class="close-x" id="closeContact" aria-label="Fermer">✕</button>
+            <h3 id="contactTitle">Contacts ICAM – Projet STAL</h3>
+            <p style="margin:.2rem 0 .8rem;">Cliquez sur une adresse pour ouvrir votre messagerie, ou utilisez “Copier”.</p>
+
+            <div class="mail-list">
+                <div class="mail">
+                    <a href="mailto:ibrahim.yigit@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">ibrahim.yigit@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="ibrahim.yigit@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:luca.falzone@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">luca.falzone@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="luca.falzone@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:guerand.mothe@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">guerand.mothe@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="guerand.mothe@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:lucas.deshayes@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">lucas.deshayes@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="lucas.deshayes@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:loic.chantrel@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">loic.chantrel@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="loic.chantrel@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:paul.gourlin@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">paul.gourlin@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="paul.gourlin@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:alban.huet@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">alban.huet@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="alban.huet@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:pierre.dewavrechin@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">pierre.dewavrechin@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="pierre.dewavrechin@2027.icam.fr">Copier</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="section-container" id="presentation-orale">
+        <h2>Présentation orale</h2>
+        
+        <div class="case">
+            <h3>Consignes</h3>
+            <ul class="list-items">
+                <li>La présentation doit durer 10 minutes.</li>
+                <li>Le support doit être visuel et attractif.</li>
+                <li>Le jury sera composé d'experts techniques et de chefs de projet.</li>
+                <li>L'accent doit être mis sur l'innovation, la faisabilité et le respect du cahier des charges.</li>
+                <li>Une session de questions/réponses de 5 minutes suivra.</li>
+            </ul>
+        </div>
+        
+        <div class="case">
+            <h3>Vidéo présentation</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop poster="images/apercu.jpg">
+                    <source src="Video presentation.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+        </section>
+
+    <section class="section-container" id="poster">
+        <h2>Poster</h2>    
+        <div class="img-container">
+            <img src="Titre STAL-1_page-0001.jpg" alt="Aperçu du poster STAL" style="max-width: 100%; height: auto;">
+        </div>
+        
+    </section>
+    
+    <div class="Fin">
+        <h5>Contactez nous via les liens ci-dessous pour plus amples informations</h5>
+        <div style="margin: 10px 0;">
+            <a href="https://www.instagram.com/lucas_dshs/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/lucas-deshayes-707158260/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+        <p>© 2025 STAL : Systeme de tri automatisé en ligne.fr – Tous droits réservés.</p>
+    </div>
+    
+    <div class="floating-btns">
+        <button id="modeBtn" onclick="toggleMode()">Mode clair/sombre</button>
+        <button id="printPdfBtn" onclick="openPosterPdf()">Ouvrir le Poster PDF</button> 
+    </div>
+
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+    <script>
+        // # Fonction pour ouvrir le PDF du poster
+        function openPosterPdf() {
+            window.open('Poster.pdf', '_blank');
+        }
+        
+        // # Menu mobile (Gestion du thème)
+        function toggleMode(){
+            const body = document.body;
+            body.classList.toggle('light');
+            body.classList.toggle('dark');
+            // Sauvegarde la préférence
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Applique le thème sauvé au chargement
+        (function(){
+            if(localStorage.getItem('theme') === 'light'){
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+            }
+        })();
+
+
+        // # Bouton de retour en haut (Back to Top)
+        const backToTopButton = document.getElementById("backToTop");
+
+        // Quand l'utilisateur scroll, on vérifie la position
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {   
+            backToTopButton.style.display = "block"; 
+            } else {
+            backToTopButton.style.display = "none";   
+            }
+        });
+
+        // Quand l'utilisateur clique sur le bouton
+        backToTopButton.addEventListener("click", (e) => {
+            e.preventDefault();  
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        });
+
+        // # Modal Logic (Contacts) 
+        const contactModal = document.getElementById('contactModal');
+
+        try {
+            const openBtn = document.querySelector('button#openContact');
+            const closeBtn = document.querySelector('button#closeContact');
+
+            if (openBtn && contactModal) {
+                 openBtn.addEventListener('click', () => {
+                    contactModal.classList.add('open');
+                    contactModal.setAttribute('aria-hidden','false');
+                 });
+            }
+            if (closeBtn && contactModal) {
+                closeBtn.addEventListener('click', () => {
+                    contactModal.classList.remove('open');
+                    contactModal.setAttribute('aria-hidden','true');
+                });
+                contactModal.addEventListener('click', (e)=>{
+                  if(e.target === contactModal) contactModal.classList.remove('open');
+                });
+            }
+        } catch (e) {
+            // Error handling (omitted for clean output)
+        }
+
+
+        // # Copier l'email
+        document.querySelectorAll('.copy').forEach(btn=>{
+          btn.addEventListener('click', async ()=>{
+            const email = btn.dataset.email;
+            try{
+              await navigator.clipboard.writeText(email);
+              const old = btn.textContent;
+              btn.textContent = 'Copié !';
+              setTimeout(()=>btn.textContent = old, 1200);
+            }catch(e){ 
+              alert('Copie impossible : ' + email);
+            }
+          });
+        });
+    </script>
+    
+</body>
+</html>

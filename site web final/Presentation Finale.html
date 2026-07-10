@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>STAL — Système de Tri Automatisé en Ligne | Projet Mécatronique ICAM</title>
+<meta name="description" content="STAL : système de tri automatisé composé de deux convoyeurs perpendiculaires. Projet mécatronique ICAM — équipe Team Ibrahim." />
+<link rel="icon" type="image/png" href="Logo STAL.png" />
+
+<!-- Police Poppins + Font Awesome -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+/* =========================================================
+   CHARTE GRAPHIQUE STAL / ICAM
+   ========================================================= */
+:root{
+  --icam-black:#000000;
+  --icam-orange:rgb(209,147,30);   /* orange principal #D1931E */
+  --icam-orange-soft:rgba(235,168,43,.6);
+  --icam-white:#FFFFFF;
+  --icam-grey:#CFCFCF;
+  --green:#7CFC9B;
+  --muted:rgba(255,255,255,.6);
+  --card-bg:rgba(255,255,255,.03);
+  --card-bg-hover:rgba(255,255,255,.07);
+  --line:rgba(255,255,255,.12);
+  --header-h:74px;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Poppins",sans-serif;}
+html{scroll-behavior:smooth;}
+body{
+  background:linear-gradient(135deg,var(--icam-black),var(--icam-grey));
+  background-attachment:fixed;
+  color:var(--icam-white);
+  overflow-x:hidden;
+  padding-top:var(--header-h);
+  line-height:1.6;
+}
+
+/* ---------- MODE CLAIR ---------- */
+body.light{
+  background:linear-gradient(160deg,var(--icam-orange),var(--icam-grey) 55%);
+  background-attachment:fixed;
+  color:#141414;
+  --muted:rgba(0,0,0,.55);
+  --card-bg:rgba(255,255,255,.35);
+  --card-bg-hover:rgba(255,255,255,.55);
+  --line:rgba(0,0,0,.12);
+}
+
+a{color:inherit;}
+img{max-width:100%;display:block;}
+section{scroll-margin-top:calc(var(--header-h) + 10px);}
+
+/* =========================================================
+   HEADER + NAVIGATION
+   ========================================================= */
+header{
+  position:fixed;top:0;left:0;right:0;width:100%;
+  height:var(--header-h);
+  padding:0 32px;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(12px);
+  border-bottom:2px solid var(--icam-orange);
+  z-index:1000;
+}
+body.light header{background:rgba(255,255,255,.75);}
+
+.header-logo{display:flex;align-items:center;gap:12px;}
+.header-logo img{height:42px;width:auto;}
+.header-logo .brand{
+  font-size:20px;font-weight:800;letter-spacing:.5px;line-height:1.1;
+  background:linear-gradient(45deg,var(--icam-orange),var(--icam-white));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+}
+.header-logo .brand small{display:block;font-size:11px;font-weight:500;letter-spacing:1px;
+  -webkit-text-fill-color:var(--muted);color:var(--muted);}
+body.light .header-logo .brand{background:linear-gradient(45deg,var(--icam-orange),var(--icam-black));
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+
+nav{display:flex;gap:2px;align-items:center;flex-wrap:wrap;}
+nav a,nav button{
+  text-decoration:none;color:var(--icam-white);font-weight:500;font-size:14px;
+  padding:7px 11px;border-radius:8px;background:none;border:none;cursor:pointer;
+  transition:.25s;white-space:nowrap;
+}
+body.light nav a,body.light nav button{color:#141414;}
+nav a:hover,nav button:hover,nav a.active{
+  background:var(--icam-orange);color:var(--icam-black);
+  box-shadow:0 0 10px var(--icam-orange);
+}
+nav .nav-cta{border:1.5px solid var(--icam-orange);}
+
+.menu-btn{display:none;cursor:pointer;font-size:28px;color:var(--icam-white);background:none;border:none;}
+body.light .menu-btn{color:#141414;}
+
+@media(max-width:1180px){
+  nav{display:none;position:absolute;top:var(--header-h);right:16px;
+    background:rgba(0,0,0,.92);padding:14px;border-radius:14px;flex-direction:column;
+    align-items:stretch;gap:4px;border:1px solid var(--icam-orange);max-height:75vh;overflow:auto;}
+  body.light nav{background:rgba(255,255,255,.96);}
+  nav.open{display:flex;}
+  .menu-btn{display:block;}
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{
+  position:relative;min-height:calc(92vh - var(--header-h));
+  display:flex;flex-direction:column;justify-content:center;
+  padding:60px 40px;overflow:hidden;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background:
+    linear-gradient(rgba(0,0,0,.72),rgba(0,0,0,.82)),
+    url("Convoyeur.jpg") center/cover no-repeat;
+  filter:saturate(.9);
+}
+body.light .hero::before{background:
+    linear-gradient(rgba(255,255,255,.35),rgba(255,255,255,.55)),
+    url("Convoyeur.jpg") center/cover no-repeat;}
+.hero-inner{position:relative;z-index:1;max-width:1000px;}
+.hero .eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--icam-orange);
+  font-weight:600;margin-bottom:18px;
+}
+.hero .eyebrow img{height:30px;}
+.hero h1{
+  font-size:clamp(38px,7vw,80px);font-weight:800;line-height:1.02;letter-spacing:-1px;
+  text-shadow:2px 3px 0 var(--icam-orange);
+}
+.hero h1 .accent{color:var(--icam-orange);text-shadow:none;}
+.hero .tagline{font-size:clamp(16px,2.2vw,22px);color:var(--icam-grey);margin:22px 0 8px;max-width:780px;}
+body.light .hero .tagline{color:#222;}
+.hero .sub{font-size:14px;color:var(--muted);max-width:760px;}
+
+/* Stats */
+.stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:38px;}
+.stat{
+  background:rgba(0,0,0,.35);border:1px solid var(--line);border-left:3px solid var(--icam-orange);
+  border-radius:14px;padding:16px 22px;min-width:140px;backdrop-filter:blur(4px);
+}
+body.light .stat{background:rgba(255,255,255,.45);}
+.stat .num{font-size:30px;font-weight:800;color:var(--icam-orange);line-height:1;}
+.stat .lbl{font-size:12.5px;color:var(--muted);margin-top:6px;}
+.scroll-cue{margin-top:42px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:8px;
+  animation:bob 1.8s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* =========================================================
+   SECTIONS GÉNÉRIQUES
+   ========================================================= */
+.section{padding:84px 40px;max-width:1280px;margin:0 auto;}
+.sec-num{font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--icam-orange);
+  font-weight:600;margin-bottom:10px;display:block;}
+.sec-title{
+  font-size:clamp(30px,5vw,52px);font-weight:800;line-height:1.05;margin-bottom:14px;
+  color:var(--icam-white);text-shadow:2px 2px 4px var(--icam-orange),0 0 12px rgba(0,0,0,.6);
+}
+body.light .sec-title{color:#141414;text-shadow:2px 2px 3px rgba(255,255,255,.6);}
+.sec-title .accent{color:var(--icam-orange);text-shadow:none;}
+.sec-intro{font-size:16px;color:var(--muted);max-width:760px;margin-bottom:34px;}
+.sub-head{color:var(--icam-orange);margin:6px 0 16px;font-size:20px;}
+
+/* Cartes */
+.cards{display:grid;gap:20px;}
+.cards.two{grid-template-columns:repeat(2,1fr);}
+.cards.three{grid-template-columns:repeat(3,1fr);}
+.cards.four{grid-template-columns:repeat(4,1fr);}
+@media(max-width:980px){.cards.two,.cards.three,.cards.four{grid-template-columns:1fr;}}
+.card{
+  background:var(--card-bg);border:1px solid var(--line);
+  padding:28px;border-radius:20px;backdrop-filter:blur(2px);
+  transition:background .3s,box-shadow .3s,transform .3s;
+}
+.card:hover{background:var(--card-bg-hover);box-shadow:0 0 18px var(--icam-orange-soft);transform:translateY(-3px);}
+.card h3{color:var(--icam-orange);font-size:21px;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.card h4{font-size:16px;margin:6px 0;}
+.card p{font-size:15px;color:var(--muted);}
+.card p+p{margin-top:12px;}
+
+ul.tiret{list-style:none;}
+ul.tiret li{margin-bottom:10px;padding-left:4px;font-size:15px;}
+ul.tiret li::before{content:"\f058";font-family:"Font Awesome 6 Free";font-weight:900;
+  color:var(--icam-orange);margin-right:10px;}
+
+.pill{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(209,147,30,.15);
+  border:1px solid var(--icam-orange);color:var(--icam-orange);font-size:12.5px;font-weight:600;margin:3px 4px 3px 0;}
+
+/* =========================================================
+   ÉQUIPE
+   ========================================================= */
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media(max-width:980px){.team-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:540px){.team-grid{grid-template-columns:1fr;}}
+.member{
+  background:var(--card-bg);border:1px solid var(--line);border-radius:18px;
+  padding:20px;text-align:center;transition:.3s;
+}
+.member:hover{background:var(--card-bg-hover);box-shadow:0 0 18px var(--icam-orange-soft);transform:translateY(-4px);}
+.member img{width:118px;height:118px;border-radius:50%;object-fit:cover;margin:0 auto 14px;
+  border:3px solid var(--icam-orange);box-shadow:0 0 14px var(--icam-orange-soft);}
+.member h3{font-size:17px;margin-bottom:2px;}
+.member .role{color:var(--icam-orange);font-size:13.5px;font-weight:600;min-height:34px;}
+.member a.mail{display:inline-flex;align-items:center;gap:6px;margin-top:8px;font-size:12px;
+  color:var(--muted);text-decoration:none;}
+.member a.mail:hover{color:var(--icam-orange);}
+
+/* =========================================================
+   TIMELINE (Démarche & Avancement)
+   ========================================================= */
+.timeline{position:relative;margin-top:10px;}
+.timeline::before{content:"";position:absolute;left:22px;top:6px;bottom:6px;width:2px;
+  background:linear-gradient(var(--icam-orange),transparent);}
+.tl-item{position:relative;padding:0 0 26px 64px;}
+.tl-item .dot{position:absolute;left:10px;top:2px;width:26px;height:26px;border-radius:50%;
+  background:var(--icam-black);border:2px solid var(--icam-orange);color:var(--icam-orange);
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;}
+.tl-item.done .dot{background:var(--icam-orange);color:var(--icam-black);}
+.tl-item h4{font-size:18px;margin-bottom:4px;}
+.tl-item .when{color:var(--icam-orange);font-size:13px;font-weight:600;}
+.tl-item p{color:var(--muted);font-size:14.5px;margin-top:4px;}
+.tl-item .valid{display:inline-block;margin-top:6px;font-size:12.5px;font-weight:700;color:var(--green);}
+
+/* Avancement progress */
+.progress-wrap{margin:6px 0 30px;}
+.progress-label{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px;}
+.progress{height:14px;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden;border:1px solid var(--line);}
+.progress .bar{height:100%;width:100%;border-radius:999px;
+  background:linear-gradient(90deg,var(--icam-orange),#ffd27a);}
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:24px;}
+@media(max-width:900px){.steps-grid{grid-template-columns:repeat(2,1fr);}}
+.step-card{background:var(--card-bg);border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;
+  transition:.3s;}
+.step-card:hover{transform:translateY(-4px);border-color:var(--icam-orange);box-shadow:0 0 14px var(--icam-orange-soft);}
+.step-card .ic{font-size:26px;color:var(--icam-orange);margin-bottom:8px;}
+.step-card h5{font-size:14px;margin-bottom:4px;}
+.step-card .state{font-size:11.5px;color:var(--green);font-weight:600;}
+
+/* =========================================================
+   TABLEAUX
+   ========================================================= */
+.table-wrap{overflow-x:auto;border-radius:16px;border:1px solid var(--line);}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:560px;}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--line);}
+thead th{background:rgba(209,147,30,.18);color:var(--icam-orange);font-weight:600;
+  position:sticky;top:0;}
+tbody tr:hover{background:var(--card-bg-hover);}
+
+/* =========================================================
+   GALERIE IMAGES / VIDÉOS + LIGHTBOX
+   ========================================================= */
+.media-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media(max-width:900px){.media-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.media-grid{grid-template-columns:1fr;}}
+.media-card{background:var(--card-bg);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.3s;}
+.media-card:hover{box-shadow:0 0 16px var(--icam-orange-soft);transform:translateY(-3px);}
+.media-card img,.media-card video{width:100%;height:210px;object-fit:cover;background:#000;}
+.media-card img{cursor:zoom-in;}
+.media-card .cap{padding:10px 14px;font-size:13.5px;color:var(--muted);}
+.media-card .cap b{color:var(--icam-white);}
+body.light .media-card .cap b{color:#141414;}
+
+.lightbox{position:fixed;inset:0;background:rgba(0,0,0,.92);display:none;align-items:center;
+  justify-content:center;z-index:3000;padding:34px;cursor:zoom-out;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:95%;max-height:90%;border-radius:10px;border:2px solid var(--icam-orange);
+  box-shadow:0 0 45px rgba(0,0,0,.85);cursor:default;}
+.lightbox .lb-cap{position:absolute;bottom:24px;left:0;right:0;text-align:center;color:#eee;font-size:14px;}
+.lb-close{position:absolute;top:18px;right:26px;font-size:34px;color:#fff;background:none;border:none;cursor:pointer;}
+.lb-close:hover{color:var(--icam-orange);}
+
+/* =========================================================
+   CODE
+   ========================================================= */
+.code-block{position:relative;background:#0c0c0c;border:1px solid var(--icam-orange);
+  border-radius:16px;overflow:hidden;margin-top:8px;}
+.code-head{display:flex;justify-content:space-between;align-items:center;
+  padding:10px 16px;background:rgba(209,147,30,.14);border-bottom:1px solid var(--line);}
+.code-head .title{color:var(--icam-orange);font-size:13.5px;font-weight:600;}
+.code-head .copy{background:var(--icam-orange);color:#000;border:none;border-radius:8px;
+  padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
+.code-head .copy:hover{background:#ffd27a;}
+pre{margin:0;padding:18px;overflow:auto;max-height:560px;}
+pre code{font-family:"Courier New",monospace;font-size:13px;line-height:1.6;color:#e8e8e8;white-space:pre;}
+
+/* =========================================================
+   ZONE ÉDITABLE (à compléter par l'équipe)
+   ========================================================= */
+.editable{position:relative;}
+.editable::before{content:none;}
+.editable .placeholder{color:var(--icam-orange);font-style:italic;font-size:14px;}
+
+/* boutons */
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:22px;}
+.btn-dl{display:inline-flex;align-items:center;gap:9px;text-decoration:none;
+  padding:11px 20px;border-radius:30px;font-weight:600;font-size:14px;transition:.25s;}
+.btn-dl.primary{background:var(--icam-orange);color:#000;border:2px solid var(--icam-orange);}
+.btn-dl.primary:hover{background:#ffd27a;}
+.btn-dl.ghost{background:transparent;color:var(--icam-white);border:2px solid var(--icam-orange);}
+body.light .btn-dl.ghost{color:#141414;}
+.btn-dl.ghost:hover{background:var(--icam-orange);color:#000;}
+
+/* =========================================================
+   POP-UP CONTACTS
+   ========================================================= */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;
+  align-items:center;justify-content:center;padding:16px;z-index:2000;backdrop-filter:blur(6px);}
+.modal-backdrop.open{display:flex;}
+.modal{max-width:720px;width:100%;background:rgba(10,10,10,.95);border:2px solid var(--icam-orange);
+  border-radius:20px;padding:28px 32px;position:relative;animation:pop .3s ease;}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal h3{color:var(--icam-orange);text-align:center;font-size:24px;margin-bottom:6px;}
+.modal p{text-align:center;color:var(--muted);font-size:14px;margin-bottom:18px;}
+.mail-list{display:grid;gap:12px;}
+@media(min-width:640px){.mail-list{grid-template-columns:1fr 1fr;}}
+.mail{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  border:1.5px solid var(--icam-orange);border-radius:12px;padding:9px 12px;background:rgba(255,255,255,.05);}
+.mail a{font-size:13px;text-decoration:none;color:var(--icam-white);word-break:break-all;}
+.mail button{background:var(--icam-orange);border:none;padding:5px 10px;border-radius:8px;
+  cursor:pointer;font-weight:700;color:#000;font-size:11.5px;}
+.close-x{position:absolute;right:14px;top:14px;background:#000;border:2px solid var(--icam-orange);
+  border-radius:999px;width:34px;height:34px;color:#fff;font-size:16px;cursor:pointer;}
+.close-x:hover{background:var(--icam-orange);color:#000;}
+
+/* =========================================================
+   FOOTER + BOUTONS FLOTTANTS
+   ========================================================= */
+.Fin{background:rgba(0,0,0,.65);border-top:2px solid var(--icam-orange);padding:34px 40px;text-align:center;}
+body.light .Fin{background:rgba(255,255,255,.85);}
+.Fin h5{font-size:15px;margin-bottom:12px;}
+.Fin .socials a{margin:0 10px;font-size:24px;color:var(--icam-white);transition:.3s;}
+body.light .Fin .socials a{color:#141414;}
+.Fin .socials a:hover{color:var(--icam-orange);}
+.Fin p{color:var(--muted);font-size:13px;margin-top:14px;}
+
+.floating-btns{position:fixed;bottom:20px;left:20px;z-index:999;display:flex;gap:10px;}
+#modeBtn{padding:11px 18px;border-radius:30px;background:var(--icam-orange);color:#000;
+  border:none;cursor:pointer;font-weight:700;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.4);}
+body.light #modeBtn{background:#000;color:#fff;}
+.back-to-top{position:fixed;bottom:24px;right:24px;background:var(--icam-orange);color:#000;
+  width:48px;height:48px;border-radius:50%;display:none;align-items:center;justify-content:center;
+  font-size:22px;text-decoration:none;z-index:999;box-shadow:0 4px 14px rgba(0,0,0,.4);}
+.back-to-top:hover{background:#ffd27a;}
+
+.divider{height:1px;background:var(--line);max-width:1280px;margin:0 auto;}
+</style>
+</head>
+
+<body class="dark">
+
+<!-- =================== HEADER =================== -->
+<header>
+  <a class="header-logo" href="#accueil" style="text-decoration:none;">
+    <img src="Logo entreprise.png" alt="Logo STAL" />
+    <span class="brand">STAL<small>Système de Tri Automatisé en Ligne</small></span>
+  </a>
+  <button class="menu-btn" onclick="toggleMenu()" aria-label="Menu">☰</button>
+  <nav id="navMenu">
+    <a href="#contexte">Contexte</a>
+    <a href="#criteres">Critères</a>
+    <a href="#equipe">Équipe</a>
+    <a href="#cdc">Cahier des charges</a>
+    <a href="#demarche">Démarche</a>
+    <a href="#choix">Choix techniques</a>
+    <a href="#conception">Conception</a>
+    <a href="#simulations">Simulations</a>
+    <a href="#avancement">Avancement</a>
+    <a href="#resultats">Résultats</a>
+    <a href="#code">Code</a>
+    <a href="#galerie">Galerie</a>
+    <button class="nav-cta" id="openContact" type="button"><i class="fa-solid fa-envelope"></i> Contacts</button>
+  </nav>
+</header>
+
+<!-- =================== POP-UP CONTACTS =================== -->
+<div class="modal-backdrop" id="contactModal" aria-hidden="true">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="close-x" id="closeContact" aria-label="Fermer">✕</button>
+    <h3>Contacts — Projet STAL (ICAM)</h3>
+    <p>Cliquez sur une adresse pour écrire un mail, ou utilisez « Copier ».</p>
+    <div class="mail-list">
+      <div class="mail"><a href="mailto:ibrahim.yigit@2027.icam.fr">ibrahim.yigit@2027.icam.fr</a><button class="copy" data-email="ibrahim.yigit@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:luca.falzone@2027.icam.fr">luca.falzone@2027.icam.fr</a><button class="copy" data-email="luca.falzone@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:guerand.mothe@2027.icam.fr">guerand.mothe@2027.icam.fr</a><button class="copy" data-email="guerand.mothe@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:lucas.deshayes@2027.icam.fr">lucas.deshayes@2027.icam.fr</a><button class="copy" data-email="lucas.deshayes@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:loic.chantrel@2027.icam.fr">loic.chantrel@2027.icam.fr</a><button class="copy" data-email="loic.chantrel@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:paul.gourlin@2027.icam.fr">paul.gourlin@2027.icam.fr</a><button class="copy" data-email="paul.gourlin@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:alban.huet@2027.icam.fr">alban.huet@2027.icam.fr</a><button class="copy" data-email="alban.huet@2027.icam.fr">Copier</button></div>
+      <div class="mail"><a href="mailto:pierre.dewavrechin@2027.icam.fr">pierre.dewavrechin@2027.icam.fr</a><button class="copy" data-email="pierre.dewavrechin@2027.icam.fr">Copier</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== LIGHTBOX (images en grand) =================== -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose" aria-label="Fermer">✕</button>
+  <img id="lbImg" src="" alt="" />
+  <div class="lb-cap" id="lbCap"></div>
+</div>
+
+<!-- =================== HERO =================== -->
+<section class="hero" id="accueil">
+  <div class="hero-inner">
+    <span class="eyebrow"><img src="Logo Icam.png" alt="ICAM" /> Projet Mécatronique · ICAM · Team Ibrahim</span>
+    <h1>STAL — <span class="accent">Système de Tri</span><br>Automatisé en Ligne</h1>
+    <p class="tagline">Deux convoyeurs perpendiculaires qui trient automatiquement des pièces mécaniques selon leur forme et leur couleur, pour l'industrie aéronautique.</p>
+    <p class="sub">Conception mécanique, électronique embarquée, vision &amp; reconnaissance, automatisme — de l'analyse du besoin jusqu'au prototype réel.</p>
+    <div class="stats">
+      <div class="stat"><div class="num">2</div><div class="lbl">convoyeurs perpendiculaires</div></div>
+      <div class="stat"><div class="num">98%</div><div class="lbl">précision de tri visée</div></div>
+      <div class="stat"><div class="num">&le;20 s</div><div class="lbl">temps de cycle / pièce</div></div>
+      <div class="stat"><div class="num">1 500 €</div><div class="lbl">budget matériel max</div></div>
+      <div class="stat"><div class="num">8</div><div class="lbl">ingénieurs projet</div></div>
+    </div>
+    <div class="scroll-cue"><i class="fa-solid fa-angles-down"></i> Défiler pour découvrir le projet</div>
+  </div>
+</section>
+
+<!-- =================== 01 · CONTEXTE & OBJECTIFS =================== -->
+<section class="section" id="contexte">
+  <span class="sec-num">01 — Contexte &amp; Objectifs</span>
+  <h2 class="sec-title">Le <span class="accent">projet</span></h2>
+  <p class="sec-intro">STAL est un système de tri automatisé conçu dans le cadre du projet mécatronique pluridisciplinaire de l'ICAM, au carrefour de la mécanique de précision, de l'électronique embarquée et de l'automatisme.</p>
+  <div class="cards two">
+    <div class="card">
+      <h3><i class="fa-solid fa-industry"></i> Contexte</h3>
+      <p>Les usines de production recherchent un moyen de tri ergonomique, fiable et compatible avec différents environnements. Ce projet vise à développer un moyen de tri composé de <b>deux convoyeurs</b> qui allient précision et connectivité moderne.</p>
+      <p>Nous nous plaçons dans l'environnement de l'<b>industrie aéronautique</b>. Deux convoyeurs sont placés perpendiculairement l'un après l'autre afin d'assurer le tri de pièces volumineuses. Le <b>Convoyeur 1</b> emmène les pièces vers le <b>Convoyeur 2</b> (bidirectionnel), qui comporte différents bacs permettant le tri. Au passage sur le Convoyeur 1, un <b>capteur</b> identifie la conformité de la pièce selon sa forme et sa couleur, ce qui dicte au Convoyeur 2 sa position et donc la destination de la pièce.</p>
+    </div>
+    <div class="card">
+      <h3><i class="fa-solid fa-bullseye"></i> Objectifs</h3>
+      <ul class="tiret">
+        <li>Trier les pièces mécaniques en fonction de leur conformité</li>
+        <li>Desservir deux postes de travail différents et une zone rebut</li>
+        <li>Garantir la précision et la rapidité du système</li>
+        <li>Offrir une structure adaptée au poste de travail (surface occupée, ergonomie)</li>
+        <li>Assurer la compatibilité avec la pièce désirée</li>
+        <li>Intégrer des technologies avancées (reconnaissance forme &amp; couleur, IA)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 02 · CRITÈRES D'ACCEPTATION & DIAGRAMMES =================== -->
+<section class="section" id="criteres">
+  <span class="sec-num">02 — Critères d'acceptation &amp; Diagrammes</span>
+  <h2 class="sec-title">Critères &amp; <span class="accent">diagrammes</span></h2>
+  <p class="sec-intro">Traduction des objectifs en exigences mesurables, et analyse fonctionnelle du besoin. Cliquez sur une image pour l'afficher en grand.</p>
+
+  <h3 class="sub-head"><i class="fa-solid fa-clipboard-check"></i> Critères d'acceptation (extrait)</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fonction</th><th>Critère</th><th>Valeur cible</th><th>Vérification</th></tr></thead>
+      <tbody>
+        <tr><td>FP1 — Transporter</td><td>Vitesse de déplacement</td><td>0,2 à 0,5 m/s</td><td>Chronométrage</td></tr>
+        <tr><td>FP1 — Transporter</td><td>Fiabilité du transfert</td><td>98 % sans chute ni blocage</td><td>Test sur 50 cycles</td></tr>
+        <tr><td>FC1 — Opérateur</td><td>Interface simple</td><td>&lt; 3 actions pour lancer/arrêter</td><td>Test utilisateur</td></tr>
+        <tr><td>FC1 — Opérateur</td><td>Arrêt d'urgence</td><td>Accessible &lt; 1 s</td><td>Inspection</td></tr>
+        <tr><td>FC3 — Énergie</td><td>Alimentation</td><td>230 V AC / 50 Hz</td><td>Test d'alimentation</td></tr>
+        <tr><td>FC4 — Environnement</td><td>Encombrement au sol</td><td>≤ 3 × 3 m</td><td>Mesure plan / réel</td></tr>
+        <tr><td>FC5 — Pièce</td><td>Dimensions / masse</td><td>≤ 20 cm³ / ≤ 1 kg</td><td>Test physique</td></tr>
+        <tr><td>FC6 — Zone de tri</td><td>Précision du tri</td><td>98 % correct sur 50 pièces</td><td>Test fonctionnel</td></tr>
+        <tr><td>FC6 — Zone de tri</td><td>Temps de tri</td><td>4 s entre détection et orientation</td><td>Chronométrage</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-head" style="margin-top:34px;"><i class="fa-solid fa-diagram-project"></i> Diagrammes &amp; analyse fonctionnelle</h3>
+  <div class="media-grid">
+    <div class="media-card"><img src="Bête à cornes.PNG" alt="Bête à cornes"><div class="cap"><b>Bête à cornes</b> — analyse du besoin</div></div>
+    <div class="media-card"><img src="Diagramme de pieuvre.PNG" alt="Diagramme pieuvre"><div class="cap"><b>Diagramme pieuvre</b> — fonctions</div></div>
+    <div class="media-card"><img src="Diagramme ishikawa.PNG" alt="Ishikawa"><div class="cap"><b>Ishikawa</b> — causes de dysfonctionnement</div></div>
+    <div class="media-card"><img src="Arbre systeme.PNG" alt="Arbre système"><div class="cap"><b>Arbre système</b> — architecture générale</div></div>
+    <div class="media-card"><img src="Arbre fonctionnel.PNG" alt="Arbre fonctionnel"><div class="cap"><b>Arbre fonctionnel</b> — processus de tri</div></div>
+    <div class="media-card"><img src="2 convoyeurs.jpg" alt="Schéma 2 convoyeurs"><div class="cap"><b>Schéma</b> — implantation des 2 convoyeurs</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 03 · ÉQUIPE =================== -->
+<section class="section" id="equipe">
+  <span class="sec-num">03 — L'équipe projet</span>
+  <h2 class="sec-title">Les <span class="accent">ingénieurs</span></h2>
+  <p class="sec-intro">Huit étudiants ingénieurs ICAM (promotion 2027) aux rôles complémentaires : gestion de projet, mécanique, électricité, data, web et automatisme.</p>
+  <div class="team-grid">
+    <div class="member"><img src="photo ibrahim.jpeg" alt="Ibrahim Yigit"><h3>Ibrahim YIGIT</h3><div class="role">Chef de projet</div><a class="mail" href="mailto:ibrahim.yigit@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="photo luca.jpg" alt="Luca Falzone"><h3>Luca FALZONE</h3><div class="role">Project Management Officer</div><a class="mail" href="mailto:luca.falzone@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="photo guerand.jpg" alt="Guérand Mothe"><h3>Guérand MOTHE</h3><div class="role">Ingénieur projet électricité</div><a class="mail" href="mailto:guerand.mothe@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="photo lucas.jpeg" alt="Lucas Deshayes"><h3>Lucas DESHAYES</h3><div class="role">Ingénieur projet web</div><a class="mail" href="mailto:lucas.deshayes@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="photo loic.PNG" alt="Loïc Chantrel"><h3>Loïc CHANTREL</h3><div class="role">Ingénieur projet data</div><a class="mail" href="mailto:loic.chantrel@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="photo paul.jpg" alt="Paul Gourlin"><h3>Paul GOURLIN</h3><div class="role">Ingénieur projet</div><a class="mail" href="mailto:paul.gourlin@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="photo alban.jpg" alt="Alban Huet"><h3>Alban HUET</h3><div class="role">Ingénieur projet</div><a class="mail" href="mailto:alban.huet@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+    <div class="member"><img src="Photo pierre.jpeg" alt="Pierre De Wavrechin"><h3>Pierre DE WAVRECHIN</h3><div class="role">Ingénieur projet</div><a class="mail" href="mailto:pierre.dewavrechin@2027.icam.fr"><i class="fa-solid fa-envelope"></i> Mail</a></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 04 · CAHIER DES CHARGES =================== -->
+<section class="section" id="cdc">
+  <span class="sec-num">04 — Cahier des charges</span>
+  <h2 class="sec-title">Spécifications <span class="accent">du projet</span></h2>
+  <p class="sec-intro">Les fonctions, contraintes, hypothèses et risques qui définissent le périmètre du système STAL.</p>
+
+  <div class="cards two">
+    <div class="card">
+      <h3><i class="fa-solid fa-star"></i> Fonctions principales</h3>
+      <p><b>FP1 —</b> Trier les pièces selon la <b>couleur</b> (verte, rouge, gris, blanc) et la <b>forme</b> (cylindrique = validé, rectangulaire = rebut).</p>
+      <p><b>Précision / fluidité —</b> tri automatique avec une précision ≥ <b>98 %</b> et un flux fluide (cycle maximal de <b>20 s</b> par pièce).</p>
+    </div>
+    <div class="card">
+      <h3><i class="fa-solid fa-lock"></i> Fonctions contraintes</h3>
+      <ul class="tiret" style="font-size:14px;">
+        <li>FC1 — Gérer le flux : 1 pièce par convoyeur (cycle 20 s)</li>
+        <li>FC2 — Respecter les normes (ISO 9001, ISO 26262, ISO 12100 / CE)</li>
+        <li>FC3 — Alimentation secteur 230 V AC / 50 Hz</li>
+        <li>FC4 — S'adapter à l'environnement (poussières, T°, vibrations), dégagement 1,50 m</li>
+        <li>FC5 — Pièce ≤ 20 cm³ et ≤ 1 kg</li>
+        <li>FC6 — Zone de tri dimensionnée (≈ 0,5 m³) sans endommager la pièce</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cards two" style="margin-top:20px;">
+    <div class="card">
+      <h3><i class="fa-solid fa-circle-question"></i> Hypothèses</h3>
+      <ul class="tiret" style="font-size:14px;">
+        <li>Environnement intérieur, 10 °C à 40 °C, HR &lt; 70 %</li>
+        <li>Alimentation 230 V AC / 50 Hz</li>
+        <li>Espace libre ≥ 1,50 m autour du convoyeur</li>
+        <li>Pièces ≤ 20 cm³ et ≤ 1 kg</li>
+        <li>1 seule pièce à la fois par convoyeur (cycle ≤ 20 s)</li>
+        <li>Tri dans des bacs fixes en bout de ligne + bac rebut près du convoyeur 1</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><i class="fa-solid fa-triangle-exclamation"></i> Risques identifiés</h3>
+      <ul class="tiret" style="font-size:14px;">
+        <li>Retard de livraison de composants (moteurs, capteurs, profilés)</li>
+        <li>Mauvaise détection (capteurs sales, mal calibrés / positionnés)</li>
+        <li>Blocage mécanique à l'intersection des convoyeurs</li>
+        <li>Surchauffe des moteurs / cartes en fonctionnement prolongé</li>
+        <li>Erreur de tri (mauvais bac) → tri manuel correctif</li>
+        <li>Usure de la bande → glissement des pièces</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cards two" style="margin-top:20px;">
+    <div class="card"><h3><i class="fa-solid fa-box"></i> Livrables</h3><ul class="tiret" style="font-size:14px;"><li>Prototype du système</li><li>Schéma technique (capteur, convoyeur…)</li><li>Rapport de tests de performance</li><li>Notice d'utilisation</li></ul></div>
+    <div class="card"><h3><i class="fa-solid fa-flag"></i> Synthèse &amp; limites</h3><ul class="tiret" style="font-size:14px;"><li>Objectif : système de tri automatisé</li><li>Budget ≤ 1 500 €</li><li>Hors périmètre : automatisation de l'acheminement/dégagement</li><li>Ressources : 7 ingénieurs projet</li></ul></div>
+  </div>
+
+  <div class="btn-row">
+    <a class="btn-dl primary" href="CdCF - 2 Convoyeurs - Team Ibrahim - STAL - revuJD.pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i> Cahier des charges fonctionnel (PDF)</a>
+    <a class="btn-dl ghost" href="Choix des materiaux - Team Ibrahim - STAL.pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i> Étude des matériaux (PDF)</a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 05 · DÉMARCHE =================== -->
+<section class="section" id="demarche">
+  <span class="sec-num">05 — Démarche suivie</span>
+  <h2 class="sec-title">Notre <span class="accent">méthodologie</span></h2>
+  <p class="sec-intro">Une démarche d'ingénierie structurée, de l'analyse du besoin jusqu'à la fabrication et la validation du prototype.</p>
+  <div class="timeline">
+    <div class="tl-item done"><div class="dot">1</div><h4>Analyse du besoin &amp; cahier des charges</h4><p>Définition des fonctions, contraintes et critères d'acceptation (bête à cornes, pieuvre, FP/FC). Identification des hypothèses, risques et livrables.</p></div>
+    <div class="tl-item done"><div class="dot">2</div><h4>Modélisation 3D (CAO)</h4><p>Conception de l'assemblage des deux convoyeurs perpendiculaires, des rouleaux d'entraînement, supports, bras d'éjection et équerres de liaison.</p></div>
+    <div class="tl-item done"><div class="dot">3</div><h4>Sélection des matériaux</h4><p>Comparaison multicritère (rigidité, masse, coût, CO₂, recyclabilité) pour chaque composant, et choix d'une solution optimisée.</p></div>
+    <div class="tl-item done"><div class="dot">4</div><h4>Intégration &amp; pilotage</h4><p>Choix et câblage de l'électronique (capteur IR, caméra, moteurs pas-à-pas, servomoteur), puis programmation de la séquence de tri sur Arduino.</p></div>
+    <div class="tl-item done"><div class="dot">5</div><h4>Simulations &amp; validation</h4><p>Analyses statiques par éléments finis (contraintes, déformations, déplacements) sur la bande et le châssis.</p></div>
+    <div class="tl-item done"><div class="dot">6</div><h4>Fabrication &amp; assemblage</h4><p>Impression 3D des pièces, usinage des profilés, assemblage du prototype et tests réels (moteurs, capteurs, caméra, IA).</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 06 · CHOIX TECHNIQUES, MATÉRIAUX & FORMES =================== -->
+<section class="section" id="choix">
+  <span class="sec-num">06 — Choix techniques, matériaux &amp; formes</span>
+  <h2 class="sec-title">Décisions <span class="accent">d'ingénierie</span></h2>
+  <p class="sec-intro">Chaque composant a été dimensionné puis associé au matériau et à la forme les plus adaptés à sa fonction, dans le respect du budget et des contraintes industrielles.</p>
+
+  <h3 class="sub-head"><i class="fa-solid fa-layer-group"></i> Choix des matériaux par composant</h3>
+  <div class="cards three">
+    <div class="card"><h3>Châssis</h3><p><b>Aluminium 6063-T5</b> (profilés 40×40).</p><p>Meilleur compromis rigidité / poids / assemblage, profilés disponibles et faciles à monter.</p><span class="pill">Retenu</span></div>
+    <div class="card"><h3>Bande convoyeur</h3><p><b>Plastique transparent</b>.</p><p>Bande translucide pour le transport des pièces ; laisse passer la lumière, ce qui facilite la détection par capteur et caméra.</p><span class="pill">Retenu</span></div>
+    <div class="card"><h3>Support de bande</h3><p><b>PLA</b> (impression 3D).</p><p>Guide la bande du convoyeur ; économique et rapide à produire pour le prototype.</p><span class="pill">Retenu</span></div>
+    <div class="card"><h3>Pièces imprimées</h3><p><b>PLA</b> (axes, support capteur, bras d'éjection).</p><p>Économique et rapide à imprimer en 3D, idéal pour le prototype.</p><span class="pill">Retenu</span></div>
+    <div class="card"><h3>Équerres de liaison</h3><p><b>Aluminium 6063-T5</b> (même alliage que le profilé).</p><p>Assemblent les profilés de la structure de façon rigide, en cohérence avec le châssis.</p><span class="pill">Retenu</span></div>
+    <div class="card"><h3>Fixations d'axes</h3><p><b>PLA</b> (fixations droite &amp; gauche).</p><p>Maintiennent les axes des rouleaux, imprimées en 3D pour s'adapter à la géométrie.</p><span class="pill">Retenu</span></div>
+  </div>
+
+  <h3 class="sub-head" style="margin-top:34px;"><i class="fa-solid fa-list-ol"></i> Nomenclature des composants</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>N°</th><th>Composant</th><th>Qté</th><th>Matière</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Bande du convoyeur</td><td>2</td><td>Plastique transparent</td></tr>
+        <tr><td>2</td><td>Support de bande</td><td>2</td><td>PLA</td></tr>
+        <tr><td>3</td><td>Support capteur</td><td>6</td><td>PLA</td></tr>
+        <tr><td>4</td><td>Fixation droite axe</td><td>2</td><td>PLA</td></tr>
+        <tr><td>5</td><td>Profilé 40×40×830</td><td>4</td><td>Aluminium 6063-T5</td></tr>
+        <tr><td>6</td><td>Équerre de liaison</td><td>8</td><td>Aluminium 6063-T5</td></tr>
+        <tr><td>7</td><td>Axe 1 convoyeur</td><td>4</td><td>PLA</td></tr>
+        <tr><td>8</td><td>Bras d'éjection</td><td>1</td><td>PLA</td></tr>
+        <tr><td>9</td><td>Fixation gauche axe</td><td>2</td><td>PLA</td></tr>
+        <tr><td>10</td><td>Profilé 40×40×100</td><td>4</td><td>Aluminium 6063-T5</td></tr>
+        <tr><td>11</td><td>Axe 2 convoyeur</td><td>4</td><td>PLA</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-head" style="margin-top:34px;"><i class="fa-solid fa-microchip"></i> Composants électroniques</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>N°</th><th>Composant</th><th>Référence / type</th><th>Qté</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Caméra de vision</td><td>ESP32-CAM</td><td>1</td></tr>
+        <tr><td>2</td><td>Capteur infrarouge (IR)</td><td>FC-51</td><td>6</td></tr>
+        <tr><td>3</td><td>Moteur pas-à-pas</td><td>NEMA 17 — 17HS19-20004S1</td><td>2</td></tr>
+        <tr><td>4</td><td>Servomoteur</td><td>MG996R</td><td>1</td></tr>
+        <tr><td>5</td><td>Bande LED</td><td>Éclairage / signalisation</td><td>1</td></tr>
+        <tr><td>6</td><td>Carte de commande</td><td>Arduino UNO</td><td>1</td></tr>
+        <tr><td>7</td><td>Driver moteur pas-à-pas</td><td>TB6600</td><td>2</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="sub-head" style="margin-top:34px;"><i class="fa-solid fa-cube"></i> Choix des formes (modélisation 3D) — cliquez pour agrandir</h3>
+  <div class="media-grid">
+    <div class="media-card"><img src="Partie A rouleau avec moteur.png" alt="Partie A rouleau avec moteur"><div class="cap"><b>Partie A rouleau avec moteur</b></div></div>
+    <div class="media-card"><img src="Partie B rouleau avec moteur.png" alt="Partie B rouleau avec moteur"><div class="cap"><b>Partie B rouleau avec moteur</b></div></div>
+    <div class="media-card"><img src="Support rouleau avec moteur.png" alt="Support rouleau avec moteur"><div class="cap"><b>Support rouleau avec moteur</b></div></div>
+    <div class="media-card"><img src="Support rouleau sans moteur.png" alt="Support rouleau sans moteur"><div class="cap"><b>Support rouleau sans moteur</b></div></div>
+    <div class="media-card"><img src="Support rouleau.png" alt="Support rouleau"><div class="cap"><b>Support rouleau</b></div></div>
+  </div>
+
+  <h3 class="sub-head" style="margin-top:34px;"><i class="fa-solid fa-screwdriver-wrench"></i> Pièces conçues (CAO) — cliquez pour agrandir</h3>
+  <div class="media-grid">
+    <div class="media-card"><img src="Piece concue - support roulement.jpg" alt="Support de roulement"><div class="cap"><b>Support de roulement (palier)</b> — vues SolidWorks</div></div>
+    <div class="media-card"><img src="Piece concue - guide glissiere.jpg" alt="Guide à glissière"><div class="cap"><b>Guide / support à glissière</b> — vues SolidWorks</div></div>
+    <div class="media-card"><img src="Piece concue - accouplement rouleau.jpg" alt="Accouplement de rouleau"><div class="cap"><b>Accouplement de rouleau</b> — vues SolidWorks</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 07 · CAHIER DE CONCEPTION =================== -->
+<section class="section" id="conception">
+  <span class="sec-num">07 — Cahier de conception</span>
+  <h2 class="sec-title">Cahier de <span class="accent">conception</span></h2>
+  <p class="sec-intro">Le dossier de conception détaillé : dimensionnement, plans, mises en plan et assemblage du système. Cliquez sur une image pour l'afficher en grand.</p>
+
+  <div class="cards two">
+    <div class="card">
+      <h3><i class="fa-solid fa-book"></i> Dossier complet</h3>
+      <p>Le cahier de conception rassemble l'ensemble des études techniques, dimensionnements et choix justifiés du projet STAL.</p>
+      <div class="btn-row">
+        <a class="btn-dl primary" href="Cahier de conception.pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i> Ouvrir le cahier de conception</a>
+        <a class="btn-dl ghost" href="Assemblage complet.pdf" target="_blank"><i class="fa-solid fa-cubes"></i> Plan d'assemblage complet</a>
+      </div>
+    </div>
+    <div class="card">
+      <h3><i class="fa-solid fa-ruler-combined"></i> Mises en plan (dessins techniques)</h3>
+      <ul class="tiret" style="font-size:14px;">
+        <li><a href="Profilé Aluminium 40x40.pdf" target="_blank" style="color:var(--icam-orange);text-decoration:none;">Profilé aluminium 40×40</a></li>
+        <li><a href="Support capteur.pdf" target="_blank" style="color:var(--icam-orange);text-decoration:none;">Support capteur</a></li>
+        <li><a href="Fixation 2 roulement.pdf" target="_blank" style="color:var(--icam-orange);text-decoration:none;">Fixation 2 roulements</a></li>
+        <li><a href="2 convoyeurs.pdf" target="_blank" style="color:var(--icam-orange);text-decoration:none;">Ensemble 2 convoyeurs</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="media-grid" style="margin-top:24px;">
+    <div class="media-card"><img src="Assemblage complet.jpg" alt="Assemblage complet"><div class="cap"><b>Assemblage complet</b></div></div>
+    <div class="media-card"><img src="Fixation 2 roulement.jpg" alt="Fixation roulements"><div class="cap"><b>Fixation 2 roulements</b></div></div>
+    <div class="media-card"><img src="Image_pièce_mecatro_1.jpg" alt="Pièce 1"><div class="cap"><b>Pièce à trier</b> n°1</div></div>
+    <div class="media-card"><img src="Image_pièce_mecatro_2.jpg" alt="Pièce 2"><div class="cap"><b>Pièce à trier</b> n°2</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 08 · SIMULATIONS NUMÉRIQUES =================== -->
+<section class="section" id="simulations">
+  <span class="sec-num">08 — Simulations numériques</span>
+  <h2 class="sec-title">Simulations &amp; <span class="accent">validation</span></h2>
+  <p class="sec-intro">Analyses statiques par éléments finis réalisées pour valider la tenue mécanique des pièces critiques (contraintes de Von Mises, déformations, déplacements). Cliquez sur une image pour l'afficher en grand.</p>
+  <div class="media-grid">
+    <div class="media-card"><img src="Contraintes bande.png" alt="Contraintes bande"><div class="cap"><b>Contraintes</b> — bande du convoyeur (Von Mises)</div></div>
+    <div class="media-card"><img src="Deformation bande.png" alt="Déformation bande"><div class="cap"><b>Déformation</b> — bande du convoyeur</div></div>
+    <div class="media-card"><img src="Deplacement bande.png" alt="Déplacement bande"><div class="cap"><b>Déplacement</b> — bande du convoyeur</div></div>
+    <div class="media-card"><img src="Contraintes pied.png" alt="Contraintes"><div class="cap"><b>Contraintes</b> — élément de structure</div></div>
+    <div class="media-card"><img src="Deformation pied.png" alt="Déformation"><div class="cap"><b>Déformation</b> — élément de structure</div></div>
+    <div class="media-card"><img src="Deplacement pied.png" alt="Déplacement"><div class="cap"><b>Déplacement</b> — élément de structure</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 09 · AVANCEMENT =================== -->
+<section class="section" id="avancement">
+  <span class="sec-num">09 — Avancement du projet</span>
+  <h2 class="sec-title">État <span class="accent">d'avancement</span></h2>
+  <p class="sec-intro">Suivi des grandes échéances et des étapes franchies du projet.</p>
+
+  <div class="progress-wrap" style="padding-top:6px;">
+    <div class="progress-label"><span>Avancement global du projet</span><span><b id="pctTxt">100%</b></span></div>
+    <div class="progress"><div class="bar" id="progBar" style="width:100%;"></div></div>
+  </div>
+
+  <h3 class="sub-head"><i class="fa-solid fa-calendar-check"></i> Échéances</h3>
+  <div class="timeline">
+    <div class="tl-item done"><div class="dot"><i class="fa-solid fa-check"></i></div><span class="when">20 octobre</span><h4>Présentation &amp; Poster</h4><div class="valid"><i class="fa-solid fa-circle-check"></i> Validé</div></div>
+    <div class="tl-item done"><div class="dot"><i class="fa-solid fa-check"></i></div><span class="when">03 novembre</span><h4>Cahier des charges &amp; Planning</h4><div class="valid"><i class="fa-solid fa-circle-check"></i> Validé</div></div>
+    <div class="tl-item done"><div class="dot"><i class="fa-solid fa-check"></i></div><span class="when">19 novembre</span><h4>Revue 1</h4><div class="valid"><i class="fa-solid fa-circle-check"></i> Validé</div></div>
+    <div class="tl-item done"><div class="dot"><i class="fa-solid fa-check"></i></div><span class="when">26 novembre</span><h4>Dépôt du rapport (Cahier de conception)</h4><div class="valid"><i class="fa-solid fa-circle-check"></i> Validé</div></div>
+    <div class="tl-item done"><div class="dot"><i class="fa-solid fa-check"></i></div><span class="when">11 décembre</span><h4>Soutenance 1</h4><div class="valid"><i class="fa-solid fa-circle-check"></i> Validé</div></div>
+  </div>
+
+  <div class="steps-grid">
+    <div class="step-card"><div class="ic"><i class="fa-solid fa-cube"></i></div><h5>Modélisation 3D</h5><div class="state">✔ Terminé</div></div>
+    <div class="step-card"><div class="ic"><i class="fa-solid fa-industry"></i></div><h5>Matériaux</h5><div class="state">✔ Terminé</div></div>
+    <div class="step-card"><div class="ic"><i class="fa-solid fa-code-branch"></i></div><h5>Intégration &amp; pilotage</h5><div class="state">✔ Terminé</div></div>
+    <div class="step-card"><div class="ic"><i class="fa-solid fa-flask-vial"></i></div><h5>Simulations</h5><div class="state">✔ Terminé</div></div>
+    <div class="step-card"><div class="ic"><i class="fa-solid fa-screwdriver-wrench"></i></div><h5>Fabrication</h5><div class="state">✔ Terminé</div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 10 · RÉSULTATS & DIFFICULTÉS (avant le code) =================== -->
+<section class="section" id="resultats">
+  <span class="sec-num">10 — Résultats &amp; Difficultés</span>
+  <h2 class="sec-title">Résultat <span class="accent">obtenu</span></h2>
+  <p class="sec-intro">Cette partie présente le prototype réalisé, les performances mesurées et le retour d'expérience de l'équipe.</p>
+
+  <div style="margin-bottom:30px;">
+    <h3 style="color:var(--icam-orange);margin-bottom:12px;"><i class="fa-solid fa-flag-checkered"></i> Ce que nous avons obtenu</h3>
+    <p style="color:var(--muted);">Le prototype des deux convoyeurs perpendiculaires a été assemblé et piloté par une carte Arduino. Le capteur infrarouge détecte le passage d'une pièce, déclenche l'arrêt du tapis d'entrée, l'action du bras d'éjection (servomoteur MG996R) puis la séquence d'évacuation sur le second convoyeur. Le système complet valide la chaîne détection → tri → évacuation, avec une <b>précision de tri de 99 %</b>, un <b>temps de cycle de 15 s</b> et une <b>fiabilité de transfert de 98 %</b>.</p>
+  </div>
+
+  <!-- ====== VIDÉO DE DÉMONSTRATION FINALE ====== -->
+  <div style="margin:6px auto 34px;max-width:780px;">
+    <h3 class="sub-head" style="text-align:center;justify-content:center;"><i class="fa-solid fa-circle-play"></i> Démonstration finale — le système en fonctionnement</h3>
+    <video controls preload="metadata" playsinline style="width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:#000;box-shadow:0 16px 44px rgba(0,0,0,.45);" src="Demonstration finale.mp4"></video>
+    <div class="cap" style="text-align:center;margin-top:10px;color:var(--muted);font-size:14px;">Le système complet en action : détection de la pièce, tri selon forme/couleur, puis évacuation — tout fonctionne de bout en bout.</div>
+  </div>
+
+  <div class="cards three" style="margin-bottom:18px;">
+    <div class="card">
+      <h4 style="color:var(--icam-orange);">Objectif : précision de tri</h4>
+      <p style="color:var(--muted);">Visé : 98 % · <b style="color:var(--icam-orange);">Mesuré : 99 %</b></p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--icam-orange);">Objectif : temps de cycle</h4>
+      <p style="color:var(--muted);">Visé : ≤ 20 s · <b style="color:var(--icam-orange);">Mesuré : 15 s</b></p>
+    </div>
+    <div class="card">
+      <h4 style="color:var(--icam-orange);">Objectif : fiabilité transfert</h4>
+      <p style="color:var(--muted);">Visé : 98 % sans chute · <b style="color:var(--icam-orange);">Mesuré : 98 %</b></p>
+    </div>
+  </div>
+
+  <h2 class="sec-title" style="margin-top:46px;">Difficultés <span class="accent">rencontrées</span></h2>
+  <p class="sec-intro">Les principaux obstacles techniques rencontrés au cours du projet, et les solutions que nous avons mises en place pour les surmonter.</p>
+  <div class="cards two" style="gap:18px;">
+    <div class="card"><h3><i class="fa-solid fa-camera"></i> Vision &amp; détection</h3><h4>Caméra ESP32 peu fiable</h4><p>Malgré un entraînement intensif du modèle, la caméra ESP32 ne parvenait pas à détecter les pièces selon leur forme et leur couleur. Nous avons dû la remplacer par la caméra d'un téléphone pour fiabiliser la reconnaissance.</p></div>
+    <div class="card"><h3><i class="fa-solid fa-scissors"></i> Usinage</h3><h4>Découpe des profilés imprécise</h4><p>La découpe des profilés manquait de précision à cause des machines disponibles à l'atelier, ce qui a compliqué l'alignement et l'assemblage de la structure.</p></div>
+    <div class="card"><h3><i class="fa-solid fa-bolt"></i> Motorisation</h3><h4>Couple moteur insuffisant</h4><p>Le couple des moteurs n'était pas assez puissant pour entraîner le tapis. Nous avons changé de tapis : avec une épaisseur plus faible (et donc moins de résistance), le problème a été résolu.</p></div>
+    <div class="card"><h3><i class="fa-solid fa-ruler-combined"></i> Conception vs réalité</h3><h4>Écart conception / réalité &amp; communication</h4><p>Des écarts sont apparus entre la conception (CAO) et la réalité du montage, accentués par un manque de communication au sein de l'équipe. Des points réguliers ont été nécessaires pour réajuster.</p></div>
+    <div class="card"><h3><i class="fa-solid fa-screwdriver-wrench"></i> Approvisionnement</h3><h4>Manque de visserie</h4><p>Le manque de visserie adaptée a ralenti plusieurs phases d'assemblage et nous a obligés à adapter certaines fixations.</p></div>
+    <div class="card"><h3><i class="fa-solid fa-print"></i> Impression 3D</h3><h4>Matériel &amp; disponibilité</h4><p>L'impression 3D a posé plusieurs problèmes : pannes et réglages de l'imprimante, améliorations à apporter sur les pièces, et surtout une disponibilité limitée des imprimantes qui a allongé les délais.</p></div>
+    <div class="card"><h3><i class="fa-solid fa-desktop"></i> Outils informatiques</h3><h4>Pannes de Citrix</h4><p>L'environnement Citrix, utilisé pour accéder aux logiciels de CAO et de calcul, a connu plusieurs pannes qui ont interrompu le travail et impacté le planning.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 11 · CODE =================== -->
+<section class="section" id="code">
+  <span class="sec-num">11 — Code &amp; pilotage</span>
+  <h2 class="sec-title">Notre <span class="accent">code</span></h2>
+  <p class="sec-intro">Programme Arduino de pilotage : lecture du capteur infrarouge, commande des deux moteurs pas-à-pas (tapis) et du servomoteur du bras d'éjection.</p>
+
+  <div class="code-block">
+    <div class="code-head">
+      <span class="title"><i class="fa-brands fa-arduino"></i> FINAL_2.ino — Pilotage des 2 tapis, servo d'éjection et tri par capteurs</span>
+      <button class="copy" onclick="copyCode(this)">Copier le code</button>
+    </div>
+    <pre><code id="arduinoCode">#include &lt;AccelStepper.h&gt;
+#include &lt;Servo.h&gt; 
+
+// --- CONFIGURATION DES BROCHES ---
+const int PUL1 = 9;
+const int DIR1 = 7;
+const int ENA1 = 10;
+const int CAPTEUR_DEB = 2;  
+const int CAPTEUR_RAL = 3;  
+const int CAPTEUR_FIN = A0; 
+
+const int BROCHE_SERVO = A1; 
+
+const int PUL2 = 6;
+const int DIR2 = 5;
+const int ENA2 = 4;
+const int CAPTEUR_AB = 11;  
+const int CAPTEUR_BR = 13;  
+const int CAPTEUR_INCONNU = 12; 
+
+// --- VITESSES ---
+const int VITESSE_NORMALE = -1000;
+const int VITESSE_LENTE = -250;
+const int VITESSE_TRI = 1000; 
+
+// --- INITIALISATION ACTIONNEURS ---
+AccelStepper moteur1(AccelStepper::DRIVER, PUL1, DIR1);
+AccelStepper moteur2(AccelStepper::DRIVER, PUL2, DIR2);
+Servo servoEjection; 
+
+// --- VARIABLES D'ÉTAT MOTEUR 1 ---
+bool moteur1EnMarche = false; 
+bool attenteRalentissement = false; 
+unsigned long chronoAttenteRalentissement = 0;
+bool modeRalenti = false;           
+unsigned long tempsDebutRalenti = 0; 
+bool attenteArret = false;          
+unsigned long chronoAttenteArret = 0;
+
+// --- VARIABLES D'ÉTAT MOTEUR 2 &amp; PYTHON ---
+char derniereInfoPython = ' '; 
+char typePieceActive = ' ';
+
+bool moteur2EnMarche = false;
+unsigned long chronoMoteur2 = 0;
+const unsigned long SECURITE_TEMPS_M2 = 20000; 
+
+bool attenteArretM2 = false; 
+unsigned long chronoArretM2 = 0;
+
+// --- VARIABLES D'ÉTAT DU SERVOMOTEUR (MOUVEMENT FLUIDE) ---
+int positionCibleServo = 140;      // Où le servo doit aller
+int positionActuelleServo = 140;   // Où se trouve le servo actuellement
+unsigned long chronoServo = 0;
+const int VITESSE_SERVO = 15;      // Millisecondes d'attente entre chaque degré
+
+void setup() {
+  Serial.begin(9600); 
+  
+  pinMode(ENA1, OUTPUT); digitalWrite(ENA1, HIGH); 
+  pinMode(ENA2, OUTPUT); digitalWrite(ENA2, HIGH); 
+
+  pinMode(CAPTEUR_DEB, INPUT_PULLUP);
+  pinMode(CAPTEUR_RAL, INPUT_PULLUP);
+  pinMode(CAPTEUR_FIN, INPUT_PULLUP); 
+  pinMode(CAPTEUR_AB, INPUT_PULLUP);
+  pinMode(CAPTEUR_BR, INPUT_PULLUP);
+  pinMode(CAPTEUR_INCONNU, INPUT_PULLUP);
+
+  moteur1.setMaxSpeed(1000); moteur1.setSpeed(0); 
+  moteur2.setMaxSpeed(1000); moteur2.setSpeed(0); 
+
+  servoEjection.attach(BROCHE_SERVO); 
+  servoEjection.write(positionActuelleServo);           
+  delay(1000);                        
+
+  Serial.println("Arduino Pret.");
+}
+
+void loop() {
+  
+  // ---------------------------------------------------------
+  // 1. ÉCOUTE PYTHON (Mémorisation exclusive des actions)
+  // ---------------------------------------------------------
+  while (Serial.available() &gt; 0) {
+    char message = Serial.read(); 
+    if (message == 'A' || message == 'B' || message == 'E') {
+      derniereInfoPython = message;
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 2. GESTION AUTONOME DU TAPIS 1
+  // ---------------------------------------------------------
+  int etatCapteurDeb = digitalRead(CAPTEUR_DEB);
+  int etatCapteurRal = digitalRead(CAPTEUR_RAL);
+  int etatCapteurFin = digitalRead(CAPTEUR_FIN);
+
+  // Démarrage
+  if (etatCapteurDeb == LOW &amp;&amp; !moteur1EnMarche) {
+    moteur1EnMarche = true; 
+    modeRalenti = false; attenteRalentissement = false; attenteArret = false;
+    moteur1.setSpeed(VITESSE_NORMALE); 
+  } 
+
+  // Ralentissement (Détection)
+  if (etatCapteurRal == LOW &amp;&amp; moteur1EnMarche &amp;&amp; !modeRalenti &amp;&amp; !attenteRalentissement) {
+    attenteRalentissement = true; 
+    chronoAttenteRalentissement = millis();     
+  }
+  // Ralentissement (Action après 500ms)
+  if (attenteRalentissement &amp;&amp; millis() - chronoAttenteRalentissement &gt;= 500) { 
+    attenteRalentissement = false; 
+    modeRalenti = true; 
+    tempsDebutRalenti = millis(); 
+    moteur1.setSpeed(VITESSE_LENTE);          
+  }
+  // Fin du Ralenti (Après 6s)
+  if (modeRalenti &amp;&amp; millis() - tempsDebutRalenti &gt;= 6000) {
+    modeRalenti = false; 
+    moteur1.setSpeed(VITESSE_NORMALE); 
+  }
+
+  // Arrêt (Détection)
+  if (etatCapteurFin == LOW &amp;&amp; moteur1EnMarche &amp;&amp; !attenteArret) {
+    attenteArret = true; 
+    chronoAttenteArret = millis();               
+  }
+  
+  // Arrêt (Action après 1s) ET Passage de relais au Moteur 2
+  if (attenteArret &amp;&amp; millis() - chronoAttenteArret &gt;= 1000) { 
+    attenteArret = false; 
+    moteur1EnMarche = false; 
+    moteur1.setSpeed(0); 
+
+    // --- DÉCLENCHEMENT DU MOTEUR 2 SELON L'INFO MÉMORISÉE ---
+    if (derniereInfoPython == 'A') {
+      typePieceActive = 'A';
+      moteur2EnMarche = true;
+      moteur2.setSpeed(VITESSE_TRI); 
+      chronoMoteur2 = millis();
+      derniereInfoPython = ' '; 
+    } 
+    else if (derniereInfoPython == 'B') {
+      typePieceActive = 'B';
+      moteur2EnMarche = true;
+      moteur2.setSpeed(-VITESSE_TRI); 
+      chronoMoteur2 = millis();
+      derniereInfoPython = ' '; 
+    } 
+    else if (derniereInfoPython == 'E') {
+      typePieceActive = 'E';
+      moteur2EnMarche = true;
+      moteur2.setSpeed(-VITESSE_TRI); 
+      positionCibleServo = 70; // On change la cible, le servo bougera progressivement
+      chronoMoteur2 = millis();
+      derniereInfoPython = ' '; 
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 3. GESTION DU TAPIS DE TRI (MOTEUR 2)
+  // ---------------------------------------------------------
+  if (moteur2EnMarche) {
+    if (!attenteArretM2) {
+      if ((typePieceActive == 'A' || typePieceActive == 'B') &amp;&amp; 
+          (digitalRead(CAPTEUR_AB) == LOW || digitalRead(CAPTEUR_BR) == LOW)) {
+        attenteArretM2 = true;
+        chronoArretM2 = millis();
+      }
+      else if (typePieceActive == 'E' &amp;&amp; digitalRead(CAPTEUR_INCONNU) == LOW) {
+        attenteArretM2 = true;
+        chronoArretM2 = millis();
+      }
+      else if (millis() - chronoMoteur2 &gt;= SECURITE_TEMPS_M2) {
+        moteur2EnMarche = false;
+        moteur2.setSpeed(0);
+        positionCibleServo = 140; // Remise en place de sécurité
+      }
+    } 
+    else {
+      if (millis() - chronoArretM2 &gt;= 1000) {
+        moteur2EnMarche = false;
+        attenteArretM2 = false;
+        moteur2.setSpeed(0);
+        
+        if (typePieceActive == 'E') {
+          positionCibleServo = 140; // On ordonne le retour progressif
+        }
+      }
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 4. MOUVEMENT FLUIDE DU SERVOMOTEUR (SANS DELAY)
+  // ---------------------------------------------------------
+  if (millis() - chronoServo &gt;= VITESSE_SERVO) {
+    if (positionActuelleServo &lt; positionCibleServo) {
+      positionActuelleServo++;
+      servoEjection.write(positionActuelleServo);
+      chronoServo = millis();
+    } 
+    else if (positionActuelleServo &gt; positionCibleServo) {
+      positionActuelleServo--;
+      servoEjection.write(positionActuelleServo);
+      chronoServo = millis();
+    }
+  }
+
+  // ---------------------------------------------------------
+  // 5. RAFRAÎCHISSEMENT CONTINU DES MOTEURS
+  // ---------------------------------------------------------
+  moteur1.runSpeed(); 
+  moteur2.runSpeed(); 
+}</code></pre>
+  </div>
+
+  <div style="margin-top:26px;">
+    <h3 class="sub-head"><i class="fa-solid fa-camera"></i> Vision &amp; reconnaissance forme / couleur</h3>
+    <p class="sec-intro" style="margin-bottom:18px;">La reconnaissance de la forme et de la couleur des pièces s'appuie sur une caméra couplée à un modèle de vision entraîné (Edge Impulse, exécuté via OpenVINO), l'ESP32-CAM n'ayant pas permis une détection suffisamment fiable. Le script analyse le flux vidéo en continu, applique un filtrage temporel (vote glissant sur 10 images) puis transmet l'ordre de tri à l'Arduino par liaison série : <b>A</b> / <b>B</b> pour les pièces conformes, <b>E</b> pour une pièce inconnue, <b>F</b> lorsque le tapis est vide.</p>
+    <div class="code-block">
+      <div class="code-head">
+        <span class="title"><i class="fa-brands fa-python"></i> vision_ia.py — Détection IA (OpenVINO) + liaison série Arduino</span>
+        <button class="copy" onclick="copyCode(this)">Copier le code</button>
+      </div>
+      <pre><code>import cv2
+import numpy as np
+import openvino as ov
+import os
+import serial
+import time
+
+# ====================================================================
+# ⚙️ CONFIGURATION DU SYSTÈME
+# ====================================================================
+
+# --- PARAMÈTRES DE L'INTELLIGENCE ARTIFICIELLE ---
+MODEL_PATH = "model.tflite"
+LABELS = ["Fond", "AB", "BR"]  
+CAMERA_INDEX = 1  
+CONFIDENCE_THRESHOLD = 0.40      
+SEUIL_EFFONDREMENT_FOND = 0.99  # Sensibilité maximale pour la détection des intrus/inconnus
+
+# --- PARAMÈTRES DE LA LIAISON SÉRIE (ARDUINO) ---
+USB_PORT = "COM9" 
+BAUD_RATE = 9600
+
+try:
+    print(f"🔌 Connexion à l'Arduino sur le port {USB_PORT}...")
+    arduino = serial.Serial(USB_PORT, BAUD_RATE, timeout=0.05)
+    time.sleep(2)  # Pause de sécurité pour laisser l'Arduino rebooter
+    print("✅ Arduino connecté avec succès !")
+except Exception as e:
+    print(f"⚠️ Erreur : Impossible d'ouvrir le port {USB_PORT}. Mode simulation activé.")
+    arduino = None
+
+# ====================================================================
+# 🧠 CHARGEMENT DU MODÈLE ET INITIALISATIONS
+# ====================================================================
+
+print("🔄 Chargement du modèle OpenVINO...")
+if not os.path.exists(MODEL_PATH):
+    print(f"❌ ERREUR : Le fichier '{MODEL_PATH}' est introuvable.")
+    exit()
+    
+core = ov.Core()
+model = core.read_model(MODEL_PATH)
+compiled_model = core.compile_model(model, "CPU")
+
+input_layer = compiled_model.input(0)
+output_layer = compiled_model.output(0)
+shape = input_layer.shape
+height, width = shape[1], shape[2]
+
+print("📱 Initialisation de la caméra standard...")
+cap = cv2.VideoCapture(CAMERA_INDEX)
+
+# --- VARIABLES DE SUIVI ET CHRONOMÈTRES ---
+memoire_predictions = []
+derniere_piece = None
+temps_fin_pause = 0
+verrou_envoi = False  # Drapeau de verrouillage unique par pièce
+
+# Initialisation des repères temporels pour le calcul des secondes consécutives
+temps_debut_AB = None
+temps_debut_BR = None
+temps_debut_Inconnu = None
+temps_debut_Fond = None
+
+print("🚀 Système industriel prêt. Tri en cours... (Appuie sur 'Q' pour quitter)")
+
+# ====================================================================
+# 🔄 BOUCLE PRINCIPALE DE TRAITEMENT CONTINU
+# ====================================================================
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        print("❌ Erreur : Impossible de lire le flux de la caméra.")
+        break
+
+    h_frame, w_frame = frame.shape[:2]
+
+    # 1. PRÉPARATION DE L'IMAGE POUR LE MODÈLE IA
+    img_resized = cv2.resize(frame, (width, height))
+    img_rgb = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB)
+    input_data = img_rgb.astype(np.float32) / 255.0
+    input_data = np.expand_dims(input_data, axis=0)
+
+    # 2. INFERENCE / ANALYSE PAR L'IA
+    results = compiled_model([input_data])[output_layer]
+    predictions = results[0] 
+    grid_y, grid_x, num_classes = predictions.shape
+
+    objet_trouve = False
+    intrus_trouve = False
+    meilleur_label = None
+    pire_score_fond = 1.0 
+
+    # 3. SCAN SPATIAL (CELLULE PAR CELLULE) VIA LA GRILLE FOMO
+    for y in range(grid_y):
+        for x in range(grid_x):
+            conf_fond = predictions[y, x, 0]
+            ia_voit_piece_connue = False
+            
+            # Repérage de l'effondrement local de la texture du tapis
+            if conf_fond &lt; pire_score_fond:
+                pire_score_fond = conf_fond
+            
+            # Classification des pièces connues (AB ou BR)
+            for c in range(1, num_classes):
+                confidence = predictions[y, x, c]
+                if confidence &gt; CONFIDENCE_THRESHOLD:
+                    objet_trouve = True
+                    meilleur_label = LABELS[c]
+                    ia_voit_piece_connue = True
+                    
+                    # Dessin du marqueur de pièce connue
+                    center_x = int((x + 0.5) * (w_frame / grid_x))
+                    center_y = int((y + 0.5) * (h_frame / grid_y))
+                    cv2.circle(frame, (center_x, center_y), 40, (0, 255, 0), 3)
+                    cv2.putText(frame, f"{meilleur_label} : {confidence*100:.0f}%", 
+                                (center_x - 50, center_y - 50), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 0), 2)
+
+            # Identification d'une anomalie locale (Pièce inconnue / Objet non répertorié)
+            if conf_fond &lt; SEUIL_EFFONDREMENT_FOND and not ia_voit_piece_connue:
+                intrus_trouve = True
+                center_x = int((x + 0.5) * (w_frame / grid_x))
+                center_y = int((y + 0.5) * (h_frame / grid_y))
+                cv2.circle(frame, (center_x, center_y), 20, (0, 165, 255), 2)
+
+    # Affichage de diagnostic pour calibrer la sensibilité du fond
+    cv2.putText(frame, f"Pire case Fond: {pire_score_fond*100:.1f}%", (15, 60), 
+                cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 0), 2)
+
+    # ====================================================================
+    # 4. FILTRAGE TEMPOREL ET PRISE DE DÉCISION (LOGIQUE DES VERROUS)
+    # ====================================================================
+    en_pause = time.time() &lt; temps_fin_pause
+
+    if en_pause:
+        memoire_predictions.append("Fond")
+        # Réinitialisation immédiate de tous les chronomètres pendant la pause mécanique
+        temps_debut_AB = None
+        temps_debut_BR = None
+        temps_debut_Inconnu = None
+        temps_debut_Fond = None
+        cv2.putText(frame, "⏳ EVACUATION EN COURS...", (15, h_frame - 30), 
+                    cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 165, 255), 2)
+    else:
+        if objet_trouve:
+            memoire_predictions.append(meilleur_label)
+        elif intrus_trouve:
+            memoire_predictions.append("Inconnu")
+        else:
+            memoire_predictions.append("Fond")
+
+    # Maintien d'un historique glissant de 10 frames pour l'analyse instantanée
+    if len(memoire_predictions) &gt; 10: 
+        memoire_predictions.pop(0)
+
+    votes_AB = memoire_predictions.count("AB")
+    votes_BR = memoire_predictions.count("BR")
+    votes_Fond = memoire_predictions.count("Fond")
+    votes_Inconnu = memoire_predictions.count("Inconnu")
+
+    # --- 🎯 SEUILS DE CONFIGURATION (1 itération = 1 seconde = ~30 frames) ---
+    NB_ITERATIONS_VOULUES = 3       # Temps d'observation requis pour valider une pièce (3s)
+    NB_ITERATIONS_FOND_VOULUES = 2  # Temps de stabilité requis pour valider le tapis vide (2s)
+
+    # GESTION DES CHRONOMÈTRES INDIVIDUELS
+    # Pièce AB
+    if votes_AB &gt;= 3:
+        if temps_debut_AB is None: temps_debut_AB = time.time()
+        secondes_ecoulees_AB = time.time() - temps_debut_AB
+    else:
+        temps_debut_AB = None
+        secondes_ecoulees_AB = 0
+
+    # Pièce BR
+    if votes_BR &gt;= 3:
+        if temps_debut_BR is None: temps_debut_BR = time.time()
+        secondes_ecoulees_BR = time.time() - temps_debut_BR
+    else:
+        temps_debut_BR = None
+        secondes_ecoulees_BR = 0
+
+    # Pièce Inconnu (Sensibilité accrue : 1 seule frame valide lance le chrono)
+    if votes_Inconnu &gt;= 1:
+        if temps_debut_Inconnu is None: temps_debut_Inconnu = time.time()
+        secondes_ecoulees_Inconnu = time.time() - temps_debut_Inconnu
+    else:
+        temps_debut_Inconnu = None
+        secondes_ecoulees_Inconnu = 0
+
+    # Tapis Vide (Fond)
+    if votes_Fond &gt;= 8:
+        if temps_debut_Fond is None: temps_debut_Fond = time.time()
+        secondes_ecoulees_Fond = time.time() - temps_debut_Fond
+    else:
+        temps_debut_Fond = None
+        secondes_ecoulees_Fond = 0
+
+    # Affichage dynamique des compteurs temporels en temps réel sur l'IHM
+    texte_visuel = f"Chronos -&gt; AB: {int(secondes_ecoulees_AB)}s/{NB_ITERATIONS_VOULUES}s | BR: {int(secondes_ecoulees_BR)}s/{NB_ITERATIONS_VOULUES}s | Inc: {int(secondes_ecoulees_Inconnu)}s/{NB_ITERATIONS_VOULUES}s | Fond: {int(secondes_ecoulees_Fond)}s/{NB_ITERATIONS_FOND_VOULUES}s"
+    cv2.putText(frame, texte_visuel, (15, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.45, (255, 255, 255), 2)
+
+    # APPLICATION DE LA LOGIQUE DÉCISIONNELLE
+    if not en_pause:
+        # 🔒 CAS DU SYSTÈME VERROUILLÉ : Attente d'un tapis propre et stable
+        if verrou_envoi:
+            cv2.putText(frame, f"🔒 VERROU ACTIF : Attente Tapis Vide ({int(secondes_ecoulees_Fond)}/{NB_ITERATIONS_FOND_VOULUES}s)", 
+                        (15, h_frame - 60), cv2.FONT_HERSHEY_SIMPLEX, 0.55, (0, 0, 255), 2)
+            
+            # Réouverture du système après stabilisation du fond
+            if secondes_ecoulees_Fond &gt;= NB_ITERATIONS_FOND_VOULUES and derniere_piece != "Fond":
+                if arduino is not None:
+                    arduino.write(b'F')
+                print(f"✨ [TAPIS VIDE] Stabilisé pendant {NB_ITERATIONS_FOND_VOULUES}s. Déverrouillage effectué.")
+                derniere_piece = "Fond"
+                verrou_envoi = False
+                
+        # 🟩 CAS DU SYSTÈME LIBRE : Traitement et détection des pièces
+        else:
+            # Traitement Pièce AB
+            if secondes_ecoulees_AB &gt;= NB_ITERATIONS_VOULUES and derniere_piece != "AB":
+                if arduino is not None:
+                    arduino.write(b'A')
+                print(f"✅ [DÉCLENCHEMENT] Pièce AB validée ({NB_ITERATIONS_VOULUES}s). Envoi de l'ordre 'A'.")
+                derniere_piece = "AB"
+                verrou_envoi = True  
+                temps_fin_pause = time.time() + 1.5  
+
+            # Traitement Pièce BR
+            elif secondes_ecoulees_BR &gt;= NB_ITERATIONS_VOULUES and derniere_piece != "BR":
+                if arduino is not None:
+                    arduino.write(b'B')
+                print(f"✅ [DÉCLENCHEMENT] Pièce BR validée ({NB_ITERATIONS_VOULUES}s). Envoi de l'ordre 'B'.")
+                derniere_piece = "BR"
+                verrou_envoi = True  
+                temps_fin_pause = time.time() + 1.5
+
+            # Traitement Pièce Inconnue / Intrus
+            elif secondes_ecoulees_Inconnu &gt;= NB_ITERATIONS_VOULUES and derniere_piece != "Inconnu":
+                if arduino is not None:
+                    arduino.write(b'E')
+                print(f"⚠️ [ALERTE INTRUS] Objet inconnu validé ({NB_ITERATIONS_VOULUES}s). Envoi de l'ordre 'E'.")
+                derniere_piece = "Inconnu"
+                verrou_envoi = True  
+                temps_fin_pause = time.time() + 1.5
+
+            # Maintien silencieux de l'état "Tapis Vide" hors verrou
+            elif secondes_ecoulees_Fond &gt;= NB_ITERATIONS_FOND_VOULUES and derniere_piece != "Fond":
+                if arduino is not None:
+                    arduino.write(b'F')
+                derniere_piece = "Fond"
+
+    # ====================================================================
+    # 5. RETOUR D'INFORMATION ARDUINO (CORRIGÉ)
+    # ====================================================================
+    if arduino is not None:
+        # Purge complète du tampon de réception pour éviter l'accumulation
+        while arduino.in_waiting &gt; 0:
+            try:
+                reponse_arduino = arduino.readline().decode('utf-8').strip()
+                if reponse_arduino:
+                    print(f"🤖 [ARDUINO] -&gt; {reponse_arduino}")
+            except Exception:
+                break 
+
+    # Rendu final de l'interface graphique OpenCV
+    cv2.imshow("IA - Vision Industrielle USB", frame)
+
+    # Interruption logicielle via la touche 'Q'
+    if cv2.waitKey(1) &amp; 0xFF == ord('q'):
+        break
+
+# ====================================================================
+# 6. NETTOYAGE APPRÊTÉ DES FLUX MATÉRIELS
+# ====================================================================
+if arduino is not None:
+    arduino.close()
+cap.release()
+cv2.destroyAllWindows()
+print("👋 Programme arrêté proprement. Équipements déconnectés.")</code></pre>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =================== 12 · GALERIE =================== -->
+<section class="section" id="galerie">
+  <span class="sec-num">12 — Galerie</span>
+  <h2 class="sec-title">En <span class="accent">vidéos</span></h2>
+  <p class="sec-intro">Les tests réels réalisés sur le prototype : moteurs, capteurs, caméra et entraînement de l'IA.</p>
+  <div class="media-grid">
+    <div class="media-card"><video controls preload="metadata" src="Test 1 moteur.mp4"></video><div class="cap"><b>Test moteur</b> n°1</div></div>
+    <div class="media-card"><video controls preload="metadata" src="Test 2 moteur.mp4"></video><div class="cap"><b>Test moteur</b> n°2</div></div>
+    <div class="media-card"><video controls preload="metadata" src="Test 1 capteur.mp4"></video><div class="cap"><b>Test capteur</b> n°1</div></div>
+    <div class="media-card"><video controls preload="metadata" src="Test 2 capteur.mp4"></video><div class="cap"><b>Test capteur</b> n°2</div></div>
+    <div class="media-card"><video controls preload="metadata" src="Test 1 camera.mp4"></video><div class="cap"><b>Test caméra</b> n°1</div></div>
+    <div class="media-card"><video controls preload="metadata" src="Test 2 camera.mp4"></video><div class="cap"><b>Test caméra</b> n°2</div></div>
+    <div class="media-card"><video controls preload="metadata" src="Entrainement IA.mp4"></video><div class="cap"><b>Entraînement de l'IA</b></div></div>
+  </div>
+</section>
+
+<!-- =================== FOOTER =================== -->
+<div class="Fin">
+  <h5>Contactez-nous via les liens ci-dessous pour de plus amples informations</h5>
+  <div class="socials">
+    <a href="https://www.instagram.com/lucas_dshs/" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://www.linkedin.com/in/lucas-deshayes-707158260/" target="_blank" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+  </div>
+  <p>© 2025–2026 STAL — Système de Tri Automatisé en Ligne · Projet Mécatronique ICAM · Tous droits réservés.</p>
+</div>
+
+<div class="floating-btns">
+  <button id="modeBtn" onclick="toggleMode()"><i class="fa-solid fa-circle-half-stroke"></i> Mode clair/sombre</button>
+</div>
+<a href="#accueil" class="back-to-top" id="backToTop">↑</a>
+
+<script>
+/* ---------- Menu mobile ---------- */
+function toggleMenu(){document.getElementById('navMenu').classList.toggle('open');}
+document.querySelectorAll('#navMenu a').forEach(a=>a.addEventListener('click',()=>document.getElementById('navMenu').classList.remove('open')));
+
+/* ---------- Mode clair / sombre ---------- */
+function toggleMode(){
+  document.body.classList.toggle('light');
+  document.body.classList.toggle('dark');
+  localStorage.setItem('theme', document.body.classList.contains('light')?'light':'dark');
+}
+(function(){ if(localStorage.getItem('theme')==='light'){document.body.classList.remove('dark');document.body.classList.add('light');} })();
+
+/* ---------- Pop-up contacts ---------- */
+const cm=document.getElementById('contactModal');
+document.getElementById('openContact').addEventListener('click',()=>{cm.classList.add('open');document.getElementById('navMenu').classList.remove('open');});
+document.getElementById('closeContact').addEventListener('click',()=>cm.classList.remove('open'));
+cm.addEventListener('click',e=>{if(e.target===cm)cm.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cm.classList.remove('open');});
+document.querySelectorAll('.copy[data-email]').forEach(b=>b.addEventListener('click',async()=>{
+  try{await navigator.clipboard.writeText(b.dataset.email);const o=b.textContent;b.textContent='Copié !';setTimeout(()=>b.textContent=o,1200);}catch(e){alert(b.dataset.email);}
+}));
+
+/* ---------- Copier le code ---------- */
+function copyCode(btn){
+  const block=btn.closest('.code-block');
+  const code=(block?block.querySelector('code'):document.getElementById('arduinoCode')).innerText;
+  navigator.clipboard.writeText(code).then(()=>{const o=btn.textContent;btn.textContent='Copié !';setTimeout(()=>btn.textContent=o,1200);});
+}
+
+/* ---------- Lightbox (clic = image en grand) ---------- */
+const lb=document.getElementById('lightbox');
+const lbImg=document.getElementById('lbImg');
+const lbCap=document.getElementById('lbCap');
+document.querySelectorAll('.media-card img').forEach(im=>{
+  im.addEventListener('click',()=>{
+    lbImg.src=im.getAttribute('src');
+    lbImg.alt=im.alt||'';
+    const cap=im.parentElement.querySelector('.cap');
+    lbCap.innerHTML=cap?cap.innerHTML:'';
+    lb.classList.add('open');
+  });
+});
+document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('open'));
+lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('open');});
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});
+
+/* ---------- Back to top ---------- */
+const btt=document.getElementById('backToTop');
+window.addEventListener('scroll',()=>{btt.style.display=window.scrollY>300?'flex':'none';});
+
+/* ---------- Scrollspy (nav active) ---------- */
+const navLinks=[...document.querySelectorAll('#navMenu a')];
+const sections=navLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean

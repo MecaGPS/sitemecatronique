@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>STAL : Simulations & Tests</title>
+
+    <link rel="icon" type="image/png" href="Logo STAL.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* # VARIABLES GLOBALES */
+        :root {
+            --icam-black: #000000;
+            --icam-orange: rgb(209, 147, 30); /* Couleur orange principale */
+            --icam-white: #FFFFFF;
+            --icam-grey: #CFCFCF;
+            --popup-bg: rgba(0, 0, 0, 0.45);
+            --popup-border: rgba(235, 168, 43, 0.6); 
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* # CORPS DE LA PAGE (Mode Sombre par défaut) */
+        body {
+            background: linear-gradient(135deg, var(--icam-black), var(--icam-grey));
+            color: var(--icam-white);
+            overflow-x: hidden;
+            font-family: "Poppins", sans-serif;
+            padding-top: 80px; /* Espace pour le header fixe */
+        }
+
+        body.light {
+            /* Fond du mode clair (Orange vers Gris) */
+            background: linear-gradient(160deg, var(--icam-orange), var(--icam-grey));
+            color: #111; /* Texte global en noir/gris foncé */
+        }
+        
+        /* # TITRES DE SECTION (H2) */
+        h2 {
+            font-size: 40px;
+            margin-bottom: 5px; 
+            background: none;
+            
+            /* EFFET 3D / RELIEF */
+            color: var(--icam-white); 
+            text-shadow: 2px 2px 4px var(--icam-orange), 
+                         0 0 10px rgba(0, 0, 0, 0.8);
+            
+            -webkit-text-fill-color: unset; 
+            text-align: center;
+        }
+        
+        /* Ajustement H2 pour le mode clair */
+        body.light h2 {
+            color: var(--icam-black);
+            text-shadow: 2px 2px 3px var(--icam-white);
+        }
+
+        /* # HEADER (RÉPLIQUE STYLES DU SITE PRINCIPAL) */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--icam-orange);
+            z-index: 1000;
+        }
+
+        body.light header {
+             background: rgba(255, 255, 255, 0.781);
+             backdrop-filter: blur(10px);
+             border-bottom: 2px solid var(--icam-orange);
+             z-index: 1000;
+        }
+
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header-logo img {
+            height: 45px;
+            width: auto;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            /* Dégradé Mode Sombre (Orange vers Blanc) */
+            background: linear-gradient(45deg, var(--icam-orange), var(--icam-white));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Dégradé Mode Clair (Orange vers Noir) */
+        body.light header h1 {
+            background: linear-gradient(45deg, var(--icam-orange), var(--icam-black));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* # NAVIGATION PRINCIPALE (Menu de droite) */
+        nav { display: flex; gap: 10px; }
+        nav a, nav button {
+            text-decoration: none;
+            color: var(--icam-white);
+            font-weight: 500;
+            transition: 0.3s;
+            padding: 8px 15px;
+            border-radius: 8px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        body.light nav a, body.light nav button {
+            color: var(--icam-black);
+        }
+
+        nav a:hover, nav button:hover {
+            background: var(--icam-orange);
+            color: var(--icam-black);
+            box-shadow: 0 0 10px var(--icam-orange);
+        }
+
+        /* # MENU MOBILE */
+        .menu-btn { 
+            display: none; 
+            cursor: pointer; 
+            font-size: 30px; 
+            color: var(--icam-white);
+        }
+        body.light .menu-btn {
+             color: var(--icam-black);
+        }
+
+        @media(max-width: 992px){
+             header { padding: 10px 20px; }
+             nav { display: none; position: absolute; top: 65px; right: 20px; background: rgba(0,0,0,0.8); padding: 20px; border-radius: 15px; flex-direction: column; }
+             nav.open { display: flex; }
+             .menu-btn { display: block; }
+        }
+        
+        /* # BOX MODERNE / Conteneur de section */
+        .section-container {
+             margin: 40px 40px 20px;
+             padding: 30px;
+             border-radius: 20px;
+             background: rgba(255, 255, 255, 0.03);
+             backdrop-filter: blur(1px);
+             transition: background 0.3s, box-shadow 0.3s;
+        }
+        .section-container:hover {
+             background: rgba(255, 255, 255, 0.07);
+             box-shadow: 0 0 15px rgba(235, 168, 43, 0.6);
+        }
+        body.light .section-container {
+             background: rgba(255, 255, 255, 0.8);
+        }
+        body.light .section-container:hover {
+             background: rgba(255, 255, 255, 0.9);
+             box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Case (Conteneurs secondaires pour le texte) */
+        .case {
+            background: rgba(255, 255, 255, 0.03); /* Fond subtil */
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0; /* Espacement vertical */
+            box-shadow: none; 
+            transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+        }   
+
+        /* Effet HALO au survol de la case */
+        .case:hover {
+            transform: scale(1.01);
+            background: rgba(255, 255, 255, 0.07);
+            box-shadow: 0 0 10px rgba(235, 168, 43, 0.4);
+        }
+
+        .case h3 {
+            color: var(--icam-orange); /* H3 en orange pour le contraste */
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+        
+        /* Liste (pour le texte) */
+        ul.list-items {
+            list-style-type: none; 
+            padding-left: 0;       
+        }
+        ul.list-items li::before {
+             content: "•"; 
+             color: var(--icam-orange); 
+             margin-right: 8px;
+        }
+        ul.list-items li {
+            margin-bottom: 8px;
+            color: var(--icam-white);
+            line-height: 1.4;
+        }
+        /* CORRECTION CONTRASTE */
+        body.light ul.list-items li,
+        body.light .case p { 
+            color: #111; 
+        }
+
+        /* Conteneur pour le texte */
+        .content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--icam-white);
+        }
+        body.light .content p {
+            color: #111;
+        }
+
+        /* Conteneurs pour les deux sections (Flexbox) */
+        .simulations-grid {
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .simulations-section {
+            flex: 1 1 45%; 
+            min-width: 300px;
+        }
+
+       /* Conteneur vidéo pour s'assurer que l'iframe ou la vidéo est bien responsive */
+        .video-responsive {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    margin-top: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.video-responsive video {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+        
+        /* Style des images de simulation */
+        .simulation-image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .simulation-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* pousse le texte en bas */
+            height: 100%;
+        }
+
+        .simulation-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover; /* conserve un rendu propre */
+        }
+        .simulation-card p, .simulation-card h3 {
+            font-size: 0.9em;
+            margin-top: 10px;
+            color: var(--icam-white);
+            margin: 5px 0;
+        }
+        body.light .simulation-card {
+             background: rgba(0, 0, 0, 0.05);
+        }
+        body.light .simulation-card p {
+             color: #111;
+        }
+
+
+        /* # FOOTER */
+        .Fin {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px 40px;
+            border-top: 2px solid var(--icam-orange);
+            text-align: center;
+            margin-top: 40px;
+        }
+        /* Styles du mode clair pour le footer */
+        body.light .Fin { background: rgba(255, 255, 255, 0.9); border-top-color: #333; }
+        body.light .Fin h5, 
+        body.light .Fin p, 
+        body.light .Fin i { 
+            color: #111; 
+        }
+
+        .Fin h5 {
+            text-align: left;
+            color: var(--icam-white);
+        }
+
+        .Fin i {
+            color: var(--icam-white);
+            transition: color 0.3s;
+            font-size: 24px;
+        }
+
+        .Fin i:hover {
+            color: var(--icam-orange);
+        }
+
+        .Fin p {
+            text-align: center;
+            color: var(--icam-grey);
+            font-size: 14px;
+        }
+        
+        /* # BOUTONS FLOTTANTS */
+        .floating-btns {
+             position: fixed;
+             bottom: 20px;
+             left: 20px;
+             z-index: 999;
+             display: flex;
+             gap: 10px;
+             align-items: center;
+        }
+        
+        /* # BOUTON MODE CLAIR/SOMBRE */
+        #modeBtn {
+             padding: 12px 20px; 
+             border-radius: 30px; 
+             background: var(--icam-orange); 
+             color: var(--icam-black); 
+             border: none; 
+             cursor: pointer; 
+             font-weight: bold; 
+        }
+        body.light #modeBtn { background: var(--icam-black); color: var(--icam-white); }
+        
+        /* # BOUTON BACK TO TOP */
+       .back-to-top {
+            position: fixed;       
+            bottom: 30px;          
+            right: 30px;           
+            background-color: var(--icam-orange);
+            color: var(--icam-black);
+            padding: 10px 15px;    
+            font-size: 24px;       
+            border-radius: 50%;    
+            text-decoration: none; 
+            display: none;         
+            z-index: 1000;         
+            transition: background 0.3s;
+        }
+
+        .back-to-top:hover {
+            background-color: rgb(255, 232, 188);
+            cursor: pointer;
+        }
+        
+        /* # POP-UP MODAL (Structure Générique) */
+        .modal-backdrop{
+            position:fixed; 
+            inset:0; 
+            background:rgba(0,0,0,.65); 
+            display:none; 
+            align-items:center; 
+            justify-content:center; 
+            padding:16px; 
+            z-index:2000;
+            backdrop-filter: blur(6px);
+        }
+        
+        .modal-backdrop.open{
+            display:flex 
+        }
+        
+        .modal{
+            max-width:720px; 
+            width:100%; 
+            background:rgba(0,0,0,0.85); 
+            border:2px solid var(--icam-orange);
+            border-radius:20px; 
+            padding:25px 35px; 
+            box-shadow:0 10px 30px rgba(0,0,0,.5); 
+            position:relative;
+            color: var(--icam-white);
+            animation: popupFade 0.35s ease; 
+        }
+
+        @keyframes popupFade {
+             from { transform: scale(0.7); opacity: 0; }
+             to { transform: scale(1); opacity: 1; }
+        }
+        
+        .modal h3{
+            margin:0 0 .6rem; 
+            color: var(--icam-orange);
+            font-size: 28px;
+            text-align: center;
+        }
+
+        .modal p {
+            text-align: center;
+        }
+
+        .mail-list{
+            display:grid; 
+            gap:15px; 
+            margin-top: 20px;
+        }
+
+        @media (min-width:640px){ .mail-list{ grid-template-columns:1fr 1fr } }
+
+        .mail{
+            display:flex; 
+            align-items:center; 
+            justify-content:space-between; 
+            gap:8px;
+            border:1px solid rgba(255,255,255,0.2); 
+            border-radius:15px; 
+            padding:10px; 
+            border: 2px solid var(--icam-orange);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mail a{
+            font-weight:500;
+            text-decoration: none;
+            color: var(--icam-white);
+            font-size: 14px;
+        }
+        /* Correction du lien en mode clair */
+        body.light .mail a {
+             color: var(--icam-black); 
+        }
+    
+        .mail .act{
+            display:flex; 
+            gap:6px
+        }
+
+        .mail button {
+             background: var(--icam-orange);
+             border: none;
+             padding: 5px 10px;
+             border-radius: 8px;
+             cursor: pointer;
+             font-weight: bold;
+             color: var(--icam-white);
+             transition: 0.2s;
+             font-size: 12px;
+        }
+        .mail button:hover {
+            background: #d4952d; 
+            transform: scale(1.05);
+        }
+    
+        .close-x{
+            position:absolute; 
+            right:15px; 
+            top:15px; 
+            background:var(--icam-black); 
+            border:2px solid var(--icam-orange); 
+            border-radius:999px; 
+            padding:2px 10px; 
+            cursor:pointer;
+            color: var(--icam-white);
+            font-size: 20px;
+            transition: 0.2s;
+        }
+        .close-x:hover {
+            background: var(--icam-orange);
+            color: var(--icam-black);
+        }
+
+    </style>
+</head>
+<body class="dark">
+
+    <header>
+        <div class="header-logo">
+            <img src="Logo entreprise.png" alt="Logo STAL" />
+            <h1>STAL : Simulations & Tests</h1>
+        </div>
+        <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <nav id="navMenu">
+            <a href="essai site web.html">Retour à l'accueil</a>
+            <a href="#simulations-numeriques">Simulations Numériques</a>
+            <a href="#tests-irl">Tests IRL</a>
+            <button class="btn" id="openContact" type="button">Mails</button>
+        </nav>
+    </header>
+    
+    <div class="petit-bandeau"></div>
+
+    <div class="modal-backdrop" id="contactModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-labelledby="contactTitle" aria-modal="true">
+            <button class="close-x" id="closeContact" aria-label="Fermer">✕</button>
+            <h3 id="contactTitle">Contacts ICAM – Projet STAL</h3>
+            <p style="margin:.2rem 0 .8rem;">Cliquez sur une adresse pour ouvrir votre messagerie, ou utilisez “Copier”.</p>
+
+            <div class="mail-list">
+                <div class="mail">
+                    <a href="mailto:ibrahim.yigit@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">ibrahim.yigit@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="ibrahim.yigit@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:luca.falzone@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">luca.falzone@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="luca.falzone@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:guerand.mothe@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">guerand.mothe@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="guerand.mothe@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:lucas.deshayes@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">lucas.deshayes@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="lucas.deshayes@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:loic.chantrel@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">loic.chantrel@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="loic.chantrel@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:paul.gourlin@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">paul.gourlin@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="paul.gourlin@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:alban.huet@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">alban.huet@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="alban.huet@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:pierre.dewavrechin@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">pierre.dewavrechin@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="pierre.dewavrechin@2027.icam.fr">Copier</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="section-container" id="simulations-numeriques">
+        <h2>Simulations Numériques</h2>
+        
+        <div class="simulations-grid">
+            <div class="simulations-section">
+                <div class="case content">
+                    <h3>Analyse des Contraintes (Bande du Convoyeur)</h3>
+                    <p>
+                        Simulation statique de la bande du convoyeur sous charge. Les contraintes de Von Mises maximales sont observées aux points de fixation.
+                    </p>
+                </div>
+            </div>
+            <div class="simulations-section">
+                <div class="case content">
+                    <h3>Analyse des Contraintes (Pied Réglable)</h3>
+                    <p>
+                        Simulation statique du pied réglable montrant les contraintes au niveau de la fixation de l'écrou M3. La concentration des contraintes reste dans les limites acceptables pour le PA6.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="text-align:center; margin-top:30px;">Bande du Convoyeur</h3>
+        <div class="simulation-image-grid">
+            <div class="simulation-card">
+                <img src="Contraintes bande.png" alt="Contraintes Von Mises sur Bande du Convoyeur">
+                <p>Contraintes sur la Bande</p>
+            </div>
+            <div class="simulation-card">
+                <img src="Deformation bande.png" alt="Déformation statique de la Bande du Convoyeur">
+                <p>Déformation de la Bande du Convoyeur</p>
+            </div>
+            <div class="simulation-card">
+                <img src="Deplacement bande.png" alt="Déplacement de la bande du convoyeur">
+                <p>Déplacement de la Bande</p>
+            </div>
+        </div>
+        <h3 style="text-align:center; margin-top:40px;">Pied Réglable</h3>
+        <div class="simulation-image-grid">
+            <div class="simulation-card">
+                <img src="Contraintes pied.png" alt="Contraintes Von Mises sur Pied Réglable">
+                <p>Contraintes sur Pied Réglable</p>
+            </div>
+            <div class="simulation-card">
+                <img src="Deformation pied.png" alt="Déformation statique du Pied Réglable">
+                <p>Déformation du Pied Réglable</p>
+            </div>
+            <div class="simulation-card">
+                <img src="Deplacement pied.png" alt="Déplacement statique du Pied Réglable">
+                <p>Déplacement du Pied Réglable</p>
+            </div>
+        </div>
+        <h3 style="text-align:center; margin-top:40px;">Châssis</h3>
+        <div class="simulation-image-grid">
+            <div class="simulation-card">
+                <img src="Contraintes chassis.png" alt="Contraintes Von Mises sur le chassis">
+                <p>Contraintes sur châssis</p>
+            </div>
+            <div class="simulation-card">
+                <img src="Deformation chassis.png" alt="Déformation statique du chassis">
+                <p>Déformation du châssis</p>
+            </div>
+            <div class="simulation-card">
+                <img src="Deplacement chassis.png" alt="Déplacement statique du chassis">
+                <p>Déplacement du châssis</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="tests-irl">
+        <h2>Pièces à trier</h2>
+        <div class="simulations-grid">
+            <div class="simulation-section">
+                <div class="simulation-card">
+                    <img src="Image_pièce_mecatro_1.jpg" alt="Pièce 1" style="width:100%; height:350px; object-fit:contain;">
+                    <h3>Pièce N°1</h3>
+                </div>
+            </div>
+            <div class="simulation-section">
+                <div class="simulation-card">
+                    <img src="Image_pièce_mecatro_2.jpg" alt="Pièce 2" style="width:100%; height:350px; object-fit:contain;">
+                    <h3>Pièce N°2</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="section-container" id="tests-irl">
+        <h2>Tests des capteurs</h2>
+         <div class="case">
+            <h3>Test 1</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop>
+                    <source src="Test 1 capteur.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+         <div class="case">
+            <h3>Test 2</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop>
+                    <source src="Test 2 capteur.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="tests-irl">
+        <h2>Tests des caméras</h2>
+         <div class="case">
+            <h3>Test 1</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop>
+                    <source src="Test 1 Camera.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+         <div class="case">
+            <h3>Test 2</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop>
+                    <source src="Test 2 camera.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="tests-irl">
+        <h2>Tests des moteurs
+        </h2>
+         <div class="case">
+            <h3>Test 1</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop>
+                    <source src="Test 1 moteur.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+         <div class="case">
+            <h3>Test 2</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls autoplay loop>
+                    <source src="Test 2 moteur.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="tests-irl">
+        <h2>Entrainement IA
+        </h2>
+         <div class="case">
+            <h3>Test 1</h3>
+            <div class="video-responsive">
+                <video width="844.8" height="475.2" controls loop>
+                    <source src="Entrainement IA.mp4" type="video/mp4">
+                    Votre navigateur ne supporte pas la lecture vidéo.
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-container" id="tests-irl">
+        <h2>Tests sur Maquette</h2>
+        <div class="simulations-grid">
+            <div class="simulations-section">
+                <div class="case content">
+                    <h3>Tests du Prototype</h3>
+                    <p>
+                        Cette section est dédiée aux tests physiques effectués sur le prototype réel. Vous pouvez y intégrer des photos de la maquette et décrire les protocoles de vérification des critères d'acceptation.
+                    </p>
+                </div>
+            </div>
+            <div class="simulations-section">
+                <div class="case content">
+                    <h3>Comparaison Numérique vs. Réel</h3>
+                    <ul class="list-items">
+                        <li>Test 1 : Fiabilité du tri (mesurée IRL) vs. Objectif (98%).</li>
+                        <li>Test 2 : Temps de cycle (mesuré IRL) vs. Objectif (20s).</li>
+                        <li>Test 3 : Vitesse réelle du convoyeur vs. Vitesse simulée (0.3m/s).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="Fin">
+        <h5>Contactez nous via les liens ci-dessous pour plus amples informations</h5>
+        <div style="margin: 10px 0;">
+            <a href="https://www.instagram.com/lucas_dshs/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/in/lucas-deshayes-707158260/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+        </div>
+        <p>© 2025 STAL : Système de tri automatisé en ligne.fr – Tous droits réservés.</p>
+    </div>
+
+    <button id="modeBtn" onclick="toggleMode()" style="position: fixed; bottom: 20px; left: 20px; right: auto; padding: 12px 20px; border-radius: 30px; background: var(--icam-orange); color: var(--icam-black); border: none; cursor: pointer; font-weight: bold; z-index: 999;">Mode clair/sombre</button>
+    <a href="#" class="back-to-top" id="backToTop">↑</a>
+
+
+    <script>
+        
+        // # Menu mobile (Hamburger)
+        function toggleMenu(){ 
+             document.getElementById('navMenu').classList.toggle('open'); 
+        }
+
+        // # Mode clair / sombre (Theme Switcher)
+        function toggleMode(){
+            const body = document.body;
+            body.classList.toggle('light');
+            body.classList.toggle('dark');
+            // Sauvegarde la préférence
+            localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        // Applique le thème sauvé au chargement
+        (function(){
+            if(localStorage.getItem('theme') === 'light'){
+                document.body.classList.remove('dark');
+                document.body.classList.add('light');
+            }
+        })();
+
+        // # Scroll To Top Button
+        const backToTopButton = document.getElementById("backToTop");
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        });
+        backToTopButton.addEventListener("click", (e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // # Modal Logic (Contacts)
+        const modal = document.getElementById('contactModal');
+        const openBtn = document.getElementById('openContact');
+        const closeBtn = document.getElementById('closeContact');
+
+        function openModal(){
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden','false');
+          document.getElementById('navMenu').classList.remove('open'); 
+        }
+
+        function closeModal(){
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden','true');
+        }
+
+        openBtn.addEventListener('click', openModal);
+        closeBtn.addEventListener('click', closeModal);
+
+        modal.addEventListener('click', (e)=>{
+          if(e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e)=>{
+          if(e.key === 'Escape') closeModal();
+        });
+
+        // # Copier l'email
+        document.querySelectorAll('.copy').forEach(btn=>{
+          btn.addEventListener('click', async ()=>{
+            const email = btn.dataset.email;
+            try{
+              await navigator.clipboard.writeText(email);
+              const old = btn.textContent;
+              btn.textContent = 'Copié !';
+              setTimeout(()=>btn.textContent = old, 1200);
+            }catch(e){ 
+              alert('Copie impossible : ' + email);
+            }
+          });
+        });
+    </script>
+    
+</body>
+</html>

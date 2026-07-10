@@ -1,0 +1,1275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Comparateur matériaux — STAL (interactive)</title>
+<link rel="icon" type="image/png" href="Logo STAL.png">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+    --icam-black: #000000;
+    --icam-orange: rgb(209, 147, 30); /* Couleur orange principale */
+    --icam-white: #FFFFFF;
+    --icam-grey: #CFCFCF;
+}
+*{box-sizing:border-box}
+body{
+    background: linear-gradient(135deg, var(--icam-black), var(--icam-grey));
+    color: var(--icam-white);
+    overflow-x: clip;
+    font-family: "Poppins", sans-serif;
+    padding-top: 80px; /* Espace pour le header fixe */
+}
+
+html, body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body.light {
+    /* Fond du mode clair (Orange vers Gris) */
+    background: linear-gradient(160deg, var(--icam-orange), var(--icam-grey)45%);
+    color: #111;
+}
+
+  /* # HEADER (RÉPLIQUE STYLES DU SITE PRINCIPAL) */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--icam-orange);
+    z-index: 1000;
+    left: 0;
+    right: 0;
+}
+
+body.light header {
+    background: rgba(255, 255, 255, 0.781);
+    backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--icam-orange);
+    z-index: 1000;
+    width: 100%;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.header-logo img {
+    height: 45px;
+    width: auto;
+}
+
+header h1 {
+    font-size: 24px;
+    font-weight: 700;
+    /* Dégradé Mode Sombre (Orange vers Blanc) */
+    background: linear-gradient(45deg, var(--icam-orange), var(--icam-white));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Dégradé Mode Clair (Orange vers Noir) */
+body.light header h1 {
+    background: linear-gradient(45deg, var(--icam-orange), var(--icam-black));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* # NAVIGATION PRINCIPALE (Menu de droite) */
+nav { display: flex; gap: 10px; }
+nav a, nav button {
+    text-decoration: none;
+    color: var(--icam-white);
+    font-weight: 500;
+    transition: 0.3s;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+body.light nav a, body.light nav button {
+    color: var(--icam-black);
+}
+        
+nav a:hover, nav button:hover {
+    background: var(--icam-orange);
+    color: var(--icam-black);
+    box-shadow: 0 0 10px var(--icam-orange);
+}
+
+/* # MENU MOBILE */
+.menu-btn { 
+    display: none; 
+    cursor: pointer; 
+    font-size: 30px; 
+    color: var(--icam-white);
+}
+
+body.light .menu-btn {
+    color: var(--icam-black);
+}
+
+@media(max-width: 992px){
+    header { padding: 10px 20px; }
+    nav { display: none; position: absolute; top: 65px; right: 20px; background: rgba(0,0,0,0.8); padding: 20px; border-radius: 15px; flex-direction: column; }
+    nav.open { display: flex; }
+    .menu-btn { display: block; }
+}
+
+/* # POP-UP MODAL (Structure Générique) */
+.modal-backdrop{
+    position:fixed; 
+    inset:0; 
+    background:rgba(0,0,0,.65); 
+    display:none; /* Masqué par défaut */
+    align-items:center; 
+    justify-content:center; 
+    padding:16px; 
+    z-index:2000;
+    backdrop-filter: blur(6px);
+}
+        
+.modal-backdrop.open{
+    display:flex /* Affiché quand la classe 'open' est ajoutée */
+}
+        
+.modal{
+    max-width:720px; 
+    width:100%; 
+    background:rgba(0,0,0,0.85); 
+    border:2px solid var(--icam-orange);
+    border-radius:20px; 
+    padding:25px 35px; 
+    box-shadow:0 10px 30px rgba(0,0,0,.5); 
+    position:relative;
+    color: var(--icam-white);
+    animation: popupFade 0.35s ease; 
+}
+
+@keyframes popupFade {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+       
+.modal h3{
+    margin:0 0 .6rem; 
+    color: var(--icam-orange);
+    font-size: 28px;
+    text-align: center;
+}
+
+.modal p {
+    text-align: center;
+}
+
+.mail-list{
+    display:grid; 
+    gap:15px; 
+    margin-top: 20px;
+}
+
+@media (min-width:640px){ .mail-list{ grid-template-columns:1fr 1fr } }
+
+.mail{
+    display:flex; 
+    align-items:center; 
+    justify-content:space-between; 
+    gap:8px;
+    border:1px solid rgba(255,255,255,0.2); 
+    border-radius:15px; 
+    padding:10px; 
+    border: 2px solid var(--icam-orange);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.mail a{
+    font-weight:500;
+    text-decoration: none;
+    color: var(--icam-white);
+    font-size: 14px;
+}
+    
+.mail .act{
+    display:flex; 
+    gap:6px
+}
+
+.mail button {
+    background: var(--icam-orange);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    color: var(--icam-white);
+    transition: 0.2s;
+    font-size: 12px;
+}
+
+.mail button:hover {
+    background: #d4952d; 
+    transform: scale(1.05);
+}
+    
+.close-x{
+    position:absolute; 
+    right:15px; 
+    top:15px; 
+    background:var(--icam-black); 
+    border:2px solid var(--icam-orange); 
+    border-radius:999px; 
+    padding:2px 10px; 
+    cursor:pointer;
+    color: var(--icam-white);
+    font-size: 20px;
+    transition: 0.2s;
+}
+
+.close-x:hover {
+    background: var(--icam-orange);
+    color: var(--icam-black);
+}
+
+.container{
+    max-width:1400px;
+    margin:20px auto;
+    padding:18px;
+}
+
+.lead{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:6px
+}
+
+/* layout */
+.grid{
+    display:grid;
+    grid-template-columns:320px 1fr 480px;
+    gap:16px;
+    margin-top:18px
+}
+
+@media(max-width:1100px){.grid{grid-template-columns:1fr;}}
+
+.card{
+    background: rgba(255, 255, 255, 0.03); 
+    padding: 30px;
+    margin: 10px 10px 10px; /* Marge uniforme */
+    border-radius: 20px;
+    backdrop-filter: blur(1px); 
+    box-shadow: none;
+    transition: background 0.3s, box-shadow 0.3s;
+    height: auto;        /* <--- IMPORTANT */
+    overflow: visible;   /* <--- IMPORTANT */
+}
+
+/* Effet de HALO au survol du conteneur */
+.card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(235, 168, 43, 0.6);
+}
+
+body.light .card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+/* left menu */
+.list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:10px;
+    color: white;
+}
+
+body.light .list{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:10px;
+    color: #000000;
+}
+
+.select, .small-input{
+    width:100%;
+    padding:8px;
+    border-radius:6px;
+    border:1px solid rgba(255, 255, 255, 0.162);
+    background:var(--panel);
+    color:inherit
+}
+
+body.light .select, .small-input{
+    width:100%;
+    padding:8px;
+    border-radius:6px;
+    border:1px solid rgba(0, 0, 0, 0.162);
+    background:var(--panel);
+    color:inherit
+}
+
+.select option {
+    background: #fff;
+    color: #000;
+}
+
+.btn{
+    text-decoration: none;
+    color: var(--icam-white);
+    font-weight: 500;
+    transition: 0.3s;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+body.light .btn {
+            color: var(--icam-black);
+        }
+        
+.btn:hover{
+    background: var(--icam-orange);
+    color: var(--icam-black);
+    box-shadow: 0 0 10px var(--icam-orange);
+}
+
+.small{
+    font-size:13px;
+    color:var(--muted)
+}
+
+/* centre */
+.center-grid{
+    display:grid;
+    grid-template-rows:auto auto 1fr;
+    gap:12px
+}
+
+.row{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    flex-wrap:wrap
+}
+
+.proptable{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:8px
+}
+
+.prop{
+    background: rgba(255, 255, 255, 0.03);
+    padding:10px;
+    border-radius:8px;
+    backdrop-filter: blur(1px); 
+    box-shadow: none;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.prop:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(235, 168, 43, 0.6);
+}
+
+body.light .prop:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.kv{
+    font-size:13px;
+    color:var(--muted);
+    margin-top:6px
+}
+
+.big{
+    font-size:20px;
+    font-weight:700
+}
+
+/* right panel */
+.compare-list{ 
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.material-card{
+    background:rgba(255, 255, 255, 0.03);
+    padding:10px;
+    border-radius:8px;
+    display:flex;
+    flex-direction:column;
+    gap:6px;height: auto;              /* <--- pour s’adapter au texte */
+    overflow: hidden;         /* <--- empêche débordements visuels */
+    backdrop-filter: blur(1px); 
+    box-shadow: none;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.material-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(235, 168, 43, 0.6);
+}
+
+body.light .material-card:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.tag{display:inline-block;padding:4px 8px;border-radius:999px;background:#111;color:var(--muted);font-size:12px}
+
+#materials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* chart */
+.canvas-wrap{
+    background: rgba(255, 255, 255, 0.03);
+    padding:12px;
+    border-radius:8px;
+    backdrop-filter: blur(1px); 
+    box-shadow: none;
+    transition: background 0.3s, box-shadow 0.3s;
+    width: 450px;
+    height: 450px;
+}
+
+.canvas-wrap:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(235, 168, 43, 0.6);
+}
+
+body.light .canvas-wrap:hover {
+    background: rgba(255, 255, 255, 0.07);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+}
+
+.canvas-wrap canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.footer{
+    margin-top:12px;color:var(--muted);
+    font-size:13px
+}
+
+.note{
+    font-size:12px;
+    color:var(--muted);
+    margin-top:8px
+}
+
+.legend{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:8px
+}
+
+/* # FOOTER */
+.Fin {
+  width: 100%;                 /* plein écran */
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px 40px;          /* padding horizontal correct */
+  border-top: 2px solid var(--icam-orange);
+  text-align: center;
+  box-sizing: border-box;      /* inclut le padding dans la largeur */
+  margin: 0;                   /* supprime marges indésirables */
+}
+
+/* Styles du mode clair pour le footer */
+body.light .Fin { 
+    background: rgba(255, 255, 255, 0.9); 
+    border-top-color: #333;
+}
+
+body.light .Fin h5, body.light .Fin p, body.light .Fin i { 
+    color: #111; 
+}
+
+.Fin h5 {
+    text-align: left;
+    color: var(--icam-white);
+}
+
+.Fin i {
+    color: var(--icam-white);
+    transition: color 0.3s;
+    font-size: 24px;
+}
+
+.Fin i:hover {
+    color: var(--icam-orange);
+}
+
+.Fin p {
+    text-align: center;
+    color: var(--icam-grey);
+    font-size: 14px;
+}
+        
+/* # BOUTONS FLOTTANTS */
+.floating-btns {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 999;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* # BOUTON MODE CLAIR/SOMBRE */
+#modeBtn {
+    padding: 12px 20px; 
+    border-radius: 30px; 
+    background: var(--icam-orange); 
+    color: var(--icam-black); 
+    border: none; 
+    cursor: pointer; 
+    font-weight: bold; 
+}
+
+body.light #modeBtn { 
+    background: var(--icam-black); 
+    color: var(--icam-white);
+}
+
+/* # BOUTON IMPRIMER PDF */
+#printPdfBtn {
+    padding: 12px 20px; 
+    border-radius: 30px; 
+    background: var(--icam-white); 
+    color: var(--icam-black); 
+    border: 2px solid var(--icam-orange); 
+    cursor: pointer; 
+    font-weight: bold; 
+    transition: background 0.3s;
+}
+
+#printPdfBtn:hover {
+    background: var(--icam-orange);
+    color: var(--icam-white);
+}
+
+body.light #printPdfBtn {
+    background: var(--icam-black);
+    color: var(--icam-white);
+    border-color: var(--icam-orange);
+}
+
+body.light #printPdfBtn:hover {
+    background: var(--icam-orange);
+    color: var(--icam-black);
+}
+
+ /* # BOUTON BACK TO TOP */
+.back-to-top {
+    position: fixed;       
+    bottom: 30px;          
+    right: 30px;           
+    background-color: var(--icam-orange);
+    color: var(--icam-black);
+    padding: 10px 15px;    
+    font-size: 24px;       
+    border-radius: 50%;    
+    text-decoration: none; 
+    display: none;         
+    z-index: 1000;         
+    transition: background 0.3s;
+}
+
+.back-to-top:hover {
+    background-color: rgb(255, 232, 188);
+    cursor: pointer;
+}
+
+</style>
+</head>
+<body>
+
+<header>
+    <div class="header-logo">
+        <img src="Logo entreprise.png" alt="Logo STAL" />
+        <h1>Comparateur — Choix des matériaux (STAL)</h1>
+    </div>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+        <nav id="navMenu">
+            <a href="essai site web.html">Retour à l'accueil</a>
+            <button class="btn" id="openContact" type="button">Mails</button>
+        </nav>
+</header>
+
+<div class="modal-backdrop" id="contactModal" aria-hidden="true">
+        <div class="modal" role="dialog" aria-labelledby="contactTitle" aria-modal="true">
+            <button class="close-x" id="closeContact" aria-label="Fermer">✕</button>
+            <h3 id="contactTitle">Contacts ICAM – Projet STAL</h3>
+            <p style="margin:.2rem 0 .8rem;">Cliquez sur une adresse pour ouvrir votre messagerie, ou utilisez “Copier”.</p>
+
+            <div class="mail-list">
+                <div class="mail">
+                    <a href="mailto:ibrahim.yigit@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">ibrahim.yigit@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="ibrahim.yigit@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:luca.falzone@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">luca.falzone@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="luca.falzone@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:guerand.mothe@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">guerand.mothe@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="guerand.mothe@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:lucas.deshayes@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">lucas.deshayes@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="lucas.deshayes@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:loic.chantrel@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">loic.chantrel@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="loic.chantrel@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:paul.gourlin@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">paul.gourlin@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="paul.gourlin@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:alban.huet@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">alban.huet@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="alban.huet@2027.icam.fr">Copier</button></div>
+                </div>
+                <div class="mail">
+                    <a href="mailto:pierre.dewavrechin@2027.icam.fr?subject=%5BSTAL%5D%20Demande%20d%27informations">pierre.dewavrechin@2027.icam.fr</a>
+                    <div class="act"><button class="btn min o copy" data-email="pierre.dewavrechin@2027.icam.fr">Copier</button></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="container">
+  
+  <div class="grid">
+    <!-- LEFT: controls -->
+    <div class="card">
+      <strong>Contrôles</strong>
+      <div class="list">
+        <label class="small" for="component">Composant</label>
+        <select id="component" class="select">
+          <option value="chassis">Châssis (profilé)</option>
+          <option value="tapis">Tapis (bande)</option>
+          <option value="support_tapis">Support de tapis</option>
+          <option value="bras">Bras d'éjection</option>
+          <option value="support_capteur">Support capteur</option>
+          <option value="roulement">Roulement</option>
+        </select>
+
+        <label class="small">Choix rapide (Solution 1 / Solution 2)</label>
+        <div class="row">
+          <button id="applySol1" class="btn">Appliquer Solution 1</button>
+          <button id="applySol2" class="btn">Appliquer Solution 2</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- CENTER: main view -->
+    <div class="card center-grid">
+      <div>
+        <strong>Détails composant</strong>
+        <div class="small" id="compDesc">Sélectionner un composant pour voir ses fonctions et contraintes.</div>
+      </div>
+
+      <div class="row">
+        <div style="flex:1">
+          <div class="proptable">
+            <div class="prop">
+              <div class="kv">Fonction principale</div>
+              <div id="func" class="big">—</div>
+            </div>
+            <div class="prop">
+              <div class="kv">Contraintes clés</div>
+              <div id="constraints" class="big">—</div>
+            </div>
+            <div class="prop">
+              <div class="kv">Procédés compatibles</div>
+              <div id="processes" class="big">—</div>
+            </div>
+            <div class="prop">
+              <div class="kv">Remarques</div>
+              <div id="remarks" class="big">—</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="width:240px">
+          <div class="canvas-wrap">
+            <canvas id="radar"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:8px;align-items:center">
+        <div id="basketMsg" class="small" style="margin-left:8px"></div>
+      </div>
+    </div>
+    <!-- RIGHT: materials -->
+    <div class="card">
+      <strong>Matériaux disponibles</strong>
+      <div class="small" style="margin-top:6px">Clique sur un matériau pour voir ses propriétés.</div>
+
+      <div id="materials" class="compare-list" style="margin-top:10px">
+        <!-- material cards injected by JS -->
+      </div>
+
+      <div style="margin-top:12px">
+        <div id="basketList" style="margin-top:8px"></div>
+
+        <div id="totals" style="margin-top:10px;color:var(--muted)"></div>
+      </div>
+    </div>
+  </div>
+
+    <div id="solutionTable" class="card" style="margin-top:12px; display:none;">
+        <strong id="solutionTitle"></strong>
+        <table style="width:100%; margin-top:10px; border-collapse: collapse;">
+        <thead>
+            <tr style="border-bottom:1px solid #555;">
+                <th style="padding:6px; text-align:left;">Composant</th>
+                <th style="padding:6px; text-align:left;">Matériau</th>
+                <th style="padding:6px; text-align:left;">Rigidité (GPa)</th>
+                <th style="padding:6px; text-align:left;">Densité</th>
+                <th style="padding:6px; text-align:left;">Coût</th>
+                <th style="padding:6px; text-align:left;">CO₂</th>
+                <th style="padding:6px; text-align:left;">Recyclage</th>
+            </tr>
+        </thead>
+        <tbody id="solutionBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<div class="Fin">
+    <h5>Contactez nous via les liens ci-dessous pour plus amples informations</h5>
+    <div style="margin: 10px 0;">
+        <a href="https://www.instagram.com/lucas_dshs/" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.linkedin.com/in/lucas-deshayes-707158260/" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+    </div>
+    <p>© 2025 STAL : Systeme de tri automatisé en ligne.fr – Tous droits réservés.</p>
+</div>
+    
+<div class="floating-btns">
+    <button id="modeBtn" onclick="toggleMode()">Mode clair/sombre</button>
+    <button id="printPdfBtn" onclick="openPdf()">Imprimer PDF</button> 
+</div>
+
+<a href="#" class="back-to-top" id="backToTop">↑</a>
+
+<script>
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("open");
+}
+
+ // # Modal Logic (Contacts) 
+        const contactModal = document.getElementById('contactModal');
+
+        try {
+            const openBtn = document.querySelector('button#openContact');
+            const closeBtn = document.querySelector('button#closeContact');
+
+            if (openBtn && contactModal) {
+                 openBtn.addEventListener('click', () => {
+                    contactModal.classList.add('open');
+                    contactModal.setAttribute('aria-hidden','false');
+                 });
+            }
+            if (closeBtn && contactModal) {
+                closeBtn.addEventListener('click', () => {
+                    contactModal.classList.remove('open');
+                    contactModal.setAttribute('aria-hidden','true');
+                });
+                contactModal.addEventListener('click', (e)=>{
+                  if(e.target === contactModal) contactModal.classList.remove('open');
+                });
+            }
+        } catch (e) {
+            // Error handling (omitted for clean output)
+        }
+
+
+        // # Copier l'email
+        document.querySelectorAll('.copy').forEach(btn=>{
+          btn.addEventListener('click', async ()=>{
+            const email = btn.dataset.email;
+            try{
+              await navigator.clipboard.writeText(email);
+              const old = btn.textContent;
+              btn.textContent = 'Copié !';
+              setTimeout(()=>btn.textContent = old, 1200);
+            }catch(e){ 
+              alert('Copie impossible : ' + email);
+            }
+          });
+        });
+
+// --- Dataset ---
+// J'ai conservé les valeurs sous forme de plages
+const materialsDB = {
+  "Aluminium": {
+    display:"Aluminium 6063-T5",
+    type:"Métal",
+    density:2.7, // g/cm3 approx
+    rigidity:70, // GPa approx
+    costRange:"~2 - 3 €/kg (document)", // use doc qualitative
+    co2:"~8-17 kg CO2/kg (varies selon source)",
+    recyclability:"Bon (recyclable)",
+    notes:"Bon compromis rigidité/poids pour châssis. Source rapport STAL.",
+    source: ":contentReference[oaicite:9]{index=9}"
+  },
+  "PLA": {
+    display:"PLA (impression 3D)",
+    type:"Polymère (bio)",
+    density:1.24,
+    rigidity:3.2,
+    costRange:"~3 - 20 €/kg (dépend filament vs matière)",
+    co2:"Faible initial, fin de vie perfectible",
+    recyclability:"Limitée (filières spécifiques)",
+    notes:"Facile à imprimer, économique; recyclage limité (rapport).",
+    source:":contentReference[oaicite:10]{index=10}"
+  },
+  "PEHD": {
+    display:"PEHD (HDPE)",
+    type:"Thermoplastique",
+    density:0.95,
+    rigidity:4.8,
+    costRange:"~1.5 - 3 €/kg",
+    co2:"~2.8 kg CO2/kg (document indiquant ordre de grandeur)",
+    recyclability:"Recyclable (filières établies)",
+    notes:"Bon pour support de tapis, faible frottement.",
+    source:":contentReference[oaicite:11]{index=11}"
+  },
+  "TPU": {
+    display:"TPU (caoutchouc thermoplastique)",
+    type:"Elastomère",
+    density:1.2,
+    rigidity:6.2,
+    costRange:"~3 €/kg (variable)",
+    co2:"Variable",
+    recyclability:"Limité",
+    notes:"Bon pour tapis (résistance traction, thermoformable).",
+    source:""
+  },
+  "FibreCarbone": {
+    display:"Fibre de carbone",
+    type:"Composite",
+    density:1.6,
+    rigidity:70,
+    costRange:"~100 - 150 €/kg (document cite ~134 €/kg)",
+    co2:"Très élevée (~20 kg CO₂/kg selon doc)",
+    recyclability:"Difficile",
+    notes:"Très haute performance mais coût & impact CO₂ élevés.",
+    source:""
+  },
+  "Polyuréthane": {
+    display:"Polyuréthane",
+    type:"Elastomère",
+    density:1.2,
+    rigidity:50,
+    costRange:"2 €/kg",
+    co2:"Fabrication modérée, recyclage mauvais",
+    recyclability:"mauvais",
+    notes:"Bon pour tapis (résistance traction, thermoformable).",
+    source:":contentReference[oaicite:14]{index=14}"
+  },
+  "Bois": {
+    display:"Chêne (bois)",
+    type:"Bois",
+    density:0.7,
+    rigidity:10,
+    costRange:"~0.5 - 2 €/kg",
+    co2:"Faible (ressource renouvelable)",
+    recyclability:"Bon (valorisation)",
+    notes:"Bon pour support, disponible et peu coûteux (rapport).",
+    source:":contentReference[oaicite:15]{index=15}"
+  },
+  "Inox": {
+    display:"Acier inoxydable (AISI)",
+    type:"Métal",
+    density:7.8,
+    rigidity:195,
+    costRange:"~2 - 5 €/kg (selon nuance)",
+    co2:"Élevé (procédés)",
+    recyclability:"Très bon",
+    notes:"Bon pour roulements et éléments soumis à usure.",
+    source:":contentReference[oaicite:16]{index=16}"
+  }
+};
+
+// Components definitions mapping to suitable materials (based on PDF conclusions)
+const components = {
+  "chassis": {
+    name:"Châssis (profilé)",
+    func:"Soutenir le système — charge & rigidité",
+    constraints:"Rigidité, résistance en flexion, facilité d'assemblage",
+    processes:"Extrusion, usinage, assemblage",
+    remarks:"Aluminium recommandé en Solution 1; Titane / inox pour Solution 2 si budget laxiste."
+  },
+  "tapis": {
+    name:"Tapis (bande)",
+    func:"Transport des pièces — résistance traction, usure",
+    constraints:"Résistance à l'usure, adhérence, flexibilité",
+    processes:"Moulage, thermoformage (TPU / caoutchouc)",
+    remarks:"TPU / caoutchouc recommandés (document)."
+  },
+  "support_tapis": {
+    name:"Support de tapis",
+    func:"Supporter le tapis, faible frottement",
+    constraints:"Faible coefficient de frottement, durabilité",
+    processes:"Découpe bois, extrusion plastique",
+    remarks:"PEHD ou bois selon disponibilité."
+  },
+  "bras": {
+    name:"Bras d'éjection",
+    func:"Rediriger pièces — résister à chocs",
+    constraints:"Ténacité, rigidité spécifique",
+    processes:"Impression 3D, composites, usinage",
+    remarks:"PLA pour prototype; fibre de carbone pour solution 2 (haute performance)."
+  },
+  "support_capteur": {
+    name:"Support capteur",
+    func:"Maintien précis capteur/caméra",
+    constraints:"Stabilité, faible vibration",
+    processes:"Impression 3D, aluminium usiné",
+    remarks:"PLA ou aluminium anodisé selon besoin."
+  },
+  "roulement": {
+    name:"Roulements / pièces roulantes",
+    func:"Supporter charge, faible frottement",
+    constraints:"Usure, précision",
+    processes:"Usinage, traitement thermique",
+    remarks:"Inox recommandé pour durabilité."
+  }
+};
+
+// basket holds chosen materials for components
+let basket = [];
+
+// UI helpers
+const el = id => document.getElementById(id);
+
+function renderMaterialsList(){
+  const target = el('materials');
+  target.innerHTML = '';
+  for(const key in materialsDB){
+    const m = materialsDB[key];
+    const card = document.createElement('div');
+    card.className = 'material-card';
+    card.dataset.key = key;
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><strong>${m.display}</strong><div class="small">${m.type}</div></div>
+        <div style="text-align:right"><div class="small">${m.costRange}</div><div class="small">${m.co2}</div></div>
+      </div>
+      <div class="small" style="margin-top:6px">${m.notes}</div>
+      <div style="display:flex;gap:6px;margin-top:8px">
+        <button class="btn smallBtn" data-action="view">Voir</button>
+      </div>
+    `;
+    // events
+    card.querySelector('[data-action="view"]').addEventListener('click', ()=> showMaterialDetail(key));
+    target.appendChild(card);
+  }
+}
+
+function showMaterialDetail(key){
+  const m = materialsDB[key];
+  // populate center details area with material info mapped to current component
+  el('func').textContent = components[el('component').value].name;
+  el('constraints').textContent = components[el('component').value].constraints;
+  el('processes').textContent = components[el('component').value].processes;
+  el('remarks').textContent = `${components[el('component').value].remarks} — Matériau: ${m.display}.`;
+  // draw simple radar (rigidity / cost / recyclability proxy)
+  drawRadar([m.rigidity || 1, estimateCostScore(m), recyclabilityScore(m)]);
+}
+
+function estimateCostScore(m){
+  // heuristic: lower number => cheaper (normalize 0..100)
+  const cr = m.costRange || '';
+  // crude mapping based on keywords (document gives ranges) — just for visualization
+  if(cr.indexOf('Très élevé')>-1 || cr.includes('>')) return 90;
+  if(cr.includes('100') || cr.includes('134') || cr.includes('150')) return 95;
+  if(cr.includes('~0.5') || cr.includes('0.7')) return 10;
+  if(cr.includes('~1')) return 20;
+  if(cr.includes('~2') || cr.includes('2.5')) return 30;
+  if(cr.includes('~3')) return 40;
+  if(cr.includes('~25') || cr.includes('25')) return 70;
+  return 50;
+}
+function recyclabilityScore(m){
+  const r = m.recyclability || '';
+  if(r.toLowerCase().includes('bon')) return 80;
+  if(r.toLowerCase().includes('recycl')) return 60;
+  if(r.toLowerCase().includes('difficile')) return 20;
+  return 50;
+}
+
+// simple radar chart (3 metrics)
+function drawRadar(vals){
+  const c = document.getElementById('radar');
+  const ctx = c.getContext('2d');
+  ctx.clearRect(0,0,c.width,c.height);
+  // normalize vals to 0..1 (rigidity scaled by /100)
+  const norm = [Math.min(vals[0]/120,1), Math.min(vals[1]/100,1), Math.min(vals[2]/100,1)];
+  const cx = c.width/2, cy = c.height/2, r = Math.min(c.width, c.height) * 0.3;
+  const labels = ['Rigidité','Coût','Recyclage'];
+  ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+  ctx.fillStyle = 'rgba(255,255,255,0.03)';
+  ctx.lineWidth = 1;
+  // draw spider grid
+  for(let ring=3;ring>=1;ring--){
+    ctx.beginPath();
+    for(let i=0;i<3;i++){
+      const a = -Math.PI/2 + i*(2*Math.PI/3);
+      const x = cx + (r*(ring/3))*Math.cos(a);
+      const y = cy + (r*(ring/3))*Math.sin(a);
+      if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.stroke();
+  }
+  // plot values
+  ctx.beginPath();
+  for(let i=0;i<3;i++){
+    const a = -Math.PI/2 + i*(2*Math.PI/3);
+    const rad = r*norm[i];
+    const x = cx + rad*Math.cos(a);
+    const y = cy + rad*Math.sin(a);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+    // point
+    ctx.fillStyle = 'rgba(224,173,33,0.95)';
+    ctx.beginPath(); ctx.arc(x,y,3,0,2*Math.PI); ctx.fill();
+  }
+  ctx.closePath();
+  ctx.strokeStyle = 'rgba(224,173,33,0.9)';
+  ctx.stroke();
+  // labels
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.font = '11px Inter, Arial';
+  for(let i=0;i<3;i++){
+    const a = -Math.PI/2 + i*(2*Math.PI/3);
+    const x = cx + (r+12)*Math.cos(a);
+    const y = cy + (r+12)*Math.sin(a);
+    ctx.fillText(labels[i], x-16, y+4);
+  }
+}
+
+// basket actions
+function addToBasket(key){
+  const compKey = el('component').value;
+  basket.push({component:compKey, material:key});
+  renderBasket();
+  el('basketMsg').textContent = `Ajouté: ${materialsDB[key].display} pour ${components[compKey].name}`;
+  setTimeout(()=> el('basketMsg').textContent = '', 2200);
+}
+
+function renderBasket(){
+  const wrap = el('basketList');
+  wrap.innerHTML = '';
+  basket.forEach((item,i)=>{
+    const div = document.createElement('div');
+    const m = materialsDB[item.material];
+    div.style.display='flex';div.style.justifyContent='space-between';div.style.alignItems='center';
+    div.style.padding='8px';div.style.marginBottom='6px';div.style.background='#222';div.style.borderRadius='6px';
+    div.innerHTML = `<div>
+      <strong style="font-size:13px">${components[item.component].name}</strong>
+      <div class="small">${m.display} — ${item.mass} kg</div>
+    </div>
+    <div>
+      <button class="btn" data-i="${i}">Suppr</button>
+    </div>`;
+    div.querySelector('button').addEventListener('click', ()=> {
+      basket.splice(i,1); renderBasket();
+    });
+    wrap.appendChild(div);
+  });
+}
+
+// compute totals (simple estimator using costRange heuristics)
+function computeTotals(){
+  // for each basket item, estimate cost and CO2 using conservative lookups
+  let totalCost = 0;
+  let totalCO2 = 0;
+  let details = [];
+  basket.forEach(item=>{
+    const m = materialsDB[item.material];
+    const mass = item.mass || 0;
+    // use approximate cost per kg from costRange string (best effort)
+    let europarkg = approximateCostPerKg(m.costRange);
+    let co2kg = approximateCO2PerKg(m.co2);
+    const cost = europarkg * mass;
+    const co2 = co2kg * mass;
+    totalCost += cost;
+    totalCO2 += co2;
+    details.push({comp:components[item.component].name, mat:m.display, mass, cost, co2});
+  });
+  el('totals').innerHTML = `<div><strong>Coût estimé total :</strong> ${totalCost.toFixed(2)} €</div>
+                           <div><strong>CO₂ estimé total :</strong> ${totalCO2.toFixed(2)} kg CO₂</div>
+                           <div class="note">Estimations basées sur plages/valeurs du rapport (voir sources) — valeurs indicatives.</div>`;
+}
+
+// helpers to parse textual cost/co2 ranges (very basic)
+function approximateCostPerKg(rangeStr){
+  if(!rangeStr) return 10;
+  // known patterns from document: "~0.7", "~3", "134", "25", "2.41"
+  if(rangeStr.includes('134')) return 134;
+  if(rangeStr.includes('25')) return 25;
+  if(rangeStr.includes('~0.7')) return 0.7;
+  if(rangeStr.includes('~3')) return 3;
+  if(rangeStr.includes('~2')) return 2;
+  if(rangeStr.includes('~1')) return 1;
+  // fallback
+  return 10;
+}
+function approximateCO2PerKg(co2Str){
+  if(!co2Str) return 5;
+  if(co2Str.includes('20')) return 20;
+  if(co2Str.includes('17')) return 17;
+  if(co2Str.includes('8')) return 8;
+  if(co2Str.includes('2.8')) return 2.8;
+  return 5;
+}
+
+document.getElementById('applySol1').addEventListener('click', ()=>{
+  const sol1map = {
+    "chassis":"Aluminium",
+    "tapis":"Polyuréthane",
+    "support_tapis":"PEHD",
+    "bras":"PLA",
+    "support_capteur":"PLA",
+    "roulement":"Inox"
+  };
+  showSolutionTable(sol1map, "Solution 1 — Matériaux recommandés");
+});
+
+document.getElementById('applySol2').addEventListener('click', ()=>{
+  const sol2map = {
+    "chassis":"Inox",
+    "tapis":"TPU",
+    "support_tapis":"PEHD",
+    "bras":"FibreCarbone",
+    "support_capteur":"Aluminium",
+    "roulement":"Inox"
+  };
+  showSolutionTable(sol2map, "Solution 2 — Matériaux recommandés");
+});
+
+// component change updates description
+el('component').addEventListener('change', ()=>{
+  const v = el('component').value;
+  el('compDesc').textContent = components[v].name + ' — ' + components[v].func;
+  // clear central property boxes to default
+  el('func').textContent = components[v].func;
+  el('constraints').textContent = components[v].constraints;
+  el('processes').textContent = components[v].processes;
+  el('remarks').textContent = components[v].remarks;
+});
+
+// init
+renderMaterialsList();
+el('component').dispatchEvent(new Event('change'));
+
+function showSolutionTable(map, title){
+  const body = document.getElementById("solutionBody");
+  const wrap = document.getElementById("solutionTable");
+  const header = document.getElementById("solutionTitle");
+
+  header.textContent = title;
+  body.innerHTML = "";
+
+  for(const compKey in map){
+    const materialKey = map[compKey];
+    const comp = components[compKey];
+    const mat = materialsDB[materialKey];
+
+    const row = `
+      <tr>
+        <td style="padding:6px">${comp.name}</td>
+        <td style="padding:6px">${mat.display}</td>
+        <td style="padding:6px">${mat.rigidity || "—"}</td>
+        <td style="padding:6px">${mat.density || "—"}</td>
+        <td style="padding:6px">${mat.costRange || "—"}</td>
+        <td style="padding:6px">${mat.co2 || "—"}</td>
+        <td style="padding:6px">${mat.recyclability || "—"}</td>
+      </tr>
+    `;
+    body.innerHTML += row;
+  }
+
+  wrap.style.display = "block";
+}
+
+// # Fonction pour ouvrir le PDF
+function openPdf() {
+    window.open('Choix des materiaux - Team Ibrahim - STAL.pdf', '_blank');
+}
+
+// # Menu mobile (Gestion du thème)
+function toggleMode(){
+    const body = document.body;
+    body.classList.toggle('light');
+    body.classList.toggle('dark');
+    // Sauvegarde la préférence
+    localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+}
+
+// Applique le thème sauvé au chargement
+(function(){
+    if(localStorage.getItem('theme') === 'light'){
+        document.body.classList.remove('dark');
+        document.body.classList.add('light');
+    }
+})();
+
+
+// # Bouton de retour en haut (Back to Top)
+const backToTopButton = document.getElementById("backToTop");
+        // Quand l'utilisateur scroll, on vérifie la position
+        window.addEventListener("scroll", () => {
+            if (window.scrollY > 200) {   
+                backToTopButton.style.display = "block"; 
+            } else {
+                backToTopButton.style.display = "none";   
+            }
+        });
+
+        // Quand l'utilisateur clique sur le bouton
+        backToTopButton.addEventListener("click", (e) => {
+            e.preventDefault();  
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+});
+
+</script>
+</body>
+</html>
