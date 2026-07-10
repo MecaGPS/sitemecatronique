@@ -1,0 +1,126 @@
+@import url("assets/css/style.css");
+
+.simulation {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding-bottom: 3rem;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0 1.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #f8fafc;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.agv-area {
+  position: relative;
+  height: 120px;
+  border: 1px dashed var(--border);
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  overflow: hidden;
+  background: #eff3ff;
+}
+
+.agv-icon {
+  position: absolute;
+  top: 50%;
+  left: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--secondary);
+  transform: translateY(-50%);
+  transition: transform 0.6s ease;
+}
+
+.agv-icon.moving {
+  transform: translate(220px, -50%);
+}
+
+.status {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+footer {
+  text-align: center;
+  padding: 1.5rem 0 3rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+@media (max-width: 600px) {
+  .team-list {
+    grid-template-columns: 1fr;
+    grid-template-areas: none;
+  }
+
+  .team-list .member {
+    text-align: center;
+  }
+
+  .timeline-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+
+  .agv-icon.moving {
+    transform: translate(160px, -50%);
+  }
+}
+
+@media (max-width: 720px) {
+  .intro-columns {
+    flex-direction: column;
+  }
+
+  .intro-column {
+    padding: 0;
+  }
+
+  .intro-column.objectives {
+    padding-right: 0;
+  }
+
+  .intro-column.theme {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
+  }
+}
+

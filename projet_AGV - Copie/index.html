@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Support de soutenance — Projet Mécatronique AGV">
+  <title>Soutenance — Projet Mécatronique AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/soutenance.css?v=2">
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.172.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script src="assets/vendor/occt-import-js/occt-import-js.js"></script>
+</head>
+<body>
+
+  <!-- Navigation soutenance -->
+  <nav class="soutenance-nav" aria-label="Navigation soutenance">
+    <div class="container soutenance-nav-inner">
+      <a href="#introduction" class="soutenance-brand">Projet <span>AGV</span></a>
+      <ul class="soutenance-links" id="soutenance-top-links"></ul>
+      <div class="soutenance-more">
+        <a href="documents.html" title="Autres pages"><i class="fa-solid fa-ellipsis"></i> Plus</a>
+      </div>
+    </div>
+  </nav>
+
+  <aside class="soutenance-sidebar" id="soutenance-sidebar" aria-label="Sommaire"></aside>
+
+  <div class="soutenance-content">
+
+    <!-- ═══ HERO / INTRODUCTION ═══ -->
+    <header class="soutenance-hero" id="introduction">
+      <div class="container">
+        <p class="hero-badge" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(0,194,203,0.15);border:1px solid rgba(0,194,203,0.3);color:var(--accent);padding:0.3rem 0.85rem;border-radius:999px;font-size:0.78rem;font-weight:600;margin-bottom:1rem">
+          <i class="fa-solid fa-graduation-cap"></i> 4e année — École d'ingénieur — ICAM
+        </p>
+        <h1>Projet Mécatronique – AGV</h1>
+        <p class="hero-sub">
+          Conception, modélisation, dimensionnement, simulation et pilotage de deux véhicules guidés autonomes
+          pour automatiser les flux internes d'une ligne de production industrielle.
+        </p>
+        <div class="hero-meta">
+          <span><i class="fa-solid fa-robot"></i> 2 AGV</span>
+          <span><i class="fa-solid fa-weight-hanging"></i> 5 kg charge utile</span>
+          <span><i class="fa-solid fa-euro-sign"></i> 867 € / 1 500 €</span>
+          <span><i class="fa-solid fa-bolt"></i> 40,3 W</span>
+          <span><i class="fa-solid fa-shield-halved"></i> 0 collision visée</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ═══ 1. INTRODUCTION ═══ -->
+    <section class="slide-section container" aria-labelledby="intro-title">
+      <div class="slide-header">
+        <span class="slide-number">01 — Introduction</span>
+        <h2 id="intro-title">Présentation du projet</h2>
+        <p>Un projet mécatronique complet mêlant mécanique, électronique et informatique embarquée.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-body">
+          <p>Ce projet mécatronique vise à concevoir deux AGV capables d'automatiser une partie des flux internes d'une ligne de production. Le premier AGV assure le transport des produits entre les postes de fabrication, tandis que le second est dédié à l'approvisionnement des opérateurs en pièces détachées.</p>
+          <h3>Les deux AGV</h3>
+          <ul>
+            <li><strong>AGV 1 — Production :</strong> transporte les produits entre 4 postes, suit un parcours défini, gère les arrêts précis et revient à sa base.</li>
+            <li><strong>AGV 2 — Approvisionnement :</strong> ravitaille les opérateurs depuis le stock, évite les obstacles et adapte sa trajectoire selon les demandes.</li>
+          </ul>
+          <p>L'objectif global est de garantir un flux synchronisé, de réduire les déplacements manuels et d'améliorer la fiabilité du processus industriel.</p>
+        </div>
+        <div class="slide-visual">
+          <img src="agv.png" alt="Vue d'ensemble du projet AGV">
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 2. PROBLÉMATIQUE & OBJECTIFS ═══ -->
+    <section class="slide-section container" id="objectifs" aria-labelledby="obj-title">
+      <div class="slide-header">
+        <span class="slide-number">02 — Problématique</span>
+        <h2 id="obj-title">Problématique et objectifs</h2>
+        <p>Automatiser les flux internes d'une usine de fabrication tout en respectant un cahier des charges exigeant.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-body">
+          <h3>Le besoin</h3>
+          <p>Une usine souhaite augmenter la cadence et la fiabilité de sa production de petites poupées en automatisant la circulation interne des produits et des pièces détachées entre les postes de travail et le magasin.</p>
+          <h3>Objectifs techniques</h3>
+          <ul>
+            <li>Transporter jusqu'à 5 kg de charge utile</li>
+            <li>Suivre un parcours défini avec arrêts précis aux postes</li>
+            <li>Détecter et éviter les obstacles (objectif zéro collision)</li>
+            <li>Assurer une autonomie suffisante en transit</li>
+            <li>Développer la navigation embarquée ROS2 sur Raspberry Pi</li>
+          </ul>
+          <h3>Contraintes principales</h3>
+          <ul>
+            <li>Budget limité à 1 500 € (estimé : 867,88 €)</li>
+            <li>Distance d'arrêt ~ 30 cm — sécurité ≥ 35 cm</li>
+            <li>Portée capteurs : 2 cm à 12 m</li>
+            <li>Fabrication : impression 3D, composites, usinage bois</li>
+          </ul>
+        </div>
+        <div class="slide-body">
+          <div class="card">
+            <h3 class="card-title">Fonctions de service (CdCF)</h3>
+            <table class="data-table">
+              <thead><tr><th>Fonction</th><th>Critère</th></tr></thead>
+              <tbody>
+                <tr><td>Déplacement AGV</td><td>Parcours complet sans dérive</td></tr>
+                <tr><td>Détection obstacles</td><td>Fiabilité à 35 cm min.</td></tr>
+                <tr><td>Arrêt urgence</td><td>Prioritaire, < 30 cm</td></tr>
+                <tr><td>Autonomie</td><td>≥ 1 cycle complet</td></tr>
+              </tbody>
+            </table>
+            <a href="cahier-des-charges.html" class="btn btn-secondary btn-sm" style="margin-top:1rem">
+              <i class="fa-solid fa-file-lines"></i> Cahier des charges complet
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 3. ORGANISATION ═══ -->
+    <section class="slide-section container" id="organisation" aria-labelledby="org-title">
+      <div class="slide-header">
+        <span class="slide-number">03 — Organisation</span>
+        <h2 id="org-title">Organisation du projet</h2>
+        <p>Répartition des tâches, planning et avancement de l'équipe.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-body">
+          <h3>Étapes principales</h3>
+          <ul>
+            <li>Analyse du besoin et rédaction du cahier des charges</li>
+            <li>Choix technologiques (solution semi-autonome LiDAR retenue)</li>
+            <li>Conception mécanique, modélisation 3D et simulations</li>
+            <li>Architecture électronique et achat des composants</li>
+            <li>Assemblage, programmation ROS2 et essais LiDAR</li>
+            <li>Tests de navigation, corrections et soutenance</li>
+          </ul>
+        </div>
+        <div class="slide-body">
+          <h3>Équipe projet</h3>
+          <div class="team-compact">
+            <div class="member"><img src="portrait-jean.png" alt="Jean La Porte"><strong>Jean LAPORTE</strong><span>Chef Projet</span></div>
+            <div class="member"><img src="portrait-aurelien.png" alt="Aurélien Huet"><strong>Aurélien HUET</strong><span>PMO</span></div>
+            <div class="member"><img src="portrait-sacha.png" alt="Sacha Duquesnois"><strong>Sacha DUQUESNOIS</strong><span>Ing. Projet</span></div>
+            <div class="member"><img src="portrait-vianney.png" alt="Vianney Roumazeilles"><strong>V. Roumazeilles</strong><span>Ing. Projet</span></div>
+            <div class="member"><img src="portrait-axelle.png" alt="Axelle Tchintou"><strong>TCHINTOU Axelle</strong><span>Ing. Projet</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 4. PARTIE MÉCANIQUE ═══ -->
+    <section class="slide-section container" id="mecanique" aria-labelledby="mec-title">
+      <div class="slide-header">
+        <span class="slide-number">04 — Mécanique</span>
+        <h2 id="mec-title">Partie mécanique</h2>
+        <p>Structure, châssis, roues et choix de conception mécanique de l'AGV.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-visual">
+          <img data-image-base="partie mecanique" alt="Partie mécanique de l'AGV">
+        </div>
+        <div class="slide-body">
+          <h3>Structure mécanique</h3>
+          <p>L'AGV repose sur une architecture à deux roues motrices et deux roues libres, garantissant manœuvrabilité et stabilité. Dimensions : <strong>40 × 25 × 20 cm</strong>. Masse à vide : 3,2 kg — charge utile max : 5 kg (8,2 kg total).</p>
+          <h3>Châssis et matériaux</h3>
+          <p>Le châssis est réalisé en <strong>contreplaqué de bouleau</strong>, choisi pour sa rigidité, sa disponibilité et son faible impact carbone (~11 kg CO₂e vs ~116 kg pour l'aluminium). La carrosserie et le porte-charge sont en <strong>filament ABS</strong> (impression 3D).</p>
+          <h3>Roues et motorisation</h3>
+          <ul>
+            <li>2 roues motrices — vitesse : 136,41 rpm</li>
+            <li>2 roues libres pour la stabilité directionnelle</li>
+            <li>Couple par roue : 0,30 Nm (coefficient de sécurité inclus)</li>
+            <li>Puissance mécanique moteur : 8,565 W</li>
+          </ul>
+          <h3>Contraintes de conception</h3>
+          <p>Encombrement limité par l'environnement de production, stabilité assurée par une base de roulement adaptée et rigidité du châssis validée par simulation.</p>
+        </div>
+      </div>
+      <div class="photo-grid" style="margin-top:2rem">
+        <figure class="photo-card">
+          <figcaption class="photo-title">Assemblage mécanique du prototype AGV</figcaption>
+          <img src="assemblage%20agv.jpg" alt="Assemblage mécanique de l'AGV">
+        </figure>
+        <figure class="photo-card">
+          <figcaption class="photo-title">Paramétrage Raspberry Pi 5</figcaption>
+          <img src="Parametrage%20de%20la%20rasbery.jpg" alt="Paramétrage de la Raspberry Pi">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ═══ 5. MODÉLISATION ═══ -->
+    <section class="slide-section container" id="modelisation" aria-labelledby="mod-title">
+      <div class="slide-header">
+        <span class="slide-number">05 — Modélisation</span>
+        <h2 id="mod-title">Modélisation</h2>
+        <p>Modélisation 3D CAO et évolution de la conception.</p>
+      </div>
+      <div class="slide-grid reverse">
+        <div class="slide-visual">
+          <img data-image-base="modelisation" alt="Modélisation 3D de l'AGV">
+        </div>
+        <div class="slide-body">
+          <h3>Modélisation 3D</h3>
+          <p>L'AGV a été entièrement modélisé en CAO (SolidWorks) : châssis, nervures, case batterie, intégration des composants électroniques et carrosserie. L'assemblage complet est exporté en STEP et visualisable en eDrawings.</p>
+          <h3>Intérêt de la CAO</h3>
+          <ul>
+            <li>Validation des encombrements avant fabrication</li>
+            <li>Anticipation des problèmes d'assemblage</li>
+            <li>Base pour les simulations numériques (FEA)</li>
+            <li>Documentation technique pour la soutenance</li>
+          </ul>
+          <h3>Éléments modélisés</h3>
+          <p>Châssis (40 × 25 × 1 cm), carrosserie ABS, plateau porte-charge, supports batterie, fixations moteurs et emplacements capteurs LiDAR/ultrasons.</p>
+          <a href="Assemblage%20AGV.STEP" class="btn btn-secondary btn-sm" style="margin-top:0.5rem"><i class="fa-solid fa-cube"></i> Fichier STEP</a>
+        </div>
+      </div>
+
+      <div class="model-viewer-block" id="vue-3d" data-agv-model-viewer>
+        <div class="model-viewer-heading">
+          <h3><i class="fa-solid fa-cubes"></i> Modélisation 3D interactive</h3>
+          <button type="button" class="btn btn-secondary btn-sm" data-action="reset-view">
+            <i class="fa-solid fa-crosshairs"></i> Recentrer la vue
+          </button>
+        </div>
+        <div class="model-viewer-shell">
+          <div class="model-viewer-canvas" aria-label="Visionneuse 3D de l'assemblage AGV"></div>
+          <div class="model-viewer-loading" aria-live="polite">
+            <i class="fa-solid fa-spinner fa-spin"></i>
+            Chargement du modèle 3D…
+          </div>
+          <div class="model-viewer-error" hidden role="alert">
+            Le modèle 3D n'a pas pu être chargé. Vérifiez le chemin du fichier ou le format utilisé.
+          </div>
+        </div>
+        <p class="model-viewer-caption">
+          Cette vue interactive permet de visualiser l'assemblage mécanique du projet AGV et d'observer les différents éléments de conception.
+        </p>
+      </div>
+    </section>
+
+    <!-- ═══ 6. ÉTUDE STATIQUE ═══ -->
+    <section class="slide-section container" id="etude-statique" aria-labelledby="stat-title">
+      <div class="slide-header">
+        <span class="slide-number">06 — Statique</span>
+        <h2 id="stat-title">Étude statique</h2>
+        <p>Vérification de la résistance mécanique du châssis sous charge.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-visual">
+          <img data-image-base="etude statique" alt="Étude statique du châssis">
+        </div>
+        <div class="slide-body">
+          <h3>Objectif</h3>
+          <p>Vérifier que le châssis supporte la charge utile maximale (5 kg) sans dépasser les limites élastiques du matériau, en conditions quasi-statiques.</p>
+          <h3>Hypothèses</h3>
+          <ul>
+            <li>Châssis rigide — dimensions 40 × 25 × 1 cm</li>
+            <li>Charge appliquée : F = 84,20 N (poids propre + charge utile)</li>
+            <li>Assemblages rigides — sol plan</li>
+          </ul>
+          <h3>Résultats</h3>
+          <table class="data-table" style="margin-top:0.5rem">
+            <tbody>
+              <tr><td>Déformation max (simulation)</td><td><strong>0,0075 mm</strong></td></tr>
+              <tr><td>Contrainte Von Mises max</td><td><strong>0,3647 MPa</strong></td></tr>
+              <tr><td>Limite élastique (Balsa réf.)</td><td>20 MPa</td></tr>
+            </tbody>
+          </table>
+          <h3>Conclusion</h3>
+          <p>Les contraintes restent très inférieures à la limite élastique. Le châssis en contreplaqué bouleau est validé pour la charge prévue.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 7. ÉTUDE DYNAMIQUE ═══ -->
+    <section class="slide-section container" id="etude-dynamique" aria-labelledby="dyn-title">
+      <div class="slide-header">
+        <span class="slide-number">07 — Dynamique</span>
+        <h2 id="dyn-title">Étude dynamique</h2>
+        <p>Comportement du châssis en mouvement — accélération, freinage et changements de direction.</p>
+      </div>
+      <div class="slide-grid reverse">
+        <div class="slide-visual">
+          <img data-image-base="etude dynamique" alt="Étude dynamique de l'AGV">
+        </div>
+        <div class="slide-body">
+          <h3>Objectif</h3>
+          <p>Évaluer le comportement du châssis soumis aux efforts dynamiques lors des phases d'accélération, de freinage et de changement de direction.</p>
+          <h3>Efforts appliqués</h3>
+          <ul>
+            <li>Charge statique : F = 84,20 N</li>
+            <li>Force d'inertie : F = m × a = 8,2 × 0,5 ≈ 4,1 N</li>
+          </ul>
+          <h3>Résultats</h3>
+          <table class="data-table" style="margin-top:0.5rem">
+            <tbody>
+              <tr><td>Déformation max (simulation)</td><td><strong>0,00767 mm</strong></td></tr>
+              <tr><td>Contrainte Von Mises max</td><td><strong>0,381 MPa</strong></td></tr>
+              <tr><td>Augmentation vs statique</td><td>~ 4,5 %</td></tr>
+            </tbody>
+          </table>
+          <h3>Conclusion</h3>
+          <p>L'augmentation des contraintes en dynamique reste marginale. La stabilité dynamique est assurée et les efforts sur les roues et le châssis restent dans les limites admissibles.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 8. SIMULATION ═══ -->
+    <section class="slide-section container" id="simulation" aria-labelledby="sim-title">
+      <div class="slide-header">
+        <span class="slide-number">08 — Simulation</span>
+        <h2 id="sim-title">Simulation</h2>
+        <p>Simulations numériques — hypothèses, résultats et limites.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-visual">
+          <img data-image-base="simulation" alt="Résultats de simulation">
+        </div>
+        <div class="slide-body">
+          <h3>Simulations réalisées</h3>
+          <ul>
+            <li>Étude statique du châssis (contreplaqué bouleau)</li>
+            <li>Étude dynamique avec force d'inertie</li>
+            <li>Simulation du porte-charge ABS (contrainte admissible : 13 MPa)</li>
+          </ul>
+          <h3>Simulation ABS — Résultats</h3>
+          <table class="data-table" style="margin-top:0.5rem">
+            <tbody>
+              <tr><td>Contrainte Von Mises max</td><td>0,241 MPa</td></tr>
+              <tr><td>Limite élastique ABS</td><td>~ 40 MPa</td></tr>
+              <tr><td>Déformation max</td><td>7,04 × 10⁻³ mm</td></tr>
+              <tr><td>Condition</td><td><span class="tag tag-green">Vérifiée ✓</span></td></tr>
+            </tbody>
+          </table>
+          <h3>Limites et améliorations</h3>
+          <p>Les simulations supposent un châssis rigide et des assemblages parfaits. Les prochaines étapes incluent la validation expérimentale et l'affinement du modèle avec les données d'essais réels.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 9. ARCHITECTURE ÉLECTRONIQUE ═══ -->
+    <section class="slide-section container" id="electronique" aria-labelledby="elec-title">
+      <div class="slide-header">
+        <span class="slide-number">09 — Électronique</span>
+        <h2 id="elec-title">Architecture électronique</h2>
+        <p>Composants, alimentation, capteurs et logique de communication.</p>
+      </div>
+      <div class="slide-grid reverse">
+        <div class="slide-visual">
+          <img data-image-base="architecture electronique" alt="Architecture électronique de l'AGV">
+        </div>
+        <div class="slide-body">
+          <h3>Architecture retenue</h3>
+          <p>Solution semi-autonome basée sur <strong>Raspberry Pi 5</strong> (calculs lourds, LiDAR, ROS2, navigation) et <strong>Arduino Mega</strong> (pilotage moteurs, capteurs simples, actionneurs).</p>
+          <h3>Composants principaux</h3>
+          <ul>
+            <li>Batterie 7,4 V — 6 200 mAh + convertisseurs XL4015</li>
+            <li>LiDAR — détection, cartographie, évitement</li>
+            <li>1 capteur ultrason — sécurité courte distance</li>
+            <li>Module GY-521 (IMU) — orientation et stabilisation</li>
+            <li>1 moteur DC + 1 module L298N</li>
+          </ul>
+          <h3>Bilan de puissance</h3>
+          <p>Puissance totale : <strong>40,255 W</strong> — Intensité disponible : ~5,44 A. Budget énergétique compatible avec la batterie sélectionnée.</p>
+          <h3>Communication embarquée</h3>
+          <p>Communication série entre <strong>Raspberry Pi 5</strong> et <strong>Arduino Mega</strong> pour le pilotage des moteurs, la lecture des capteurs et la gestion des actionneurs. Le LiDAR et la navigation sont traités côté Raspberry Pi (ROS2).</p>
+        </div>
+      </div>
+      <div class="photo-grid" style="margin-top:2rem">
+        <figure class="photo-card">
+          <figcaption class="photo-title">ROS2 — navigation embarquée</figcaption>
+          <img src="ross.png" alt="Interface ROS2 sur Raspberry Pi">
+        </figure>
+      </div>
+    </section>
+
+    <!-- ═══ 10. RÉSULTATS ═══ -->
+    <section class="slide-section container" id="resultats" aria-labelledby="res-title">
+      <div class="slide-header">
+        <span class="slide-number">10 — Résultats</span>
+        <h2 id="res-title">Résultats et validation</h2>
+        <p>Bilan de l'avancement, essais réalisés et perspectives.</p>
+      </div>
+      <div class="result-grid">
+        <div class="result-item">
+          <strong><i class="fa-solid fa-check"></i> Fonctionnel</strong>
+          <p style="font-size:0.85rem;margin:0.5rem 0 0">Modélisation 3D complète, simulations validées, architecture électronique définie et assemblée.</p>
+        </div>
+        <div class="result-item">
+          <strong><i class="fa-solid fa-check"></i> Essais LiDAR</strong>
+          <p style="font-size:0.85rem;margin:0.5rem 0 0">Tests de détection confirmés. Captures et analyses disponibles dans la section essais.</p>
+        </div>
+        <div class="result-item">
+          <strong><i class="fa-solid fa-check"></i> Assemblage & logiciel</strong>
+          <p style="font-size:0.85rem;margin:0.5rem 0 0">Assemblage mécanique final, développement ROS2 et programmation embarquée terminés.</p>
+        </div>
+        <div class="result-item">
+          <strong><i class="fa-solid fa-check"></i> Tests navigation</strong>
+          <p style="font-size:0.85rem;margin:0.5rem 0 0">Tests de navigation AGV 1 et AGV 2 réalisés et validés.</p>
+        </div>
+        <div class="result-item limit">
+          <strong><i class="fa-solid fa-triangle-exclamation"></i> Limites</strong>
+          <p style="font-size:0.85rem;margin:0.5rem 0 0">Optimisations possibles sur la fusion LiDAR + ultrasons et le SLAM en environnement complexe.</p>
+        </div>
+        <div class="result-item limit">
+          <strong><i class="fa-solid fa-lightbulb"></i> Améliorations</strong>
+          <p style="font-size:0.85rem;margin:0.5rem 0 0">Fusion LiDAR + ultrasons, SLAM complet, optimisation énergétique, logs persistants.</p>
+        </div>
+      </div>
+      <div class="media-showcase" style="margin-top:2.5rem">
+        <h3 style="text-align:center;margin-bottom:1.25rem;color:var(--primary)">Prototype en action</h3>
+        <figure class="photo-card photo-card--video">
+          <figcaption class="photo-title">Vidéo de démonstration de l'AGV</figcaption>
+          <video src="video%20agv.mp4" controls playsinline preload="metadata"></video>
+        </figure>
+        <div class="photo-grid photo-grid--zoomable">
+          <figure class="photo-card photo-card--zoomable">
+            <figcaption class="photo-title">Assemblage mécanique</figcaption>
+            <img src="assemblage%20agv.jpg" alt="Assemblage AGV" class="photo-zoomable">
+          </figure>
+          <figure class="photo-card photo-card--zoomable">
+            <figcaption class="photo-title">Paramétrage Raspberry Pi</figcaption>
+            <img src="Parametrage%20de%20la%20rasbery.jpg" alt="Paramétrage Raspberry Pi" class="photo-zoomable">
+          </figure>
+          <figure class="photo-card photo-card--zoomable">
+            <figcaption class="photo-title">Essai LiDAR</figcaption>
+            <img src="lidar%20test.png" alt="Essai LiDAR" class="photo-zoomable">
+          </figure>
+          <figure class="photo-card photo-card--zoomable">
+            <figcaption class="photo-title">ROS2 — navigation embarquée</figcaption>
+            <img src="ross.png" alt="Interface ROS2" class="photo-zoomable">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ 11. CONCLUSION ═══ -->
+    <section class="slide-section container" id="conclusion" aria-labelledby="conc-title">
+      <div class="slide-header">
+        <span class="slide-number">11 — Conclusion</span>
+        <h2 id="conc-title">Conclusion</h2>
+        <p>Bilan du projet et perspectives.</p>
+      </div>
+      <div class="slide-grid">
+        <div class="slide-body">
+          <h3>Deux solutions proposées</h3>
+          <ul>
+            <li><strong>AGV semi-autonome (ROS2) :</strong> fonctionne via ROS2. La navigation est encore en cours de rodage.</li>
+            <li><strong>AGV à trajectoire fixe :</strong> suit une trajectoire fixée entre 2 postes de travail (déplacements en aller/retour).</li>
+          </ul>
+          <p>Les 2 AGV sont dotés d'une fonctionnalité <strong>anti-collision</strong> : arrêt d'urgence lors d'un obstacle à proximité.</p>
+          <h3>Compétences mobilisées</h3>
+          <ul>
+            <li><strong>Mécanique :</strong> CAO, choix matériaux, simulations FEA</li>
+            <li><strong>Électronique :</strong> architecture embarquée, bilan de puissance, câblage</li>
+            <li><strong>Informatique :</strong> ROS2 embarqué, programmation Arduino, navigation</li>
+            <li><strong>Gestion de projet :</strong> planning, budget, coordination d'équipe</li>
+          </ul>
+        </div>
+        <div class="slide-body">
+          <h3>Perspectives</h3>
+          <ul>
+            <li>Industrialiser la solution pour un déploiement en usine</li>
+            <li>Renforcer la robustesse en environnement de production réel</li>
+            <li>Optimiser l'autonomie énergétique et la maintenance</li>
+          </ul>
+          <div style="margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:0.75rem">
+            <a href="Pr%C3%A9sentation_D%C3%A9cembre.pptx.pdf" target="_blank" class="btn btn-primary btn-sm"><i class="fa-solid fa-file-pdf"></i> Présentation Décembre</a>
+            <a href="documents.html" class="btn btn-secondary btn-sm"><i class="fa-solid fa-folder-open"></i> Tous les documents</a>
+            <a href="galerie.html" class="btn btn-outline btn-sm" style="color:var(--primary);border-color:var(--border)"><i class="fa-solid fa-images"></i> Galerie</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>Projet AGV — Soutenance orale — Mécatronique 4e année ICAM</p>
+        <p style="margin-top:0.5rem;font-size:0.8rem">
+          <a href="presentation.html">Projet</a> ·
+          <a href="documents.html">Documents</a> ·
+          <a href="equipe.html">Équipe</a>
+        </p>
+      </div>
+    </footer>
+
+  </div><!-- /.soutenance-content -->
+
+  <div id="photo-lightbox" class="photo-lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+    <button type="button" class="photo-lightbox-backdrop" aria-label="Fermer"></button>
+    <div class="photo-lightbox-panel">
+      <button type="button" class="photo-lightbox-close" aria-label="Fermer">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+      <img class="photo-lightbox-img" src="" alt="">
+      <p class="photo-lightbox-caption"></p>
+    </div>
+  </div>
+
+  <script src="assets/js/soutenance.js?v=2"></script>
+  <script type="module" src="assets/js/agv-model-viewer.js"></script>
+</body>
+</html>

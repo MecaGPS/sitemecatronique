@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulation de commande des AGV</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <h1>Simulation de commande des AGV</h1>
+    <a href="index.html" class="link-back">← Retour à l’accueil</a>
+  </header>
+
+  <main class="simulation">
+    <section class="card">
+      <h2>AGV 1 – Production</h2>
+      <div class="controls">
+        <button id="start-agv1" class="btn">Démarrer</button>
+        <button id="stop-agv1" class="btn secondary">Arrêter</button>
+      </div>
+      <div class="agv-area">
+        <div id="agv1" class="agv-icon" aria-hidden="true"></div>
+      </div>
+      <p id="status-agv1" class="status">En attente…</p>
+    </section>
+
+    <section class="card">
+      <h2>AGV 2 – Assistance opérateurs</h2>
+      <label for="agv2-command" class="sr-only">Sélectionner une commande</label>
+      <select id="agv2-command">
+        <option value="">Choisir une commande…</option>
+        <option value="Aller au poste des fournitures">Aller au poste des fournitures</option>
+        <option value="Ramener tournevis">Ramener tournevis</option>
+        <option value="Ramener marteau">Ramener marteau</option>
+        <option value="Retourner à l’opérateur">Retourner à l’opérateur</option>
+      </select>
+      <button id="send-agv2" class="btn">Envoyer la commande</button>
+      <div class="agv-area">
+        <div id="agv2" class="agv-icon" aria-hidden="true"></div>
+      </div>
+      <p id="status-agv2" class="status">Prêt à recevoir une commande.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Projet AGV - Chaîne de Production</p>
+  </footer>
+
+  <script>
+    const agv1 = document.getElementById('agv1');
+    const statusAgv1 = document.getElementById('status-agv1');
+    const startAgv1 = document.getElementById('start-agv1');
+    const stopAgv1 = document.getElementById('stop-agv1');
+
+    const agv2 = document.getElementById('agv2');
+    const statusAgv2 = document.getElementById('status-agv2');
+    const commandAgv2 = document.getElementById('agv2-command');
+    const sendAgv2 = document.getElementById('send-agv2');
+
+    let agv1Animation;
+
+    startAgv1.addEventListener('click', () => {
+      statusAgv1.textContent = 'AGV 1 démarre la production.';
+      agv1.classList.add('moving');
+      clearTimeout(agv1Animation);
+      agv1Animation = setTimeout(() => {
+        statusAgv1.textContent = 'AGV 1 est en cours de production.';
+      }, 800);
+    });
+
+    stopAgv1.addEventListener('click', () => {
+      statusAgv1.textContent = 'AGV 1 est à l’arrêt.';
+      agv1.classList.remove('moving');
+      clearTimeout(agv1Animation);
+    });
+
+    sendAgv2.addEventListener('click', () => {
+      const value = commandAgv2.value;
+      if (!value) {
+        alert('Merci de choisir une commande pour l’AGV 2.');
+        return;
+      }
+      statusAgv2.textContent = `AGV 2 exécute : ${value}.`;
+      agv2.classList.add('moving');
+      setTimeout(() => {
+        agv2.classList.remove('moving');
+        statusAgv2.textContent = 'AGV 2 a terminé sa mission.';
+      }, 1500);
+    });
+  </script>
+</body>
+</html>
+
+
+

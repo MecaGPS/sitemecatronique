@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Supervision — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1><i class="fa-solid fa-gauge-high"></i> Supervision</h1>
+      <p class="page-lead">Tableau de bord de démonstration — états simulés des deux AGV pour la soutenance.</p>
+    </header>
+
+    <div class="dashboard-grid" id="supervision-dashboard"></div>
+
+    <section class="section">
+      <h2 class="section-title">Historique des événements (démo)</h2>
+      <div class="log-panel" id="event-log" style="max-height:300px"></div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script src="assets/js/agv-controller.js"></script>
+  <script>
+    initSite('supervision.html');
+
+    const controller = new AGVController({ simulation: true });
+    const dashboard = document.getElementById('supervision-dashboard');
+    const eventLog = document.getElementById('event-log');
+    const events = [];
+
+    function renderAGVCard(id, s) {
+      const statusClass = s.status === 'moving' ? 'moving' : 'online';
+      const statusLabel = { idle: 'Arrêté', moving: 'En mouvement', emergency: 'URGENCE' }[s.status] || s.status;
+      return `
+        <div class="card">
+          <h2 class="card-title">${s.name}</h2>
+          <p><span class="status-dot ${statusClass}"></span> ${statusLabel} <span class="tag" style="margin-left:0.5rem">Démo</span></p>
+          <div class="telemetry-grid" style="margin-top:1rem">
+            <div class="telemetry-item"><div class="label">Batterie</div><div class="value">${Math.round(s.battery)}%</div>
+              <div class="battery-bar"><div class="battery-bar-fill ${s.battery<30?'low':s.battery<50?'medium':''}" style="width:${s.battery}%"></div></div>
+            </div>
+            <div class="telemetry-item"><div class="label">Température</div><div class="value">${s.temperature.toFixed(1)}°C</div></div>
+            <div class="telemetry-item"><div class="label">Vitesse</div><div class="value">${Math.abs(s.speed).toFixed(2)}</div></div>
+            <div class="telemetry-item"><div class="label">Mode</div><div class="value" style="font-size:0.9rem">${s.mode}</div></div>
+          </div>
+          <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.4rem">
+            <span class="tag ${s.lidarOk?'tag-green':'tag-red'}">LiDAR ${s.lidarOk?'OK':'ERR'}</span>
+            <span class="tag ${s.motorOk?'tag-green':'tag-red'}">Moteur ${s.motorOk?'OK':'ERR'}</span>
+          </div>
+        </div>`;
+    }
+
+    function updateDashboard() {
+      const states = controller.getAllStates();
+      dashboard.innerHTML = renderAGVCard('agv1', states.agv1) + renderAGVCard('agv2', states.agv2);
+
+      if (controller.emergencyActive) {
+        dashboard.innerHTML += `<div class="card dashboard-full" style="border-color:var(--danger);background:rgba(239,68,68,0.05)">
+          <strong style="color:var(--danger)"><i class="fa-solid fa-triangle-exclamation"></i> ALERTE — Arrêt d'urgence actif (démo)</strong>
+        </div>`;
+      }
+
+      const logs = controller.getLogs();
+      if (logs.length && logs[logs.length-1].msg !== events[events.length-1]) {
+        events.push(logs[logs.length-1].msg);
+      }
+      eventLog.innerHTML = [...events].reverse().slice(0,30).map(e =>
+        `<div class="log-info">${e}</div>`
+      ).join('') || '<div class="log-info">Aucun événement</div>';
+    }
+
+    controller.onChange(updateDashboard);
+    updateDashboard();
+  </script>
+</body>
+</html>

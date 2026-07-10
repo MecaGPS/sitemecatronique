@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planning — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1>Planning & Avancement</h1>
+      <p class="page-lead">Frise chronologique des 15 phases du projet mécatronique AGV.</p>
+    </header>
+
+    <section class="section">
+      <div class="card">
+        <div class="timeline" id="planning-timeline"></div>
+      </div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>
+    initSite('planning.html');
+    document.getElementById('planning-timeline').innerHTML = SITE_CONFIG.planning.map(p => `
+      <div class="timeline-item ${p.status}">
+        <h3>${p.phase} — ${p.title}</h3>
+        <p>${p.desc}</p>
+        <span class="tag ${p.status==='done'?'tag-green':p.status==='current'?'tag-orange':''}">${p.status==='done'?'Terminé':p.status==='current'?'En cours':'À venir'}</span>
+      </div>`).join('');
+  </script>
+</body>
+</html>

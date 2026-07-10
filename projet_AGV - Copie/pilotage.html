@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pilotage AGV — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1><i class="fa-solid fa-gamepad"></i> Maquette de pilotage AGV</h1>
+      <p class="page-lead">Maquette interactive de démonstration — commandes et télémétrie simulées localement dans le navigateur.</p>
+    </header>
+
+    <div id="alert-banner" class="alert-banner">
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      <span>ARRÊT D'URGENCE ACTIF — Toutes les commandes sont bloquées.</span>
+      <button id="reset-emergency" class="btn btn-sm btn-outline" style="margin-left:auto;color:#fff;border-color:#fff">Réinitialiser</button>
+    </div>
+
+    <div class="dashboard-grid">
+      <!-- Sélection AGV & mode -->
+      <div class="card control-panel">
+        <h2 class="card-title">Configuration</h2>
+        <label style="font-size:0.85rem;font-weight:600">Sélection AGV</label>
+        <div class="agv-selector" id="agv-selector">
+          <button data-agv="agv1" class="active">AGV 1 — Production</button>
+          <button data-agv="agv2">AGV 2 — Appro.</button>
+        </div>
+        <label style="font-size:0.85rem;font-weight:600;margin-top:0.75rem">Mode</label>
+        <div class="mode-toggle" id="mode-toggle">
+          <button data-mode="manual" class="active">Manuel</button>
+          <button data-mode="auto">Automatique</button>
+        </div>
+      </div>
+
+      <!-- Télémétrie -->
+      <div class="card">
+        <h2 class="card-title">Télémétrie — <span id="agv-name">AGV 1</span></h2>
+        <div class="telemetry-grid">
+          <div class="telemetry-item">
+            <div class="label">Statut</div>
+            <div class="value" id="tel-status" style="font-size:0.95rem">Arrêté</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="label">Vitesse</div>
+            <div class="value" id="tel-speed">0.00 m/s</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="label">Orientation</div>
+            <div class="value" id="tel-orient">0°</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="label">Batterie</div>
+            <div class="value" id="tel-battery">85%</div>
+            <div class="battery-bar"><div class="battery-bar-fill" id="battery-fill" style="width:85%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Commandes -->
+      <div class="card">
+        <h2 class="card-title">Commandes directionnelles</h2>
+        <div class="dpad">
+          <button class="dpad-btn dpad-up" data-cmd="forward" aria-label="Avancer"><i class="fa-solid fa-arrow-up"></i></button>
+          <button class="dpad-btn dpad-down" data-cmd="backward" aria-label="Reculer"><i class="fa-solid fa-arrow-down"></i></button>
+          <button class="dpad-btn dpad-left" data-cmd="left" aria-label="Gauche"><i class="fa-solid fa-arrow-left"></i></button>
+          <button class="dpad-btn dpad-right" data-cmd="right" aria-label="Droite"><i class="fa-solid fa-arrow-right"></i></button>
+          <button class="dpad-btn dpad-stop" data-cmd="stop" aria-label="Stop"><i class="fa-solid fa-stop"></i></button>
+        </div>
+      </div>
+
+      <!-- LiDAR -->
+      <div class="card">
+        <h2 class="card-title">Visualisation LiDAR (démo)</h2>
+        <div class="lidar-canvas-wrap">
+          <canvas id="lidar-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Arrêt d'urgence -->
+      <div class="card dashboard-full">
+        <button id="emergency-btn" class="emergency-btn">
+          <i class="fa-solid fa-power-off"></i> ARRÊT D'URGENCE
+        </button>
+      </div>
+
+      <!-- Logs -->
+      <div class="card dashboard-full">
+        <h2 class="card-title">Journal des commandes</h2>
+        <div class="log-panel" id="log-panel">
+          <div class="log-info">[Système] Maquette de démonstration initialisée</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <div id="site-footer"></div>
+
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script src="assets/js/agv-controller.js"></script>
+  <script src="assets/js/lidar-viz.js"></script>
+  <script>
+    initSite('pilotage.html');
+
+    const controller = new AGVController({ simulation: true });
+    const lidar = new LidarVisualizer('lidar-canvas');
+    lidar.start();
+
+    const els = {
+      name: document.getElementById('agv-name'),
+      status: document.getElementById('tel-status'),
+      speed: document.getElementById('tel-speed'),
+      orient: document.getElementById('tel-orient'),
+      battery: document.getElementById('tel-battery'),
+      batteryFill: document.getElementById('battery-fill'),
+      logPanel: document.getElementById('log-panel'),
+      alert: document.getElementById('alert-banner')
+    };
+
+    const statusLabels = { idle: 'Arrêté', moving: 'En mouvement', emergency: 'URGENCE', error: 'Erreur' };
+
+    function updateUI() {
+      const s = controller.getState();
+      els.name.textContent = s.name;
+      els.status.textContent = statusLabels[s.status] || s.status;
+      els.speed.textContent = Math.abs(s.speed).toFixed(2) + ' m/s';
+      els.orient.textContent = Math.round(s.orientation) + '°';
+      els.battery.textContent = Math.round(s.battery) + '%';
+      els.batteryFill.style.width = s.battery + '%';
+      els.batteryFill.className = 'battery-bar-fill' + (s.battery < 30 ? ' low' : s.battery < 50 ? ' medium' : '');
+
+      els.alert.classList.toggle('visible', controller.emergencyActive);
+
+      document.querySelectorAll('.dpad-btn').forEach(btn => {
+        btn.disabled = controller.emergencyActive || controller.mode === 'auto';
+      });
+
+      els.logPanel.innerHTML = controller.getLogs().map(l =>
+        `<div class="log-${l.level}">[${l.time}] ${l.msg}</div>`
+      ).join('') || '<div class="log-info">Aucune commande</div>';
+      els.logPanel.scrollTop = els.logPanel.scrollHeight;
+    }
+
+    controller.onChange(updateUI);
+    updateUI();
+
+    document.querySelectorAll('.dpad-btn').forEach(btn => {
+      btn.addEventListener('click', () => controller.sendCommand(btn.dataset.cmd));
+    });
+
+    document.getElementById('emergency-btn').addEventListener('click', () => controller.sendCommand('emergency_stop'));
+    document.getElementById('reset-emergency').addEventListener('click', () => controller.resetEmergency());
+
+    document.querySelectorAll('#agv-selector button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#agv-selector button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        controller.selectAGV(btn.dataset.agv);
+      });
+    });
+
+    document.querySelectorAll('#mode-toggle button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#mode-toggle button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        controller.setMode(btn.dataset.mode);
+      });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      const map = { ArrowUp: 'forward', ArrowDown: 'backward', ArrowLeft: 'left', ArrowRight: 'right', ' ': 'stop' };
+      if (map[e.key]) { e.preventDefault(); controller.sendCommand(map[e.key]); }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essais LiDAR — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1><i class="fa-solid fa-satellite-dish"></i> Essais LiDAR & Navigation</h1>
+      <p class="page-lead">Protocole, résultats et analyse des essais de détection et cartographie LiDAR.</p>
+    </header>
+
+    <section class="section card">
+      <h2 class="section-title">Objectif des essais</h2>
+      <p>Valider la capacité du LiDAR à détecter l'environnement, cartographier la zone de test, identifier les obstacles et fournir des données fiables pour la navigation semi-autonome des deux AGV.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Protocole & conditions</h2>
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <h3 class="card-title">Protocole</h3>
+          <ul class="checklist">
+            <li>Test de détection d'obstacle fixe</li>
+            <li>Test de distance minimale (2 cm – 12 m)</li>
+            <li>Test de cartographie statique</li>
+            <li>Test d'évitement dynamique</li>
+            <li>Test de déplacement AGV 1 et AGV 2</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Conditions</h3>
+          <ul class="checklist">
+            <li>Environnement intérieur, sol plan</li>
+            <li>Obstacles à distances connues</li>
+            <li>Alimentation 5 V stable</li>
+            <li>Acquisition via Raspberry Pi 5</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Résultats & captures</h2>
+      <figure class="photo-card" style="max-width:240px;margin:0 auto">
+        <figcaption class="photo-title">Capture des essais LiDAR</figcaption>
+        <img src="lidar test.png" alt="Photo des essais LiDAR">
+      </figure>
+      <p style="margin-top:1rem"><a href="lidar-test.html" class="btn btn-secondary btn-sm">Voir aussi l'ancienne page LiDAR</a></p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Blocs de tests prévus</h2>
+      <div class="card-grid card-grid-3">
+        <div class="card"><h3 class="card-title">Détection obstacle</h3><p class="tag tag-green">Terminé</p><p style="font-size:0.85rem;color:var(--muted)">Obstacle détecté à distance de sécurité.</p></div>
+        <div class="card"><h3 class="card-title">Distance minimale</h3><p class="tag tag-green">Terminé</p><p style="font-size:0.85rem;color:var(--muted)">Seuil ~30 cm validé.</p></div>
+        <div class="card"><h3 class="card-title">Cartographie</h3><p class="tag tag-green">Terminé</p><p style="font-size:0.85rem;color:var(--muted)">Cartographie et SLAM simplifié validés.</p></div>
+        <div class="card"><h3 class="card-title">Évitement</h3><p class="tag tag-green">Terminé</p></div>
+        <div class="card"><h3 class="card-title">Retour base</h3><p class="tag tag-green">Terminé</p></div>
+        <div class="card"><h3 class="card-title">Arrêt aux postes</h3><p class="tag tag-green">Terminé</p></div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2 class="section-title">Interprétation & limites</h2>
+      <p>Les premiers essais confirment la détection fiable des obstacles dans la plage utile. Limites observées : réflexions sur surfaces vitrées, latence de traitement sur Raspberry Pi lors de scans complets. Pistes : filtrage des points aberrants, fusion LiDAR + ultrasons pour sécurité redondante.</p>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>initSite('essais-lidar.html');</script>
+</body>
+</html>

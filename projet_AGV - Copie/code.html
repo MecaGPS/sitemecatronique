@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code & Logiciel — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1><i class="fa-solid fa-code"></i> Code & Logiciel</h1>
+      <p class="page-lead">Architecture logicielle embarquée et scripts du projet AGV.</p>
+    </header>
+
+    <section class="section card">
+      <h2 class="section-title">Architecture logicielle embarquée</h2>
+      <p>Le système repose sur une séparation claire des responsabilités entre le Raspberry Pi 5 (calculs lourds, LiDAR, ROS2, navigation) et l'Arduino Mega (pilotage moteurs, capteurs simples, actionneurs).</p>
+      <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:0.5rem">
+        <span class="tag">ROS2</span>
+        <span class="tag">Serial Pi ↔ Arduino</span>
+        <span class="tag">Navigation stack</span>
+        <span class="tag">LiDAR driver</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Flux de communication embarqué</h2>
+      <div class="code-block">
+Raspberry Pi 5 (ROS2)
+  ├─ Traitement LiDAR / navigation
+  ├─ Logique de décision
+  └─ Communication série
+       └─ Arduino Mega
+            ├─ Pilotage moteurs (L298N)
+            ├─ Capteur ultrason
+            └─ IMU (GY-521)
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Fichiers existants</h2>
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <h3 class="card-title">simulateur/index.html</h3>
+          <p style="font-size:0.85rem;color:var(--muted)">Simulateur AGV (conservé).</p>
+          <a href="simulateur/index.html" class="btn btn-secondary btn-sm">Ouvrir</a>
+        </div>
+        <div class="card">
+          <h3 class="card-title">simulation.html</h3>
+          <p style="font-size:0.85rem;color:var(--muted)">Page simulation legacy.</p>
+          <a href="simulation.html" class="btn btn-secondary btn-sm">Ouvrir</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2 class="section-title">Bilan logiciel</h2>
+      <ul class="checklist">
+        <li>ROS2 embarqué sur Raspberry Pi</li>
+        <li>Programmation Arduino Mega (moteurs et capteurs)</li>
+        <li>Navigation et traitement LiDAR</li>
+        <li>Tests de navigation AGV 1 et AGV 2 validés</li>
+      </ul>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>initSite('code.html');</script>
+</body>
+</html>

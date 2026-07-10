@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documents — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1><i class="fa-solid fa-folder-open"></i> Documents & Ressources</h1>
+      <p class="page-lead">Bibliothèque documentaire centralisée — PDF, CAO, planning, code et livrables.</p>
+    </header>
+    <div id="documents-container"></div>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>
+    initSite('documents.html');
+    renderDocuments('documents-container');
+  </script>
+</body>
+</html>

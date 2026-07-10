@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Équipe — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1>Équipe projet</h1>
+      <p class="page-lead">Organigramme et rôles des membres du projet mécatronique AGV.</p>
+    </header>
+
+    <section class="section">
+      <div class="org-chart">
+        <div class="org-node">Jean LAPORTE — Chef Projet</div>
+        <div class="org-connector"></div>
+        <div class="org-level">
+          <div class="org-node">Aurélien HUET — PMO</div>
+        </div>
+        <div class="org-connector"></div>
+        <div class="org-level">
+          <div class="org-node">Sacha DUQUESNOIS</div>
+          <div class="org-node">Vianney Roumazeilles</div>
+          <div class="org-node">TCHINTOU Axelle</div>
+        </div>
+        <p style="color:var(--muted);font-size:0.85rem;margin-top:0.5rem">Ingénieurs Projet</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="team-grid" id="team-grid"></div>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>
+    initSite('equipe.html');
+    document.getElementById('team-grid').innerHTML = SITE_CONFIG.team.map(m => `
+      <article class="card team-card">
+        <img src="${m.photo}" alt="Portrait ${m.name}" loading="lazy">
+        <h3>${m.name}</h3>
+        <div class="role">${m.role}</div>
+        <p class="mission">${m.mission}</p>
+      </article>`).join('');
+  </script>
+</body>
+</html>

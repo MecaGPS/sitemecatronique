@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Présentation du projet — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1>Présentation du projet</h1>
+      <p class="page-lead">Contexte industriel, objectifs mécatroniques et fonctionnement des deux AGV.</p>
+    </header>
+
+    <section class="section card">
+      <h2 class="section-title">Contexte</h2>
+      <p>Beaucoup d'entreprises industrielles cherchent à automatiser leurs flux internes pour accroître productivité et fiabilité. Dans notre cas, une usine souhaite augmenter la cadence de production de petites poupées en automatisant la circulation interne des produits et des pièces.</p>
+      <p>Ce projet mécatronique vise à concevoir deux AGV capables d'automatiser une partie des flux internes d'une ligne de production. Le premier AGV assure le transport des produits entre les postes de fabrication, tandis que le second est dédié à l'approvisionnement des opérateurs en pièces détachées.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Enjeux mécatroniques</h2>
+      <div class="card-grid card-grid-3">
+        <div class="card stat-card"><div class="stat-value">M</div><div class="stat-label">Mécanique — châssis, roues, charge</div></div>
+        <div class="card stat-card"><div class="stat-value">E</div><div class="stat-label">Électronique — capteurs, actionneurs</div></div>
+        <div class="card stat-card"><div class="stat-value">L</div><div class="stat-label">Logiciel — navigation, ROS2, web</div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Contraintes principales</h2>
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <ul class="checklist">
+            <li>Budget limité à 1 500 € (estimé : 867,88 €)</li>
+            <li>Charge utile jusqu'à 5 kg</li>
+            <li>Autonomie pendant les phases de transit</li>
+            <li>Parcours défini avec arrêts précis</li>
+          </ul>
+        </div>
+        <div class="card">
+          <ul class="checklist">
+            <li>Évitement d'obstacles — objectif zéro collision</li>
+            <li>Distance d'arrêt ~ 30 cm, sécurité ≥ 35 cm</li>
+            <li>Portée capteurs : 2 cm à 12 m</li>
+            <li>Fabrication : impression 3D, composites, bois</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Rôle du LiDAR</h2>
+      <div class="card">
+        <p>Le LiDAR assure la détection de l'environnement, la cartographie dynamique, les essais de navigation et l'évitement d'obstacles en temps réel. Il constitue le capteur principal de la solution semi-autonome retenue.</p>
+        <a href="essais-lidar.html" class="btn btn-primary btn-sm" style="margin-top:0.75rem"><i class="fa-solid fa-satellite-dish"></i> Voir les essais LiDAR</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Données techniques clés</h2>
+      <table class="data-table card" style="padding:0;overflow:hidden">
+        <thead><tr><th>Paramètre</th><th>Valeur</th></tr></thead>
+        <tbody>
+          <tr><td>Dimensions AGV</td><td>40 × 25 × 20 cm</td></tr>
+          <tr><td>Masse (sans charge)</td><td>3,2 kg — max 8,2 kg avec charge</td></tr>
+          <tr><td>Châssis</td><td>Contreplaqué bouleau — Carrosserie ABS</td></tr>
+          <tr><td>Batterie</td><td>7,4 V — 6 200 mAh</td></tr>
+          <tr><td>Puissance totale</td><td>40,255 W</td></tr>
+          <tr><td>Architecture</td><td>Raspberry Pi 5 + Arduino Mega + LiDAR</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>initSite('presentation.html');</script>
+</body>
+</html>

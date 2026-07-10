@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Simulation AGV</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Simulation du contrôle des AGV</h1>
+  </header>
+
+  <section class="simulation">
+    <div class="agv-control">
+      <h2>AGV 1 - Chaîne de production</h2>
+      <button onclick="demarrerChaine()">Démarrer</button>
+      <button onclick="arreterChaine()">Arrêter</button>
+      <p id="etatChaine">État : arrêté</p>
+    </div>
+
+    <div class="agv-control">
+      <h2>AGV 2 - Assistance opérateur</h2>
+      <button onclick="envoyer('fournitures')">Aller au poste des fournitures</button>
+      <button onclick="envoyer('outil')">Ramener un outil</button>
+      <button onclick="envoyer('operateur')">Retour à l’opérateur</button>
+      <p id="etatAgv2">AGV 2 en attente d’instruction</p>
+    </div>
+
+    <div class="zone-production">
+      <!-- AGV 1 et AGV 2 -->
+      <div id="agv1" class="agv agv1"></div>
+      <div id="agv2" class="agv agv2"></div>
+
+      <!-- Postes -->
+      <div class="poste" id="poste-fournitures">Poste Fournitures</div>
+      <div class="poste" id="poste-outils">Zone Outils</div>
+      <div class="poste" id="poste-operateur">Opérateur</div>
+
+      <!-- Ligne de production -->
+      <div class="ligne"></div>
+    </div>
+  </section>
+
+  <script>
+    let chaineActive = false;
+    let intervalAGV1;
+
+    function demarrerChaine() {
+      document.getElementById("etatChaine").textContent = "État : en fonctionnement";
+      chaineActive = true;
+      deplacerAGV1();
+    }
+
+    function arreterChaine() {
+      document.getElementById("etatChaine").textContent = "État : arrêté";
+      chaineActive = false;
+      clearInterval(intervalAGV1);
+    }
+
+    function deplacerAGV1() {
+      const agv1 = document.getElementById("agv1");
+      let position = 20;
+      let direction = 1;
+      intervalAGV1 = setInterval(() => {
+        if (!chaineActive) return;
+        position += direction * 2;
+        agv1.style.left = position + "px";
+        if (position > 420 || position < 20) direction *= -1;
+      }, 30);
+    }
+
+    function envoyer(destination) {
+      const etat = document.getElementById("etatAgv2");
+      const agv = document.getElementById("agv2");
+
+      etat.textContent = "AGV 2 se dirige vers " + destination + "...";
+
+      let x, y;
+      if (destination === "fournitures") { x = 50; y = 50; }
+      else if (destination === "outil") { x = 400; y = 100; }
+      else { x = 200; y = 300; }
+
+      agv.style.left = x + "px";
+      agv.style.top = y + "px";
+
+      setTimeout(() => {
+        etat.textContent = "AGV 2 est arrivé au poste : " + destination + ".";
+      }, 2000);
+    }
+  </script>
+</body>
+</html>

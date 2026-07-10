@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cahier des charges — Projet AGV</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <div id="site-nav"></div>
+  <main class="container page-main">
+    <header class="page-header">
+      <h1>Cahier des charges</h1>
+      <p class="page-lead">Besoin, fonctions de service, contraintes et critères de validation du système AGV.</p>
+    </header>
+
+    <section class="section card">
+      <h2 class="section-title">Besoin principal</h2>
+      <p>Mettre en place deux AGV pour automatiser la circulation interne des produits finis et des pièces détachées dans une usine de fabrication de petites poupées, garantissant un flux synchronisé entre fabrication et approvisionnement.</p>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Matrice des fonctions</h2>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr><th>Fonction attendue</th><th>Critère</th><th>Niveau attendu</th><th>Vérification</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Déplacement de l'AGV</td><td>Vitesse stable, trajectoire respectée</td><td>Parcours complet sans dérive > 5 cm</td><td>Test en conditions réelles</td></tr>
+            <tr><td>Détection d'obstacles</td><td>Portée 2 cm – 12 m</td><td>Détection fiable à 35 cm minimum</td><td>Essais LiDAR + ultrasons</td></tr>
+            <tr><td>Arrêt en cas de danger</td><td>Temps de réaction</td><td>Arrêt < 30 cm de l'obstacle</td><td>Test obstacle fixe/mobile</td></tr>
+            <tr><td>Autonomie suffisante</td><td>Autonomie en transit</td><td>≥ 1 cycle complet</td><td>Test batterie 6200 mAh</td></tr>
+            <tr><td>Intégration mécanique</td><td>Rigidité, charge 5 kg</td><td>Déformation < limite élastique</td><td>Simulations FEA</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Contraintes par domaine</h2>
+      <div class="card-grid card-grid-2">
+        <div class="card">
+          <h3 class="card-title">Sécurité</h3>
+          <ul class="checklist">
+            <li>Objectif zéro collision</li>
+            <li>Distance de sécurité ≥ 35 cm</li>
+            <li>Arrêt d'urgence accessible</li>
+            <li>Détection multi-capteurs (LiDAR + ultrasons)</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Budget & intégration</h3>
+          <ul class="checklist">
+            <li>Budget max 1 500 € — consommé ~867 €</li>
+            <li>Procédés école : 3D, composites, bois</li>
+            <li>Communication Pi ↔ Arduino Mega</li>
+            <li>Compatibilité ROS2</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section card">
+      <h2 class="section-title">Document officiel</h2>
+      <p>Consultez le cahier des charges fonctionnel complet :</p>
+      <a href="_CdCF%20-%20Projet%20AGV%20.docx.pdf" target="_blank" class="btn btn-primary" style="margin-top:0.75rem">
+        <i class="fa-solid fa-file-pdf"></i> Ouvrir le CdCF (PDF)
+      </a>
+    </section>
+  </main>
+  <div id="site-footer"></div>
+  <script src="assets/js/site-config.js"></script>
+  <script src="assets/js/components.js"></script>
+  <script>initSite('cahier-des-charges.html');</script>
+</body>
+</html>
