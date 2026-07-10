@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HÔPITAL 4.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #faf0ff 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            min-height: 95vh;
+        }
+        
+        .header {
+            background: #a8c9f5;
+            color: white;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+        }
+        
+        .header:hover {
+            transform: scale(1.02);
+        }
+        
+        .header-logo {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+        }
+        
+        .header-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: #0066cc;
+        }
+        
+        .header h1 .red {
+            color: #ff0000;
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-bottom: 3px solid #667eea;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            background: #f5f5f5;
+            border: none;
+            font-size: 1em;
+            font-weight: bold;
+            color: #333;
+            transition: all 0.3s;
+        }
+        
+        .tab:hover {
+            background: #e0e0e0;
+        }
+        
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        .content {
+            padding: 40px;
+            min-height: 400px;
+        }
+        
+        .section {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 2em;
+        }
+        
+        h3 {
+            color: #764ba2;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        
+        p {
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin-top: 30px;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .team-member {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            perspective: 1000px;
+            height: 350px;
+        }
+        
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+        
+        .team-member-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .team-member.flipped .team-member-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .team-member-front,
+        .team-member-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .team-member-back {
+            transform: rotateY(180deg);
+            background: #667eea;
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .team-member-back h4 {
+            color: white;
+            margin-bottom: 15px;
+        }
+        
+        .team-member-back p {
+            color: white;
+            line-height: 1.6;
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #667eea;
+            cursor: pointer;
+        }
+        
+        .team-member h4 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        .video-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .video-container iframe {
+            width: 100%;
+            max-width: 800px;
+            height: 450px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+        
+        .popup-overlay.show {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .popup-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            margin: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            animation: slideUp 0.4s;
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(50px); 
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
+        }
+        
+        .popup-close {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 35px;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s;
+        }
+        
+        .popup-close:hover {
+            color: #333;
+        }
+        
+        .popup-content h2 {
+            margin-bottom: 20px;
+        }
+        
+        /* Collapsible sections */
+        .cahier-section {
+            margin-bottom: 20px;
+        }
+        
+        .cahier-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .cahier-header:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .cahier-header.active {
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .cahier-title {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+        
+        .cahier-icon {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+        
+        .cahier-header.active .cahier-icon {
+            transform: rotate(180deg);
+        }
+        
+        .cahier-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            background: #f9f9f9;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .cahier-content.show {
+            max-height: 5000px;
+            padding: 30px;
+            border: 2px solid #667eea;
+            border-top: none;
+        }
+        
+        .cahier-content-inner {
+            padding: 10px 0;
+        }
+        
+        /* Sub-sections */
+        .sub-cahier-header {
+            background: #e8e8ff;
+            color: #667eea;
+            padding: 15px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 15px 0;
+            transition: all 0.3s;
+            font-weight: 600;
+            border-left: 4px solid #667eea;
+        }
+        
+        .sub-cahier-header:hover {
+            background: #d8d8ff;
+            transform: translateX(5px);
+        }
+        
+        .sub-cahier-header.active {
+            background: #667eea;
+            color: white;
+        }
+        
+        .sub-cahier-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+            padding-left: 25px;
+        }
+        
+        .sub-cahier-content.show {
+            max-height: 3000px;
+            padding: 20px 0 20px 25px;
+        }
+        
+        .sub-cahier-content p {
+            margin: 10px 0;
+            color: #666;
+        }
+        
+        .placeholder-text {
+            color: #999;
+            font-style: italic;
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            border: 2px dashed #ddd;
+            margin: 10px 0;
+        }
+        
+        .pdf-download-btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin: 20px 0;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .pdf-download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+        }
+        
+        .pdf-download-section {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid #f0f0f0;
+            margin-bottom: 30px;
+        }
+        
+        /* ========== CONTRÔLE COLIS ========== */
+        .colis-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .colis-card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0ff;
+        }
+
+        .colis-card h3 {
+            color: #667eea;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .colis-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .colis-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .btn-colis {
+            padding: 10px 22px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-colis:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+
+        .btn-vert {
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            color: #1a5c3a;
+        }
+
+        .btn-rouge {
+            background: linear-gradient(135deg, #f5576c, #f093fb);
+            color: white;
+        }
+
+        .btn-bleu {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-gris {
+            background: #e0e0e0;
+            color: #555;
+        }
+
+        .colis-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .colis-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        .colis-table th:first-child { border-radius: 8px 0 0 0; }
+        .colis-table th:last-child  { border-radius: 0 8px 0 0; }
+
+        .colis-table td {
+            padding: 11px 15px;
+            border-bottom: 1px solid #eee;
+            color: #444;
+        }
+
+        .colis-table tr:hover td {
+            background: #f0f0ff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+        }
+
+        .badge-attente  { background: #fff3cd; color: #856404; }
+        .badge-traite   { background: #d1e7dd; color: #0a3622; }
+
+        .historique-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 280px;
+            overflow-y: auto;
+        }
+
+        .historique-list li {
+            padding: 10px 14px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9em;
+            color: #444;
+        }
+
+        .historique-list li .hist-date {
+            display: block;
+            font-size: 0.75em;
+            color: #aaa;
+            margin-top: 3px;
+        }
+
+        .historique-list li.capteur { border-left-color: #43e97b; }
+        .historique-list li.tri     { border-left-color: #f5576c; }
+
+        .stat-box {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            flex: 1;
+            min-width: 100px;
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .stat-item .stat-num {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-item .stat-label {
+            font-size: 0.8em;
+            color: #888;
+            margin-top: 4px;
+        }
+
+        .server-url-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+            background: white;
+            border-radius: 10px;
+            padding: 12px 18px;
+            border: 2px solid #e0e0ff;
+        }
+
+        .server-url-bar label {
+            font-weight: bold;
+            color: #667eea;
+            white-space: nowrap;
+            font-size: 0.9em;
+        }
+
+        .server-url-bar input {
+            flex: 1;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .status-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 6px;
+        }
+
+        .status-dot.connected    { background: #43e97b; }
+        .status-dot.disconnected { background: #f5576c; }
+        .status-dot.checking     { background: #ffc107; animation: pulse 1s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.3; }
+        }
+
+        .import-zone {
+            border: 3px dashed #667eea;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+            color: #667eea;
+        }
+
+        .import-zone:hover {
+            background: #f0f0ff;
+        }
+
+        .import-zone input[type="file"] {
+            display: none;
+        }
+
+        .import-zone p { margin: 8px 0; }
+
+        .notification-popup {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+            z-index: 9999;
+            font-weight: bold;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-width: 320px;
+        }
+
+        .notification-popup.show {
+            transform: translateX(0);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #bbb;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header" onclick="showPopup()">
+            <div class="header-logo">
+                <!-- Logo placeholder -->
+            </div>
+            <h1>HÔPITAL <span class="red">4.0</span></h1>
+            <p>L'innovation au service de la santé</p>
+        </div>
+        
+        <!-- Tabs Navigation -->
+        <div class="tabs">
+            <button class="tab active" onclick="showSection('presentation', event)">Présentation</button>
+            <button class="tab" onclick="showSection('contexte', event)">Contexte</button>
+            <button class="tab" onclick="showSection('systeme', event)">Système</button>
+            <button class="tab" onclick="showSection('cahier', event)">Cahier des charges</button>
+            <button class="tab" onclick="showSection('conception', event)">Conception</button>
+            <button class="tab" onclick="showSection('materiaux', event)">Matériaux</button>
+            <button class="tab" onclick="showSection('equipe', event)">Équipe</button>
+            <button class="tab" onclick="showSection('controle-colis', event)">📦 Contrôle Colis</button>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Section Présentation -->
+            <div id="presentation" class="section active">
+                <h2>Présentation du Projet</h2>
+                <p>Notre idée est née d'un problème sociétal majeur : la santé. Comme vous le savez, nous sommes confrontés à un manque de personnel alarmant dans le secteur médical, et plus particulièrement en milieu hospitalier. C'est pourquoi nous proposons aujourd'hui « L'HÔPITAL 4.0 ».</p>
+                <p>Cet Hôpital 4.0 s'appuiera sur des avancées technologiques axées sur la gestion des consommables liés aux soins. Actuellement, le personnel soignant perd beaucoup de temps à chercher son matériel dans une pharmacie interne à l'hôpital, ce qui représente une absence de 10 à 20 minutes à chaque fois. Il est primordial de supprimer cette perte de temps inutile afin de dégager du temps au personnel soignant qui sera utilisé au profit des patients.</p>
+            </div>
+            
+            <!-- Section Contexte -->
+            <div id="contexte" class="section">
+                <h2>Contexte</h2>
+                <p>Le secteur hospitalier fait face à une pénurie croissante de personnel qualifié. Dans ce contexte, chaque minute compte et doit être optimisée pour améliorer la qualité des soins.</p>
+                <h3>Problématique</h3>
+                <p>Les infirmiers et aides-soignants passent en moyenne 10 à 20 minutes par recherche de matériel dans les pharmacies internes. Cette perte de temps se répète plusieurs fois par jour, représentant des heures précieuses qui pourraient être consacrées aux patients.</p>
+            </div>
+            
+            <!-- Section Système -->
+            <div id="systeme" class="section">
+                <h2>Le Système</h2>
+                <h3>Architecture Globale</h3>
+                <p>Notre système HÔPITAL 4.0 se compose de plusieurs éléments interconnectés permettant une automatisation complète de la gestion des consommables médicaux.</p>
+                <h3>Composants Principaux</h3>
+                <p><strong>Bras Robot :</strong> Assure la préhension et le placement précis des consommables.</p>
+                <p><strong>Convoyeur Automatisé :</strong> Transporte les articles de la zone de stockage vers les points de distribution.</p>
+                <p><strong>Système de Gestion :</strong> Coordonne l'ensemble des opérations et gère l'inventaire en temps réel.</p>
+            </div>
+            
+            <!-- Section Cahier des Charges -->
+            <div id="cahier" class="section">
+                <h2>Cahier des Charges</h2>
+                <p>Spécifications techniques et fonctionnelles du projet HÔPITAL 4.0.</p>
+                
+                <!-- Bouton de téléchargement PDF -->
+                <div class="pdf-download-section">
+                    <a href="cahier-des-charges.pdf" class="pdf-download-btn" download>📥 Télécharger le PDF complet</a>
+                </div>
+                
+                <!-- OBJECTIF -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Objectif</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <p>Le système a pour objectif d'automatiser la gestion des flux de médicaments au sein de l'hôpital, depuis la Pharmacie à Usage Intérieur jusqu'aux services demandeurs. Grâce à l'intégration d'un bras robotisé et d'un convoyeur, l'ensemble doit permettre de réduire les déplacements du personnel, d'augmenter la rapidité d'acheminement et d'améliorer la fiabilité du circuit logistique. Le système s'appuie sur un site web centralisé qui coordonne les commandes, les enregistre dans une base de données, les transmet aux machines et garantit la synchronisation entre le bras robot et le convoyeur. L'ensemble doit fonctionner de manière fiable, continue, sécurisée et conforme aux normes applicables à l'environnement hospitalier.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BRAS ROBOT -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Bras Robot</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <!-- Mécanique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Mécanique
+                            </div>
+                            <div class="sub-cahier-content">
+                                <p>Le bras robotisé doit être capable de manipuler des colis médicaux standardisés d'un poids maximal de deux kilogrammes, avec une précision de positionnement de l'ordre du centimètre et une répétabilité supérieure à la quasi-totalité des cycles. Son architecture doit permettre une couverture complète des zones de dépose prévues, sans repositionnement manuel. La conception doit maintenir un haut niveau de rigidité afin d'éviter la déformation des segments lors des phases de manipulation et lors des accélérations.</p><p>La pince doit garantir une prise sûre et non destructive, tout en assurant une répétabilité stable du serrage. Les choix mécaniques doivent également tenir compte de l'environnement hospitalier, notamment en matière de matériaux propres, lavables et compatibles avec un nettoyage simplifié. Le bras doit intégrer des dispositifs mécaniques de sécurité, dont des arrêts d'urgence et des capteurs de fin de course, afin de prévenir les collisions, les surcharges mécaniques et les efforts excessifs sur les moteurs.</p>
+                            </div>
+                            
+                            <!-- Électronique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Électronique
+                            </div>
+                            <div class="sub-cahier-content">
+                                <p>Le bras repose sur une architecture électronique combinant moteurs, capteurs et unité de commande. Les moteurs doivent être alimentés par une électronique stable et protégée, et capables de fournir les couples nécessaires au mouvement des six axes. Les capteurs utilisés pour la détection, l'identification et le contrôle de serrage doivent fonctionner de manière fiable, sans être perturbés par l'environnement hospitalier.</p><p>L'électronique doit également garantir la continuité d'alimentation grâce au réseau hospitalier et au basculement vers un système de secours en cas de coupure. L'unité de commande doit permettre une communication fiable avec le site web, la base de données et les autres sous-systèmes. Enfin, l'ensemble électronique doit être protégé dans un coffret sécurisé afin de respecter les exigences de sécurité électrique et de maintenance.</p>
+                            </div>
+                            
+                            <!-- Automatisme -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Automatisme
+                            </div>
+                            <div class="sub-cahier-content">
+                                <p>Le système d'automatisme du bras doit assurer la coordination complète de la séquence de manipulation : détection du colis, identification, saisie, déplacement, contrôle du maintien dans la pince et dépose sur le convoyeur. Il doit garantir une communication constante avec la base de données pour obtenir les informations de destination, gérer les priorités et assurer la traçabilité.</p><p>L'automatisme doit respecter les normes d'arrêt d'urgence, de sécurité machine et de détection d'ouverture de la cage de protection. En cas de défaut, il doit se mettre immédiatement en sécurité et permettre une reprise manuelle sans perturber le déroulement des opérations. L'ensemble doit conserver un haut niveau de fiabilité et de répétabilité, indispensable pour un usage hospitalier.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CONVOYEUR -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Convoyeur</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <!-- Mécanique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Mécanique
+                            </div>
+                            <div class="sub-cahier-content">
+                                <p>Le convoyeur doit assurer le déplacement linéaire et stable des bacs médicaux, depuis la zone de dépose du bras robotisé jusqu'à la zone d'acheminement prévue. Il doit accepter des charges allant jusqu'à quinze kilogrammes tout en maintenant une vitesse régulière de vingt centimètres par seconde. La structure doit supporter les contraintes de compression verticale, de flexion et de torsion induites par les charges variables.</p><p>Les tambours, l'arbre et les éléments de support doivent être dimensionnés pour résister au couple moteur, aux accélérations et aux efforts dynamiques. L'ensemble doit fonctionner silencieusement et être compatible avec les exigences d'hygiène hospitalière. Enfin, la maintenance doit être simple, rapide et fondée sur des composants standards faciles à remplacer.</p>
+                            </div>
+                            
+                            <!-- Électronique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Électronique
+                            </div>
+                            <div class="sub-cahier-content">
+                                <p>Le convoyeur est piloté par une unité de commande locale constituée d'un Arduino Uno. Cet automate gère le mouvement du moteur, la lecture des capteurs de début et fin de course et l'exécution des séquences d'acheminement. L'Arduino communique avec le Raspberry Pi via liaison série afin de recevoir les ordres logiciels émis par le site web et de transmettre l'état du système.</p><p>L'alimentation du moteur et de l'électronique est assurée par une chaîne électrique protégée et compatible avec les standards hospitaliers. Les capteurs doivent fournir une information fiable permettant de contrôler la progression des bacs sans risque d'erreur ou d'interruption intempestive.</p>
+                            </div>
+                            
+                            <!-- Automatisme -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Automatisme
+                            </div>
+                            <div class="sub-cahier-content">
+                                <p>L'automatisme du convoyeur repose sur l'Arduino Uno, qui exécute localement la gestion du mouvement, le traitement des capteurs et les arrêts de sécurité. Cette organisation garantit un fonctionnement déterministe, même en cas de latence ou d'interruption de communication avec la supervision. Le Raspberry Pi transmet les ordres de destination, supervise les flux et gère les priorités, tandis que l'Arduino assure la bonne exécution des cycles mécaniques.</p><p>Le système doit pouvoir arrêter instantanément le convoyeur en cas d'urgence, détecter une surcharge ou une anomalie de position, et synchroniser sa séquence avec celle du bras robotisé afin d'assurer un flux continu, fiable et sans collision.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Conception -->
+            <div id="conception" class="section">
+                <h2>Cahier de Conception</h2>
+                <p>Documentation technique détaillée de la conception du projet HÔPITAL 4.0.</p>
+                
+                <!-- Bouton de téléchargement PDF -->
+                <div class="pdf-download-section">
+                    <a href="cahier-de-conception.pdf" class="pdf-download-btn" download>📥 Télécharger le PDF complet</a>
+                </div>
+                
+                <!-- OBJECTIF -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Objectif</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner"><p>Le cahier de conception décrit précisément les choix techniques mis en œuvre pour concevoir, dimensionner et assembler le bras robotisé et le convoyeur. Il présente les calculs mécaniques, les architectures électroniques, les bilans de puissance, ainsi que les solutions d' automatisme retenues. L' objectif est de fournir un document de référence garantissant que chaque sous-système répond aux contraintes identifiées dans le cahier des charges, tout en assurant robustesse, sécurité et cohérence d'ensemble.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BRAS ROBOT -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Bras Robot</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <!-- Mécanique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Mécanique
+                            </div>
+                            <div class="sub-cahier-content"><p>Le bras a été dimensionné pour atteindre une longueur minimale d'un mètre en extension complète et manipuler une charge utile de deux kilogrammes. Les masses de chaque segment ont été estimées avec précision afin de calculer les couples requis sur chaque axe. Ces valeurs ont permis de sélectionner les moteurs adaptés et d'assurer une marge de sécurité suffisante lors des mouvements dynamiques.</p><p>La structure est réalisée en HT-PLA recuit, un matériau offrant une bonne rigidité, une ténacité suffisante et une résistance thermique élevée. Les segments sont associés à des axes en aluminium, des roulements, des poulies et courroies permettant la transmission des efforts. L'ensemble a été validé par des simulations mécaniques montrant des contraintes largement inférieures aux limites élastiques du matériau, garantissant une déformation négligeable en fonctionnement.</p>
+                            </div>
+                            
+                            <!-- Électronique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Électronique
+                            </div>
+                            <div class="sub-cahier-content"><p>L'architecture électronique du bras repose sur un ensemble de moteurs pas-à-pas NEMA34 et NEMA17 pour les axes principaux, ainsi que des servomoteurs pour les mouvements nécessitant une grande précision. L'alimentation est assurée par des convertisseurs électriques, permettant de fournir du 24 V aux moteurs et du 5 V aux composants logiques.</p><p>Le cœur de commande est un Raspberry Pi 5. Il a été retenu pour sa puissance de calcul, sa compatibilité avec le système ROS et sa capacité à traiter simultanément la communication réseau, l'enregistrement des données et le pilotage du robot. Les capteurs de pression assurent l'identification et la détection du maintien du colis, tout en permettant un contrôle continu du serrage de la pince.</p>
+                            </div>
+                            
+                            <!-- Automatisme -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Automatisme
+                            </div>
+                            <div class="sub-cahier-content"><p>Le Raspberry Pi exécute la logique d'automatisme du bras. Il coordonne la lecture des capteurs, la programmation des mouvements, la gestion du serrage et la communication avec la base de données. L'ensemble des informations transitent par un bus CAN, choisi pour sa fiabilité et sa résistance aux perturbations électriques. Un module CAN dédié assure l'interface entre les capteurs/actionneurs et le contrôleur principal.</p><p>L'automatisme gère la séquence complète de prise et de dépôt des colis, tout en assurant la sécurité via l'arrêt d'urgence, la détection d'ouverture de la cage et la surveillance des valeurs critiques. Le système garantit une excellente répétabilité, indispensable en milieu hospitalier.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CONVOYEUR -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Convoyeur</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <!-- Mécanique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Mécanique
+                            </div>
+                            <div class="sub-cahier-content"><p>Le convoyeur est construit autour d'un châssis rigide destiné à supporter les contraintes de flexion, torsion et compression associées au transport de charges pouvant atteindre quinze kilogrammes. Les tambours assurent chacun une transmission efficace du mouvement, tandis que l'arbre central, soumis à des contraintes de torsion et de cisaillement, a été dimensionné pour résister durablement au couple moteur.</p><p>Les choix de matériaux reposent sur l' utilisation de profilés en aluminium pour la structure, d' acier pour les éléments très sollicités comme l' arbre, et de PVC industriel pour certaines pièces secondaires. Les simulations mécaniques confirment le bon dimensionnement du convoyeur, notamment en matière de déformation et de contraintes admissibles.</p>
+                            </div>
+                            
+                            <!-- Électronique -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Électronique
+                            </div>
+                            <div class="sub-cahier-content"><p>Le convoyeur est commandé par un Arduino Uno, dont la simplicité et la fiabilité répondent parfaitement aux besoins d' un axe unique. L' Arduino gère le moteur, les capteurs et le déroulement des cycles, tandis que le Raspberry Pi assure le pilotage haut niveau et la communication avec le site web.</p><p>Le système inclut une alimentation protégée compatible avec les normes hospitalières, ainsi qu' un ensemble de capteurs garantissant le contrôle précis du déplacement des bacs. L' électronique offre une lecture stable des états et une commande régulière du moteur.</p>
+                            </div>
+                            
+                            <!-- Automatisme -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Automatisme
+                            </div>
+                            <div class="sub-cahier-content"><p>L' Arduino Uno exécute localement les séquences d' automatisme du convoyeur. Il assure la mise en marche du tapis, son arrêt, la gestion des capteurs de course et le respect des consignes émises par la supervision. Cette organisation garantit que le convoyeur reste opérationnel même en cas de perturbation des communications.</p><p>Le système doit également gérer l' arrêt d' urgence, synchroniser ses opérations avec les mouvements du bras robotisé, assurer une livraison sans collision et permettre une reprise rapide en cas de défaut. L' ensemble respecte les normes de sécurité propres aux systèmes motorisés en milieu hospitalier.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Matériaux -->
+            <div id="materiaux" class="section">
+                <h2>Cahier des Matériaux</h2>
+                <p>Étude détaillée des matériaux utilisés dans le projet HÔPITAL 4.0.</p>
+                
+                <!-- Bouton de téléchargement PDF -->
+                <div class="pdf-download-section">
+                    <a href="cahier-des-materiaux.pdf" class="pdf-download-btn" download>📥 Télécharger le PDF complet</a>
+                </div>
+                
+                <!-- INTRODUCTION -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Introduction</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner"><p>Le choix des matériaux représente une étape centrale dans la conception du bras robotisé et du convoyeur. Les matériaux doivent offrir une résistance mécanique suffisante, une durabilité adaptée, une compatibilité avec les procédés de fabrication disponibles et une intégration cohérente dans un environnement hospitalier. L' étude détaillée a permis d' identifier les matériaux les plus pertinents pour les différentes pièces structurales et fonctionnelles.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- MÉTHODOLOGIE DE SÉLECTION -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Méthodologie de Sélection</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner"><p>La démarche de sélection s' appuie sur l' analyse des contraintes mécaniques, thermiques et environnementales propres à chaque sous-système. Les matériaux candidats ont été évalués selon leur module d' Young, leur limite élastique, leur densité, leur tenue thermique et leur facilité de fabrication. Une matrice de décision pondérée a permis d'objectiver le choix, en tenant compte également des coûts et de la disponibilité des matériaux. Enfin, des simulations numériques ont validé les performances mécaniques des pièces critiques.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- CHOIX DES MATÉRIAUX -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Choix des Matériaux</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <!-- Bras Robot -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Bras Robot
+                            </div>
+                            <div class="sub-cahier-content"><p>Pour les pièces du bras robotisé, plusieurs matériaux ont été étudiés, notamment le PLA haute température, le polycarbonate, le nylon et le polyéthylène. Le PLA haute température s'est révélé être le meilleur compromis, grâce à sa rigidité élevée, sa précision d'impression, sa compatibilité avec le recuit thermique, sa résistance suffisante et son prix attractif. Les simulations montrent que les contraintes exercées sur les pièces en PLA haute température restent largement inférieures à leur limite élastique, garantissant une marge de sécurité élevée.</p>
+                            </div>
+                            
+                            <!-- Convoyeur -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Convoyeur
+                            </div>
+                            <div class="sub-cahier-content"><p>Les éléments du convoyeur ont été évalués parmi l'aluminium, l'acier S235 et le PVC industriel. L'aluminium a été retenu pour le châssis en raison de sa légèreté, de sa résistance à la corrosion et de sa facilité d'assemblage. L'acier S235, plus résistant, est utilisé pour l'arbre et les pièces soumises à des efforts importants. Le PVC industriel permet d'obtenir des pièces secondaires légères, durables et faciles à usiner. La combinaison de ces matériaux offre un bon équilibre entre rigidité, masse, coût et durabilité.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- JUSTIFICATION -->
+                <div class="cahier-section">
+                    <div class="cahier-header" onclick="toggleCahier(this)">
+                        <span class="cahier-title">Justification</span>
+                        <span class="cahier-icon">▼</span>
+                    </div>
+                    <div class="cahier-content">
+                        <div class="cahier-content-inner">
+                            <!-- Bras Robot -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Bras Robot
+                            </div>
+                            <div class="sub-cahier-content"><p>Le choix du PLA haute température est justifié par son rapport performance-coût favorable, sa facilité de mise en œuvre et sa très bonne tenue mécanique pour une application robotique légère. Sa résistance thermique évite les déformations dues à l'échauffement des moteurs. Les simulations montrent un coefficient de sécurité nettement supérieur aux exigences du projet, confirmant la pertinence de ce choix.</p>
+                            </div>
+                            
+                            <!-- Convoyeur -->
+                            <div class="sub-cahier-header" onclick="toggleSubCahier(this, event)">
+                                Convoyeur
+                            </div>
+                            <div class="sub-cahier-content"><p>L'aluminium constitue une solution optimale pour la structure, grâce à sa rigidité suffisante, son faible poids et sa résistance naturelle à la corrosion, essentielle en milieu hospitalier. L'acier S235 offre la robustesse nécessaire aux pièces fortement sollicitées mécaniquement. Le PVC industriel complète l'ensemble en permettant de réaliser des pièces d'interface simples et économiques. Cette combinaison garantit un convoyeur fiable, durable et facile à maintenir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Section Équipe -->
+            <div id="equipe" class="section">
+                <h2>Notre Équipe</h2>
+                <p>Découvrez les membres qui travaillent sur ce projet :</p>
+                
+                <div class="team-grid">
+                    <div class="team-member" onclick="flipCard(this)">
+                        <div class="team-member-inner">
+                            <div class="team-member-front">
+                                <img src="baptiste-petitjean.jpg" alt="Baptiste Petitjean">
+                                <h4>Baptiste Petitjean</h4>
+                                <p>Chef de projet</p>
+                            </div>
+                            <div class="team-member-back">
+                                <h4>Baptiste Petitjean</h4>
+                                <p>Chef de projet, responsable de l'électronique du bras robot.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member" onclick="flipCard(this)">
+                        <div class="team-member-inner">
+                            <div class="team-member-front">
+                                <img src="hugo-hanniet.jpg" alt="Hugo Hanniet">
+                                <h4>Hugo Hanniet</h4>
+                                <p>PMO</p>
+                            </div>
+                            <div class="team-member-back">
+                                <h4>Hugo Hanniet</h4>
+                                <p>PMO, responsable de l'automatisme du bras robot.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member" onclick="flipCard(this)">
+                        <div class="team-member-inner">
+                            <div class="team-member-front">
+                                <img src="louis-feix.jpg" alt="Louis Feix">
+                                <h4>Louis Feix</h4>
+                                <p>Ingénieur projet</p>
+                            </div>
+                            <div class="team-member-back">
+                                <h4>Louis Feix</h4>
+                                <p>Responsable de l'automatisme du convoyeur.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member" onclick="flipCard(this)">
+                        <div class="team-member-inner">
+                            <div class="team-member-front">
+                                <img src="jonathan-kasongo.jpg" alt="Jonathan Kasongo Kitenge">
+                                <h4>Jonathan Kasongo Kitenge</h4>
+                                <p>Ingénieur projet</p>
+                            </div>
+                            <div class="team-member-back">
+                                <h4>Jonathan Kasongo Kitenge</h4>
+                                <p>Responsable de l'électronique du convoyeur.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member" onclick="flipCard(this)">
+                        <div class="team-member-inner">
+                            <div class="team-member-front">
+                                <img src="mateo-cothenet.jpg" alt="Matéo Cothenet">
+                                <h4>Matéo Cothenet</h4>
+                                <p>Ingénieur projet</p>
+                            </div>
+                            <div class="team-member-back">
+                                <h4>Matéo Cothenet</h4>
+                                <p>Responsable de la conception mécanique du convoyeur.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="team-member" onclick="flipCard(this)">
+                        <div class="team-member-inner">
+                            <div class="team-member-front">
+                                <img src="doryan-ponchaut.jpg" alt="Doryan Ponchaut">
+                                <h4>Doryan Ponchaut</h4>
+                                <p>Ingénieur projet</p>
+                            </div>
+                            <div class="team-member-back">
+                                <h4>Doryan Ponchaut</h4>
+                                <p>Responsable de la conception mécanique du bras robot.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===================== SECTION CONTRÔLE COLIS ===================== -->
+            <div id="controle-colis" class="section">
+                <h2>📦 Contrôle Colis</h2>
+                <p>Interface de supervision du convoyeur : importez la liste des colis, suivez les passages capteurs et consultez l'historique des tris.</p>
+
+                <!-- Barre de connexion serveur -->
+                <div class="server-url-bar">
+                    <label>🔌 Serveur Flask :</label>
+                    <input type="text" id="serverUrl" value="http://localhost:5000" placeholder="http://localhost:5000">
+                    <button class="btn-colis btn-bleu" onclick="testerConnexion()">Connecter</button>
+                    <span id="statusLabel"><span class="status-dot disconnected" id="statusDot"></span><span id="statusText">Déconnecté</span></span>
+                </div>
+
+                <!-- Stats rapides -->
+                <div class="stat-box" style="margin-bottom:25px;">
+                    <div class="stat-item">
+                        <div class="stat-num" id="statTotal">0</div>
+                        <div class="stat-label">Total colis</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num" id="statAttente">0</div>
+                        <div class="stat-label">En attente</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num" id="statTraite">0</div>
+                        <div class="stat-label">Traités</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num" id="statEvenements">0</div>
+                        <div class="stat-label">Événements</div>
+                    </div>
+                </div>
+
+                <!-- Dashboard principal -->
+                <div class="colis-dashboard">
+
+                    <!-- Tableau des colis -->
+                    <div class="colis-card full-width">
+                        <h3>📋 Liste des Colis</h3>
+                        <div class="colis-actions">
+                            <label class="btn-colis btn-vert" for="fileImport" title="Importer un fichier Excel (.xlsx) avec les colonnes : numero_colis, destination, angle_servo">
+                                ⬆️ Importer Excel
+                            </label>
+                            <input type="file" id="fileImport" accept=".xlsx,.xls" onchange="importerExcel(this)">
+                            <button class="btn-colis btn-gris" onclick="rafraichirColis()">🔄 Rafraîchir</button>
+                        </div>
+                        <div id="colisTableContainer">
+                            <div class="empty-state">Connectez-vous au serveur Flask pour afficher les colis.</div>
+                        </div>
+                    </div>
+
+                    <!-- Historique -->
+                    <div class="colis-card">
+                        <h3>📜 Historique des Événements</h3>
+                        <div class="colis-actions">
+                            <button class="btn-colis btn-rouge" onclick="viderHistorique()">🗑️ Vider l'historique</button>
+                            <button class="btn-colis btn-gris" onclick="rafraichirHistorique()">🔄 Rafraîchir</button>
+                        </div>
+                        <ul class="historique-list" id="historiqueList">
+                            <li class="empty-state">Aucun événement.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Envoi manuel de signal capteur -->
+                    <div class="colis-card">
+                        <h3>🔧 Simulation Capteurs</h3>
+                        <p style="font-size:0.88em; color:#888; margin-bottom:15px;">Envoyez manuellement des signaux pour simuler les capteurs Arduino.</p>
+                        <div class="colis-actions" style="flex-direction:column; align-items:flex-start;">
+                            <button class="btn-colis btn-bleu" onclick="envoyerSignalCapteur1()" style="width:100%;">
+                                ▶️ Capteur 1 — Prochain colis (Tri)
+                            </button>
+                            <button class="btn-colis btn-gris" onclick="envoyerCapteurLibre()" style="width:100%; margin-top:10px;">
+                                📡 Envoyer message capteur libre
+                            </button>
+                            <textarea id="messageCapteur" rows="2" placeholder="Ex: Capteur 2 franchi" style="width:100%; border-radius:8px; padding:8px; border:1px solid #ddd; font-size:0.9em; resize:vertical; margin-top:8px;"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- ================================================================= -->
+
+        </div>
+    </div>
+    
+    <!-- Popup pour la présentation -->
+    <div id="popup" class="popup-overlay" onclick="closePopup(event)">
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <span class="popup-close" onclick="closePopup()">&times;</span>
+            <h2>Présentation du Projet HÔPITAL 4.0</h2>
+            <p>
+                Notre idée est née d'un problème sociétal majeur : la santé. Comme vous le savez, 
+                nous sommes confrontés à un manque de personnel alarmant dans le secteur médical, 
+                et plus particulièrement en milieu hospitalier. C'est pourquoi nous proposons 
+                aujourd'hui « L'HÔPITAL 4.0 ».
+            </p>
+            <p>
+                Cet Hôpital 4.0 s'appuiera sur des avancées technologiques axées sur la gestion 
+                des consommables liés aux soins. Actuellement, le personnel soignant perd beaucoup 
+                de temps à chercher son matériel dans une pharmacie interne à l'hôpital, ce qui 
+                représente une absence de 10 à 20 minutes à chaque fois. Il est primordial de 
+                supprimer cette perte de temps inutile afin de dégager du temps au personnel 
+                soignant qui sera utilisé au profit des patients.
+            </p>
+        </div>
+    </div>
+
+    <!-- Notification toast -->
+    <div class="notification-popup" id="notifPopup"></div>
+
+    <script>
+        // ========================================================
+        // CONTRÔLE COLIS — Logique JS
+        // ========================================================
+
+        let serverUrl = 'http://localhost:5000';
+        let pollingInterval = null;
+        let lastEventId = 0;
+        let isConnected = false;
+
+        function getServer() {
+            return document.getElementById('serverUrl').value.replace(/\/$/, '');
+        }
+
+        function showNotif(msg, success = true) {
+            const popup = document.getElementById('notifPopup');
+            popup.textContent = msg;
+            popup.style.background = success
+                ? 'linear-gradient(135deg, #43e97b, #38f9d7)'
+                : 'linear-gradient(135deg, #f5576c, #f093fb)';
+            popup.style.color = success ? '#1a5c3a' : 'white';
+            popup.classList.add('show');
+            setTimeout(() => popup.classList.remove('show'), 3500);
+        }
+
+        function setStatus(connected, checking = false) {
+            const dot  = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            dot.className = 'status-dot ' + (checking ? 'checking' : connected ? 'connected' : 'disconnected');
+            text.textContent = checking ? 'Connexion...' : connected ? 'Connecté' : 'Déconnecté';
+            isConnected = connected;
+        }
+
+        async function testerConnexion() {
+            setStatus(false, true);
+            try {
+                const res = await fetch(getServer() + '/messages', { signal: AbortSignal.timeout(4000) });
+                if (res.ok) {
+                    setStatus(true);
+                    showNotif('✅ Connexion réussie au serveur Flask !');
+                    await rafraichirColis();
+                    await rafraichirHistorique();
+                    demarrerPolling();
+                } else {
+                    throw new Error('HTTP ' + res.status);
+                }
+            } catch (e) {
+                setStatus(false);
+                showNotif('❌ Impossible de joindre le serveur : ' + e.message, false);
+            }
+        }
+
+        function demarrerPolling() {
+            if (pollingInterval) clearInterval(pollingInterval);
+            pollingInterval = setInterval(async () => {
+                try {
+                    const res  = await fetch(getServer() + '/messages');
+                    const data = await res.json();
+                    const nouveaux = data.messages.filter(m => m.id > lastEventId);
+                    if (nouveaux.length > 0) {
+                        lastEventId = Math.max(...nouveaux.map(m => m.id));
+                        nouveaux.forEach(m => showNotif('🔔 ' + m.text));
+                        await rafraichirHistorique();
+                        await rafraichirColis();
+                    }
+                } catch (_) { /* serveur injoignable, on ne plante pas */ }
+            }, 2000);
+        }
+
+        async function rafraichirColis() {
+            try {
+                const res  = await fetch(getServer() + '/');
+                /* La route / renvoie du HTML, on passe par l'API historique pour
+                   les stats et on reconstruit le tableau depuis /prochain-colis est
+                   une lecture destructive. On affiche donc un fetch de l'index HTML
+                   qu'on parse, OU on propose une route dédiée.
+                   → ici on utilise l'historique + on appelle notre propre endpoint. */
+                // Vraie approche : fetch /api/colis si dispo, sinon on fetch index et parse
+                await fetchColisTable();
+            } catch (e) { /* silencieux */ }
+        }
+
+        async function fetchColisTable() {
+            // On essaie d'abord une route dédiée /api/colis (optionnelle côté Flask),
+            // sinon on affiche un message d'aide.
+            try {
+                const res = await fetch(getServer() + '/api/colis');
+                if (res.ok) {
+                    const data = await res.json();
+                    afficherTableauColis(data.colis || []);
+                    return;
+                }
+            } catch (_) {}
+            // Fallback : on ne peut pas lire la BDD directement, on propose l'import
+            document.getElementById('colisTableContainer').innerHTML =
+                '<div class="empty-state">📌 Ajoutez <code style="background:#eee;padding:2px 6px;border-radius:4px;">/api/colis</code> à votre Flask pour afficher le tableau en temps réel, ou importez un fichier Excel ci-dessus.</div>';
+        }
+
+        function afficherTableauColis(colis) {
+            const container = document.getElementById('colisTableContainer');
+            if (!colis || colis.length === 0) {
+                container.innerHTML = '<div class="empty-state">Aucun colis en base de données.</div>';
+                document.getElementById('statTotal').textContent = 0;
+                document.getElementById('statAttente').textContent = 0;
+                document.getElementById('statTraite').textContent = 0;
+                return;
+            }
+            const attente = colis.filter(c => c.statut === 'en_attente').length;
+            const traite  = colis.filter(c => c.statut === 'traite').length;
+            document.getElementById('statTotal').textContent   = colis.length;
+            document.getElementById('statAttente').textContent = attente;
+            document.getElementById('statTraite').textContent  = traite;
+
+            let html = `<table class="colis-table">
+                <thead><tr>
+                    <th>#</th>
+                    <th>N° Colis</th>
+                    <th>Destination</th>
+                    <th>Angle Servo</th>
+                    <th>Statut</th>
+                </tr></thead><tbody>`;
+            colis.forEach(c => {
+                const badge = c.statut === 'en_attente'
+                    ? '<span class="badge badge-attente">⏳ En attente</span>'
+                    : '<span class="badge badge-traite">✅ Traité</span>';
+                html += `<tr>
+                    <td>${c.id}</td>
+                    <td><strong>${c.numero_colis}</strong></td>
+                    <td>${c.destination}</td>
+                    <td>${c.angle_servo}°</td>
+                    <td>${badge}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            container.innerHTML = html;
+        }
+
+        async function rafraichirHistorique() {
+            try {
+                const res  = await fetch(getServer() + '/api/historique');
+                const data = await res.json();
+                const liste = document.getElementById('historiqueList');
+                if (!data.historique || data.historique.length === 0) {
+                    liste.innerHTML = '<li class="empty-state">Aucun événement.</li>';
+                    document.getElementById('statEvenements').textContent = 0;
+                    return;
+                }
+                document.getElementById('statEvenements').textContent = data.historique.length;
+                liste.innerHTML = data.historique.map(h => {
+                    const classe = h.message.toLowerCase().includes('capteur') ? 'capteur' : 'tri';
+                    return `<li class="${classe}">
+                        ${h.message}
+                        <span class="hist-date">${h.date}</span>
+                    </li>`;
+                }).join('');
+            } catch (_) {}
+        }
+
+        async function viderHistorique() {
+            if (!confirm('Vider tout l\'historique ?')) return;
+            try {
+                const res  = await fetch(getServer() + '/api/vider-historique', { method: 'POST' });
+                const data = await res.json();
+                showNotif(data.message || '🗑️ Historique vidé !');
+                await rafraichirHistorique();
+            } catch (e) {
+                showNotif('❌ Erreur : ' + e.message, false);
+            }
+        }
+
+        async function envoyerSignalCapteur1() {
+            try {
+                const res  = await fetch(getServer() + '/prochain-colis');
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    showNotif(`🎯 Tri effectué ! Servo → ${data.angle_servo}°`);
+                } else if (data.status === 'aucun_colis') {
+                    showNotif('⚠️ Aucun colis en attente dans le système.', false);
+                }
+                await rafraichirColis();
+                await rafraichirHistorique();
+            } catch (e) {
+                showNotif('❌ Erreur capteur 1 : ' + e.message, false);
+            }
+        }
+
+        async function envoyerCapteurLibre() {
+            const message = document.getElementById('messageCapteur').value.trim();
+            if (!message) { showNotif('⚠️ Entrez un message avant d\'envoyer.', false); return; }
+            try {
+                const res = await fetch(getServer() + '/capteur', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    showNotif('📡 Signal envoyé : ' + message);
+                    document.getElementById('messageCapteur').value = '';
+                    await rafraichirHistorique();
+                }
+            } catch (e) {
+                showNotif('❌ Erreur envoi : ' + e.message, false);
+            }
+        }
+
+        async function importerExcel(input) {
+            const fichier = input.files[0];
+            if (!fichier) return;
+            const formData = new FormData();
+            formData.append('fichier', fichier);
+            try {
+                const res = await fetch(getServer() + '/upload', { method: 'POST', body: formData });
+                if (res.ok) {
+                    showNotif('✅ Fichier Excel importé avec succès !');
+                    await rafraichirColis();
+                } else {
+                    showNotif('❌ Erreur lors de l\'import.', false);
+                }
+            } catch (e) {
+                showNotif('❌ Erreur import : ' + e.message, false);
+            }
+            input.value = '';
+        }
+
+        // ========================================================
+        // Fonction pour afficher la popup
+        function showPopup() {
+            document.getElementById('popup').classList.add('show');
+        }
+        
+        // Fonction pour fermer la popup
+        function closePopup(event) {
+            if (!event || event.target.id === 'popup' || event.target.classList.contains('popup-close')) {
+                document.getElementById('popup').classList.remove('show');
+            }
+        }
+        
+        // Fonction pour afficher/masquer les sections du cahier
+        function toggleCahier(element) {
+            const content = element.nextElementSibling;
+            const isOpen = content.classList.contains('show');
+            
+            if (isOpen) {
+                content.classList.remove('show');
+                element.classList.remove('active');
+            } else {
+                content.classList.add('show');
+                element.classList.add('active');
+            }
+        }
+        
+        // Fonction pour afficher/masquer les sous-sections
+        function toggleSubCahier(element, event) {
+            event.stopPropagation();
+            
+            const content = element.nextElementSibling;
+            const isOpen = content.classList.contains('show');
+            
+            if (isOpen) {
+                content.classList.remove('show');
+                element.classList.remove('active');
+            } else {
+                content.classList.add('show');
+                element.classList.add('active');
+            }
+        }
+        
+        // Fonction pour retourner une carte d'équipe
+        function flipCard(card) {
+            card.classList.toggle('flipped');
+        }
+        
+        // Fonction pour afficher une section
+        function showSection(sectionId, event) {
+            // Masquer toutes les sections
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Retirer la classe active de tous les onglets
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Afficher la section sélectionnée
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Activer l'onglet correspondant
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

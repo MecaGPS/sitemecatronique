@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Système de tri des colis</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f4f4f9;
+        }
+
+        #zone-alerte-live {
+            position: fixed;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10000;
+            width: 90%;
+            max-width: 550px;
+        }
+
+        .banner-alerte {
+            background-color: #ffeb3b;
+            color: #222;
+            border: 3px solid #ff9800;
+            padding: 18px;
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+            animation: descendre 0.4s ease-out;
+        }
+
+        @keyframes descendre {
+            from { transform: translate(-50%, -100px); opacity: 0; }
+            to { transform: translate(-50%, 0); opacity: 1; }
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 95%;
+            margin-top: 15px;
+            background: white;
+        }
+
+        th, td { border: 1px solid #ccc; padding: 10px; }
+        th { background-color: #007BFF; color: white; }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 15px;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 14px;
+        }
+        .btn-upload { background: #28a745; }
+        .btn-history { background: #17a2b8; }
+        .btn-simu { background: #ff9800; color: white; }
+        .btn-danger { background: #dc3545; }
+
+        #section-historique {
+            display: none;
+            margin-top: 20px;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            max-height: 250px;
+            overflow-y: auto;
+            width: 550px;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+        .item-historique {
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Système de tri des colis</h1>
+
+<a href="/upload" class="btn btn-upload">📥 Importer un fichier Excel</a>
+<button onclick="basculerHistorique()" class="btn btn-history">📜 Voir l'historique complet</button>
+<button onclick="simulerCapteur()" class="btn btn-simu">⚡ Simuler Capteur 1</button>
+<button onclick="viderHistorique()" class="btn btn-danger">🗑️ Vider l'historique BDD</button>
+
+<div id="zone-alerte-live"></div>
+
+<div id="section-historique">
+    <h3>Historique Global (Commandes & Capteurs)</h3>
+    <div id="liste-historique">Chargement...</div>
+</div>
+
+<h2>Liste des Colis en Base</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Numéro colis</th>
+        <th>Destination</th>
+        <th>Angle servo</th>
+        <th>Statut</th>
+    </tr>
+    {% for c in colis %}
+    <tr>
+        <td>{{ c[0] }}</td>
+        <td>{{ c[1] }}</td>
+        <td>{{ c[2] }}</td>
+        <td>{{ c[3] }}°</td>
+        <td>{{ c[4] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+// FIX ULTRA-ROBUSTE : On initialise la variable avec l'ID max envoyé par Flask au chargement
+let dernierIdConnu = parseInt("{{ max_id }}") || 0;
+
+function verifierNouveauxMessages() {
+    fetch("/messages")
+        .then(response => response.json())
+        .then(data => {
+            if (data.messages && data.messages.length > 0) {
+                // On filtre pour ne garder QUE ce qui est strictement supérieur au dernier ID connu
+                let nouveauxMessages = data.messages
+                    .filter(m => m.id > dernierIdConnu)
+                    .reverse(); // Traiter dans l'ordre chronologique
+
+                nouveauxMessages.forEach(msg => {
+                    creerFlashAlerte(msg.text);
+                    // On met à jour l'index au fur et à mesure
+                    if (msg.id > dernierIdConnu) {
+                        dernierIdConnu = msg.id;
+                    }
+                });
+            }
+        })
+        .catch(err => console.error("Erreur de rafraîchissement :", err));
+}
+
+function creerFlashAlerte(texte) {
+    const zone = document.getElementById("zone-alerte-live");
+    
+    const alerte = document.createElement("div");
+    alerte.className = "banner-alerte";
+    alerte.textContent = "🚨 ACTION LIVE : " + texte;
+    
+    zone.appendChild(alerte);
+
+    setTimeout(() => {
+        alerte.style.transition = "opacity 0.5s ease";
+        alerte.style.opacity = "0";
+        setTimeout(() => alerte.remove(), 500);
+    }, 5000);
+}
+
+function simulerCapteur() {
+    // Message instantané pour confirmer le clic
+    creerFlashAlerte("Clic reçu ! Envoi de la simulation au serveur...");
+
+    // Envoi de l'événement en BDD
+    fetch("/capteur", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: "Capteur 1 franchi (SIMULÉ)" })
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log("Événement enregistré avec succès :", data);
+    })
+    .catch(err => console.error("Erreur lors de la simulation :", err));
+}
+
+function basculerHistorique() {
+    const section = document.getElementById("section-historique");
+    if (section.style.display === "block") {
+        section.style.display = "none";
+    } else {
+        section.style.display = "block";
+        chargerHistoriqueDonnees();
+    }
+}
+
+function chargerHistoriqueDonnees() {
+    const liste = document.getElementById("liste-historique");
+    liste.textContent = "Chargement...";
+    fetch("/api/historique")
+        .then(response => response.json())
+        .then(data => {
+            liste.innerHTML = "";
+            if (!data.historique || data.historique.length === 0) {
+                liste.textContent = "Aucun événement enregistré.";
+                return;
+            }
+            data.historique.forEach(item => {
+                const div = document.createElement("div");
+                div.className = "item-historique";
+                div.textContent = `[${item.date}] - ${item.message}`;
+                liste.appendChild(div);
+            });
+        });
+}
+
+function viderHistorique() {
+    if (confirm("Voulez-vous vraiment effacer définitivement tout l'historique des capteurs ?")) {
+        fetch("/api/vider-historique", { method: "POST" })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                dernierIdConnu = 0; // Réinitialise l'écouteur à zéro
+                chargerHistoriqueDonnees();
+            });
+    }
+}
+
+// Vérification toutes les 800ms
+setInterval(verifierNouveauxMessages, 800);
+</script>
+
+</body>
+</html>
