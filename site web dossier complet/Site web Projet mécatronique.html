@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title> META-production </title> 
+<link rel="icon" href="Logo_META_Production_unique.png" >  
+<style> 
+
+header { /* ceci permet de mettre en tete de page le titre et le logo en CSS*/
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            position: sticky;  /* Le header "colle" en haut quand on scroll. Il suit l'utilisateur pendant le défilement */
+            top: 0;
+            z-index: 1000;
+            padding: 0.3rem 0;
+            
+}
+
+h1{ /* ceci permet de mettre en couleur le titre h1 en CSS*/
+    color: blue;
+    text-align: center;
+    font-weight: 700; 
+} 
+
+p{
+    text-align: center;
+}
+
+nav {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+.tab-content {
+    display: none;
+}
+
+.header-content {
+    display: flex;              
+    align-items: center;        
+    justify-content: center;    
+    position: relative;         
+    padding: 0 2rem;           
+}
+
+.logo {
+    position: absolute;  
+    left: 8rem;         
+    margin: 0.5rem 0;
+}
+.tab-btn {
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg,  #1852ff 0%, #141679 100%);
+            color: rgb(255, 255, 255);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        .tab-btn.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.tab-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
+        }
+body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg,  #1852ff 0%, #141679 100%);
+            color: #333;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+}
+
+.team-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+}
+
+.team-container {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem 8rem 8rem 8rem;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    min-height: 200px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 250px);
+    gap: 4rem;
+    justify-content: center;
+    margin: 3rem auto 0;
+}
+
+.team-card {
+    perspective: 1000px;
+    width: 250px;
+    height: 250px;
+}
+
+.team-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+}
+
+.team-card:hover .team-card-inner {
+    transform: rotateY(180deg);
+}
+
+.team-card-front, .team-card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.team-card-front {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.team-card-front img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    margin-bottom: 1rem;
+    background: #e0e0e0;
+}
+
+.team-card-front h3 {
+    color: #667eea;
+    margin-bottom: 0.3rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.team-card-front p {
+    color: #764ba2;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.team-card-back {
+    background: linear-gradient(135deg, #1852ff 0%, #141679 100%);
+    color: white;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.team-card-back h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+    text-align: center;
+}
+
+.team-card-back .poste {
+    font-weight: 600;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.team-card-back p {
+    line-height: 1.5;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .team-grid {
+        grid-template-columns: 250px;
+        gap: 2rem;
+    }
+    
+    .team-container {
+        padding: 3rem 1.5rem;
+    }
+}
+
+.hero-section {
+    text-align: center;
+}
+
+.hero-image {
+    margin: 2rem auto;
+    max-width: 800px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+}
+
+.hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Grille d'informations (Identité) */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.info-card {
+    background: linear-gradient(135deg, #f8f9ff 0%, #e8ecff 100%);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(24, 82, 255, 0.2);
+}
+
+.info-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.info-card h3 {
+    color: #1852ff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.info-card p {
+    color: #333;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Mission & Vision */
+.mission-content {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.mission-block {
+    background: linear-gradient(135deg, #1852ff 0%, #141679 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(24, 82, 255, 0.3);
+}
+
+.mission-block h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.mission-block p {
+    color: white;
+}
+
+/* Grille des valeurs */
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.value-card {
+    background: white;
+    border: 2px solid #e0e0e0;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.value-card:hover {
+    border-color: #1852ff;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(24, 82, 255, 0.2);
+}
+
+.value-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.value-card h3 {
+    color: #1852ff;
+    margin-bottom: 0.8rem;
+    font-size: 1.1rem;
+}
+
+.value-card p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    text-align: center;
+}
+
+/* Timeline pour l'histoire */
+.timeline {
+    position: relative;
+    padding: 2rem 0;
+    margin: 2rem 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 30px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(180deg, #1852ff 0%, #141679 100%);
+}
+
+.timeline-item {
+    position: relative;
+    padding-left: 80px;
+    margin-bottom: 3rem;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 18px;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #1852ff;
+    border: 4px solid white;
+    box-shadow: 0 0 0 4px #1852ff;
+}
+
+.timeline-content {
+    background: #f8f9ff;
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.timeline-content h3 {
+    color: #1852ff;
+    margin-bottom: 0.8rem;
+    font-size: 1.2rem;
+}
+
+.timeline-content p {
+    color: #333;
+}
+
+/* Responsive pour la page entreprise */
+@media (max-width: 968px) {
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .mission-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline::before {
+        left: 15px;
+    }
+    
+    .timeline-item {
+        padding-left: 60px;
+    }
+    
+    .timeline-dot {
+        left: 3px;
+    }
+}
+
+/* Styles pour la galerie */
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin: 2rem auto;
+    max-width: 900px;
+}
+
+.gallery-item {
+    background: #f5f5f5;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    aspect-ratio: 16/9;
+    position: relative;
+}
+
+.gallery-item.video-item {
+    aspect-ratio: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gallery-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(24, 82, 255, 0.9), transparent);
+    color: white;
+    padding: 1rem;
+    font-weight: 600;
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 30px rgba(24, 82, 255, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.gallery-item.video-item {
+    background: #000;
+}
+
+.gallery-item video {
+    width: 100%;
+    height: auto;
+    max-height: 600px;
+    object-fit: contain;
+    display: block;
+}
+
+.lightbox {
+    display: none;  
+    position: fixed;  
+    top: 0;
+    left: 0;
+    width: 100%;  
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);  
+    z-index: 3000; 
+    justify-content: center;  
+    align-items: center;  
+    cursor: zoom-out;  
+}
+
+.lightbox.active {
+    display: flex;  
+}
+
+.lightbox img {
+    width: min(900px, 90vw);
+    height: calc(min(900px, 90vw) * 9 / 16);
+    object-fit: cover;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    animation: zoomIn 0.3s ease;
+}
+
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.5);  
+        opacity: 0;  
+    }
+    to {
+        transform: scale(1);  /* Arrive à 100% de la taille */
+        opacity: 1;  /* Visible */
+    }
+}
+
+/* Bouton X pour fermer */
+.lightbox-close {
+    position: absolute;  
+    top: 2rem;  
+    right: 2rem;  
+    color: white;
+    font-size: 3rem;  
+    font-weight: bold;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);  
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s;  
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.4);  
+}
+
+.gallery-item img {
+    cursor: zoom-in;  /* Indique qu'on peut cliquer pour agrandir */
+}
+
+.model-3d-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+}
+
+.model-3d-wrapper {
+    background: #f5f5f5;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.model-3d-wrapper iframe {
+    width: 100%;
+    height: 600px;
+    border-radius: 10px;
+    background: white;
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .model-3d-wrapper iframe {
+        height: 400px;
+    }
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.media-section {
+    margin-bottom: 2rem;
+}
+
+footer {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.3);
+    padding: 1.5rem 1rem;
+    margin-top: 4rem;
+    color: #333;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+}
+
+.footer-section h3 {
+    color: #1852ff;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    text-align: center; 
+}
+
+.footer-section p,
+.footer-section a {
+    color: #333;
+    text-align: left;
+    line-height: 1.8;
+    text-decoration: none;
+}
+.footer-section:last-child p {
+    text-align: center;
+}
+.footer-section a:hover {
+    color: #1852ff;
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid #1852ff;
+    color: #666;
+}
+
+.lien-doc {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.lien-doc:hover {
+    opacity: 0.8;
+}
+
+.logo-doc {
+    width: 40px;
+    height: auto;
+}
+
+.pieuvre-section {
+    margin: 3rem auto;
+    max-width: 1100px;
+}
+ 
+.pieuvre-titre {
+    text-align: center;
+    color: #1852ff;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+ 
+.pieuvre-sous-titre {
+    text-align: center;
+    color: #666;
+    font-size: 1.05rem;
+    margin-bottom: 5rem;
+}
+ 
+.pieuvre-wrapper {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem 2rem 4rem;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    position: relative;
+}
+ 
+/* ---- Conteneur SVG pieuvre ---- */
+.pieuvre-diagram {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    height: 700px;
+}
+ 
+.pieuvre-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+ 
+/* ---- Centre : image convoyeur ---- */
+.pieuvre-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 190px;
+    height: 190px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1852ff 0%, #141679 100%);
+    box-shadow: 0 0 0 6px white, 0 0 0 10px #1852ff, 0 10px 40px rgba(24,82,255,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    overflow: hidden;
+}
+ 
+.pieuvre-center img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    opacity: 0.85;
+}
+ 
+.pieuvre-center-label {
+    position: absolute;
+    bottom: 18px;
+    left: 0; right: 0;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    letter-spacing: 1px;
+}
+ 
+/* ---- Bulles matériaux (carte flip) ---- */
+.materiau-node {
+    position: absolute;
+    width: 190px;
+    height: 190px;
+    perspective: 900px;
+    z-index: 20;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+ 
+.materiau-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.55s cubic-bezier(.4,2,.6,1);
+    transform-style: preserve-3d;
+}
+ 
+.materiau-node:hover .materiau-inner {
+    transform: rotateY(180deg);
+}
+ 
+.materiau-front, .materiau-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 50%;
+    box-shadow: 0 6px 20px rgba(24,82,255,0.25);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+ 
+.materiau-front {
+    background: white;
+    border: 3px solid #1852ff;
+    flex-direction: column;
+    gap: 6px;
+}
+ 
+.materiau-front img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #e0e6ff;
+    background: #e8ecff;
+}
+ 
+.materiau-front .mat-name {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #1852ff;
+    text-align: center;
+    line-height: 1.2;
+}
+ 
+.materiau-back {
+    background: linear-gradient(135deg, #1852ff 0%, #141679 100%);
+    transform: rotateY(180deg);
+}
+ 
+.materiau-back .mat-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 6px;
+}
+ 
+.materiau-back .mat-desc {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.92);
+    text-align: center;
+    line-height: 1.4;
+}
+ 
+/* Ligne connectrice (tentacule) */
+.tentacule {
+    stroke: #1852ff;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-dasharray: 6 4;
+    opacity: 0.6;
+    animation: dash-flow 2s linear infinite;
+}
+ 
+@keyframes dash-flow {
+    to { stroke-dashoffset: -40; }
+}
+ 
+/* ---- Légende ---- */
+.pieuvre-legende {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #999;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+ 
+/* ===== Responsive ===== */
+@media (max-width: 700px) {
+    .pieuvre-diagram { height: 520px; }
+    .materiau-node { width: 110px; height: 110px; }
+    .pieuvre-center { width: 130px; height: 130px; }
+}
+
+.spam-schema {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.spam-schema .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.spam-schema .ts {
+    font-size: 11px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.spam-schema .piece { transition: all 0.6s ease; }
+
+@keyframes spam-blink { 0%,100%{fill:#1D9E75} 50%{fill:#9FE1CB} }
+.spam-schema .active-sensor { animation: spam-blink 0.8s ease-in-out 3; }
+
+.spam-schema-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.spam-btn {
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.55rem 1.4rem;
+    border-radius: 10px;
+    border: none;
+    background: #f1f3f9;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+.spam-btn:hover {
+    background: #e3e7f5;
+    transform: translateY(-2px);
+}
+
+.spam-btn.primary {
+    background: linear-gradient(135deg, #1852ff 0%, #141679 100%);
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(24, 82, 255, 0.4);
+}
+
+.spam-btn.primary:hover {
+    box-shadow: 0 6px 20px rgba(24, 82, 255, 0.5);
+}
+
+#spam-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #1852ff;
+    min-height: 22px;
+    text-align: center;
+    margin: 4px 0 14px;
+}
+
+.spam-schema-svg-wrap {
+    background: #f8f9ff;
+    border-radius: 15px;
+    padding: 1rem;
+    box-shadow: inset 0 0 0 1px #e8ecff;
+}
+
+</style> 
+</head>
+<body>
+    <header>
+        
+        <div style="text-align: center;" class="logo">
+            <img src="Logo META Production avec flamme.png" width="150" height="52.6" alt="Image centré">
+        </div>
+        <nav>
+            <button class="tab-btn active" onclick="showTab('accueil', event)">Accueil</button>
+            <button class="tab-btn" onclick="showTab('entreprise', event)">Qui sommes-nous ?</button>
+            <button class="tab-btn" onclick="showTab('galerie', event)">Conception S.P.A.M</button>
+            <button class="tab-btn" onclick="showTab('Galerie_2', event)">Réalisation S.P.A.M</button>
+
+        </nav>
+        <p style="font-weight: bold;">Bienvenue sur notre site web </p> 
+    </header>
+
+
+<div id="accueil" class="tab-content active">
+    <div class="media-section">
+        <div class="team-section">
+           <div class="team-container">
+            <h1> INTRODUCTION </h1>
+
+            <p style="text-align: justify; line-height: 1.8;">
+    Dans le cadre de notre quatrième année en école d'ingénieurs, nous réalisons un projet de mécatronique ayant pour objectif la conception et l'intégration de deux convoyeurs interconnectés destinés au tri automatique de matériaux métalliques d'alliages différents.<br>
+    <br>
+    Ce projet s'inscrit dans une démarche d'automatisation industrielle et vise à développer un système capable de détecter, classifier et séparer différents types de métaux à partir de leurs propriétés physiques ou électromagnétiques. L'ensemble repose sur une architecture mécatronique complète, combinant sous-systèmes mécaniques, capteurs, actionneurs, et commande automatisée.<br>
+    <br>
+    Notre équipe, composée de six étudiants, s'est organisée de manière à couvrir l'ensemble des aspects du développement : conception mécanique des convoyeurs, choix et intégration des capteurs, programmation de la logique de commande, et communication entre les deux systèmes. L'objectif final est d'obtenir un dispositif fiable, modulable et représentatif d'une solution industrielle de tri automatisé.<br>
+    <br>
+    Ce projet constitue une application concrète des compétences acquises durant notre formation et nous permet de développer une approche globale de la conception mécatronique, de la phase de modélisation jusqu'à la mise en service du système final.<br>
+</p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1> Présentation de l'équipe : </h1>
+                <p style="text-align: center; color: #666; font-size: 1.2rem; margin-bottom: 1rem;">
+                    Passez votre souris sur les cartes pour découvrir nos experts
+                </p>
+
+                <div class="team-grid">
+                    <!-- Ligne 1 -->
+                    <div class="team-card">
+                        <div class="team-card-inner">
+                            <div class="team-card-front">
+                                <img src="Screenshot 2025-10-27 160144.png" alt="Valentin Goubet">
+                                <h3>Valentin Goubet</h3>
+                            </div>
+                            <div class="team-card-back">
+                                <p class="poste">Chef de projet</p>
+                                <p>Encadre, gère et organise les travaux de l'équipe. Il assure la progression du projet et l'efficacité dans la recherche de solutions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-card-inner">
+                            <div class="team-card-front">
+                                <img src="Screenshot 2025-10-27 160205.png" alt="Lucas Banos">
+                                <h3>Lucas Banos</h3>
+                            </div>
+                            <div class="team-card-back">
+                                <p class="poste">PMO</p>
+                                <p>Chargé de la gestion des deux convoyeurs. Il travaille à la bonne mise en fonction du projet dans les meilleures conditions.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ligne 2 -->
+                    <div class="team-card">
+                        <div class="team-card-inner">
+                            <div class="team-card-front">
+                                <img src="Screenshot 2025-10-27 160219.png" alt="Rania El-baroudi">
+                                <h3>Rania El-baroudi</h3>
+                            </div>
+                            <div class="team-card-back">
+                                <p class="poste">Ingénieur projet (Qualité)</p>
+                                <p>Conception mécanique avancée. Optimisation structurelle des systèmes.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-card-inner">
+                            <div class="team-card-front">
+                                <img src="Screenshot 2025-10-27 160338.png" alt="Tom Wasteau">
+                                <h3>Tom Wasteau</h3>
+                            </div>
+                            <div class="team-card-back">
+                                <p class="poste">Ingénieure projet (Informatique)</p>
+                                <p>Crée et code le site web vitrine du projet. Il collabore également au codage des convoyeurs avec le PMO pour garantir le bon fonctionnement technique du système.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ligne 3 -->
+                    <div class="team-card">
+                        <div class="team-card-inner">
+                            <div class="team-card-front">
+                                <img src="Screenshot 2025-10-27 160246.png" alt="Tom Perret">
+                                <h3>Tom Perret</h3>
+                            </div>
+                            <div class="team-card-back">
+                                <p class="poste">Ingénieur projet (conception)</p>
+                                <p>Responsable de la modélisation 3D et du design de l'installation, permettant une visualisation avancée de l'objectif avant la réalisation physique.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team-card">
+                        <div class="team-card-inner">
+                            <div class="team-card-front">
+                                <img src="Screenshot 2025-10-27 160301.png" alt="Nathan Papineau">
+                                <h3>Nathan Papineau </h3> 
+                            </div>
+                            <div class="team-card-back">
+                                <p class="poste">Ingénieur projet (Electronique)</p>
+                                <p>Responsable du branchement, de la mise en service et de la gestion des deux convoyeurs. Il travaille à la mise en fonction optimale du projet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="entreprise" class="tab-content">
+    <!-- Accroche / Hero Section -->
+    <div class="media-section">  
+        <div class="team-section"> 
+            <div class="team-container hero-section">  
+                <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Qui sommes-nous ?</h1>
+                <p style="font-size: 1.2rem; color: #1852ff; font-weight: 600; margin-bottom: 2rem;">
+                    L'innovation au service du tri métallique automatisé
+                </p>
+                <div>
+                    <img src="Logo META Production avec flamme.png" alt="Logo META Production avec flamme" width="360" height="126.24" alt = "Image centré">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notre Identité -->
+    <div class="media-section">  
+        <div class="team-section"> 
+            <div class="team-container">  
+                <h1>Notre Identité</h1>  
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Qui sommes-nous ?</h3>
+                        <p>META Production est une entreprise spécialisée dans la fourniture de matériaux métalliques et le développement de solutions de tri automatisé.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Notre activité</h3>
+                        <p>Conception et intégration de systèmes mécatroniques pour le tri automatique de métaux par détection de leurs propriétés physiques.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Notre création</h3>
+                        <p>Projet initié en 2025 dans le cadre d'une formation d'ingénieurs en mécatronique à l'ICAM.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mission & Vision -->
+    <div class="media-section">  
+        <div class="team-section"> 
+            <div class="team-container">  
+                <h1>Notre Mission & Vision</h1>  
+                <div class="mission-content">
+                    <div class="mission-block">
+                        <h3>Notre Mission</h3>
+                        <p style="text-align: justify; line-height: 1.8;">
+                            Développer des solutions d'automatisation industrielle innovantes qui optimisent le processus de tri des matériaux métalliques. Nous visons à rendre l'industrie plus efficace, précise et durable grâce à la mécatronique.
+                        </p>
+                    </div>
+                    <div class="mission-block">
+                        <h3>Notre Vision</h3>
+                        <p style="text-align: justify; line-height: 1.8;">
+                            Devenir une référence dans le domaine du tri automatisé et contribuer à l'industrie 4.0 en proposant des systèmes intelligents, modulables et respectueux de l'environnement. Nous envisageons un avenir où chaque processus industriel bénéficie d'une automatisation sur mesure.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nos Valeurs -->
+    <div class="media-section">  
+        <div class="team-section"> 
+            <div class="team-container">  
+                <h1>Nos Valeurs & Engagements</h1>  
+                <div class="values-grid">
+                    <div class="value-card">
+                        <h3>Innovation</h3>
+                        <p>Recherche constante de solutions techniques avancées et créatives pour répondre aux défis industriels.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Qualité</h3>
+                        <p>Conception rigoureuse et tests approfondis pour garantir des systèmes fiables et performants.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Collaboration</h3>
+                        <p>Travail d'équipe pluridisciplinaire alliant mécanique, électronique, informatique et gestion de projet.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Durabilité</h3>
+                        <p>Conception de solutions optimisant les ressources et favorisant le recyclage des matériaux.</p>
+                    </div>
+                    <div class="value-card">
+                        <h3>Excellence technique</h3>
+                        <p>Maîtrise des technologies mécatroniques et application des meilleures pratiques d'ingénierie.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notre Histoire -->
+    <div class="media-section">  
+        <div class="team-section"> 
+            <div class="team-container">  
+                <h1>Planning prévisionnel</h1>  
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Les débuts (Octobre 2025)</h3>
+                            <p style="text-align: justify; line-height: 1.8;">
+                                Formation de l'équipe META Production composée de six étudiants ingénieurs en quatrième année à l'ICAM. Identification du besoin industriel et définition du cahier des charges pour un système de tri automatique de métaux.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Phase de conception (Novembre - Décembre 2025)</h3>
+                            <p style="text-align: justify; line-height: 1.8;">
+                                Modélisation 3D des convoyeurs, sélection des capteurs et actionneurs, développement de l'architecture mécatronique. Validation des principes techniques.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Réalisation (Avril - Mai 2026)</h3>
+                            <p style="text-align: justify; line-height: 1.8;">
+                                Fabrication et assemblage des deux convoyeurs interconnectés. Intégration des systèmes électroniques et développement de la logique de commande. Phase intensive de tests et d'ajustements.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>Mise en service (Juin 2026)</h3>
+                            <p style="text-align: justify; line-height: 1.8;">
+                                Finalisation du système S.P.A.M (Séparateur de Pièces d'Alliages Métalliques). Démonstrations publiques et présentation du projet. Validation des objectifs et ouverture vers de futures améliorations.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="galerie" class="tab-content">
+
+        <!-- Section Maquette 3D -->
+    <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1>Maquette 3D :</h1>
+                <div class="model-3d-container">
+                    <div class="model-3d-wrapper">
+<div class="sketchfab-embed-wrapper"> <iframe title="S.P.A.M (méta-production)" frameborder="0" allowfullscreen mozallowfullscreen="true" webkitallowfullscreen="true" allow="autoplay; fullscreen; xr-spatial-tracking" xr-spatial-tracking execution-while-out-of-viewport execution-while-not-rendered web-share src="https://sketchfab.com/models/aabc25fb5e84434fb4306a560b45cb67/embed"> </iframe> <p style="font-size: 13px; font-weight: normal; margin: 5px; color: #4A4A4A;"> <a href="https://sketchfab.com/3d-models/spam-meta-production-aabc25fb5e84434fb4306a560b45cb67?utm_medium=embed&utm_campaign=share-popup&utm_content=aabc25fb5e84434fb4306a560b45cb67" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> S.P.A.M (méta-production) </a> by <a href="https://sketchfab.com/tom.wasteau1?utm_medium=embed&utm_campaign=share-popup&utm_content=aabc25fb5e84434fb4306a560b45cb67" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;"> META-production </a> on <a href="https://sketchfab.com?utm_medium=embed&utm_campaign=share-popup&utm_content=aabc25fb5e84434fb4306a560b45cb67" target="_blank" rel="nofollow" style="font-weight: bold; color: #1CAAD9;">Sketchfab</a></p></div>                        
+<p style="margin-top: 1rem; text-align: center; color: #666;">
+                            Modèle 3D - Utilisez votre souris pour faire pivoter la vue
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Photos -->
+    <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1>Coupes du projet :</h1>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="Screenshot 2026-06-12 114441.png" alt="convoyeur-droit-a-tapis-metallique" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Vue de face</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Screenshot 2026-06-12 114248.png" alt="convoyeur a tapis cranté"onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Vue du dessus</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Screenshot 2026-06-12 114355.png" alt="convoyeur à tube" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Vue de coté</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Screenshot 2026-06-12 114336.png" alt="Pallet-Conveyors-3780-3120" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Vue de derrière</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1>Schéma de fonctionnement :</h1>
+                <p style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 1rem;">
+                    Simulez le parcours d'une pièce en aluminium ou en bois pour comprendre la logique de tri
+                </p>
+
+                <div class="spam-schema">
+                    <h2 class="sr-only">Schéma interactif du système de tri S.P.A.M</h2>
+
+                    <div class="spam-schema-buttons">
+                        <button class="spam-btn primary" onclick="spamSimAlu()">Simuler pièce aluminium</button>
+                        <button class="spam-btn primary" onclick="spamSimBois()">Simuler pièce bois</button>
+                        <button class="spam-btn" onclick="spamReset()">Réinitialiser</button>
+                    </div>
+                    <div id="spam-status">Choisissez un matériau pour simuler le tri</div>
+
+                    <div class="spam-schema-svg-wrap">
+                    <svg width="100%" viewBox="0 0 680 500" role="img">
+                      <title>Schéma de fonctionnement du S.P.A.M</title>
+                      <desc>Deux convoyeurs interconnectés avec piston d'alimentation, capteurs infrarouges, capteur magnétique et rampe de stockage</desc>
+                      <defs>
+                        <marker id="spam-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </marker>
+                      </defs>
+
+                      <!-- ===== CONVOYEUR 1 ===== -->
+                      <rect x="60" y="180" width="320" height="18" rx="4" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+                      <text class="ts" x="220" y="210" text-anchor="middle" fill="#666">Convoyeur 1</text>
+                      <!-- Rouleaux -->
+                      <ellipse cx="68" cy="189" rx="6" ry="9" fill="#B4B2A9" stroke="#888780" stroke-width="0.5"/>
+                      <ellipse cx="372" cy="189" rx="6" ry="9" fill="#B4B2A9" stroke="#888780" stroke-width="0.5"/>
+
+                      <!-- ===== CONVOYEUR 2 ===== -->
+                      <rect x="390" y="280" width="230" height="18" rx="4" fill="#D3D1C7" stroke="#888780" stroke-width="0.5"/>
+                      <text class="ts" x="505" y="273" text-anchor="middle" fill="#666">Convoyeur 2</text>
+                      <ellipse cx="398" cy="289" rx="6" ry="9" fill="#B4B2A9" stroke="#888780" stroke-width="0.5"/>
+                      <ellipse cx="612" cy="289" rx="6" ry="9" fill="#B4B2A9" stroke="#888780" stroke-width="0.5"/>
+
+                      <!-- ===== PISTON 1 (alimentation) ===== -->
+                      <rect x="20" y="160" width="36" height="36" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+                      <rect x="52" y="183" width="14" height="12" rx="2" fill="#378ADD" id="spam-piston1-rod"/>
+                      <text class="ts" x="38" y="155" text-anchor="middle" fill="#0C447C">Piston 1</text>
+                      <text class="ts" x="38" y="210" text-anchor="middle" fill="#185FA5">Alimentation</text>
+
+                      <!-- ===== CAPTEUR MAGNÉTIQUE (maintenant à gauche) ===== -->
+                      <rect x="130" y="148" width="60" height="26" rx="6" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5" id="spam-mag-box"/>
+                      <text class="ts" x="160" y="158" text-anchor="middle" fill="#633806">Capteur</text>
+                      <text class="ts" x="160" y="170" text-anchor="middle" fill="#854F0B">magnétique</text>
+                      <line x1="160" y1="174" x2="160" y2="180" stroke="#BA7517" stroke-width="1" stroke-dasharray="3 2"/>
+
+                      <!-- ===== CAPTEUR IR 1 (maintenant à droite) ===== -->
+                      <rect x="214" y="148" width="44" height="26" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5" id="spam-ir1-box"/>
+                      <text class="ts" x="236" y="158" text-anchor="middle" fill="#27500A">IR 1</text>
+                      <text class="ts" x="236" y="170" text-anchor="middle" fill="#3B6D11">passage</text>
+                      <line x1="236" y1="174" x2="236" y2="180" stroke="#639922" stroke-width="1" stroke-dasharray="3 2"/>
+
+                      <!-- ===== PISTON 2 (tri) ===== -->
+                      <rect x="288" y="215" width="40" height="36" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+                      <rect x="302.5" y="200" width="12" height="18" rx="2" fill="#378ADD" id="spam-piston2-rod"/>
+                      <text class="ts" x="308" y="265" text-anchor="middle" fill="#0C447C">Piston 2</text>
+                      <text class="ts" x="308" y="280" text-anchor="middle" fill="#185FA5">Tri</text>
+
+                      <!-- ===== RAMPE DE STOCKAGE (ALU) ===== -->
+                      <rect x="295" y="50" width="28" height="120" rx="6" fill="#FCE4F1" stroke="#C2185B" stroke-width="0.5"/>
+                      <text class="ts" x="310" y="25" text-anchor="middle" fill="#8E1550">Rampe de stockage</text>
+                      <text class="ts" x="310" y="40" text-anchor="middle" fill="#C2185B">Aluminium</text>
+
+                      <!-- ===== CHUTE vers convoyeur 2 ===== -->
+                      <line x1="378" y1="198" x2="395" y2="280" stroke="#B4B2A9" stroke-width="6" stroke-linecap="round"/>
+                      <line x1="378" y1="198" x2="395" y2="280" stroke="#888780" stroke-width="0.5"/>
+
+                      <!-- ===== CAPTEUR IR 2 ===== -->
+                      <g transform="translate(-50, -100)">
+                      <rect x="388" y="248" width="44" height="26" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5" id="spam-ir2-box"/>
+                      <text class="ts" x="410" y="258" text-anchor="middle" fill="#27500A">IR 2</text>
+                      <text class="ts" x="410" y="270" text-anchor="middle" fill="#3B6D11">chute</text>
+                      <line x1="410" y1="274" x2="410" y2="280" stroke="#639922" stroke-width="1" stroke-dasharray="3 2"/>
+                      </g>
+
+                      <!-- ===== BOITE DE STOCKAGE (BOIS) ===== -->
+                      <rect x="590" y="308" width="70" height="60" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+                      <text class="ts" x="550" y="333" text-anchor="middle" fill="#3C3489">Boite de</text>
+                      <text class="ts" x="550" y="347" text-anchor="middle" fill="#3C3489">stockage</text>
+                      <text class="ts" x="550" y="361" text-anchor="middle" fill="#534AB7">Bois/autre</text>
+
+                      <!-- ===== PIÈCE MOBILE ===== -->
+                      <rect id="spam-piece" class="piece" x="66" y="172" width="22" height="14" rx="3" fill="#E24B4A" stroke="#A32D2D" stroke-width="0.5" opacity="0"/>
+
+                      <!-- ===== LÉGENDE ===== -->
+                     <!-- ===== LÉGENDE ===== -->
+                    <g transform="translate(0, 50)">
+                    <rect x="30" y="340" width="620" height="60" rx="8" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="0.5"/>
+                    <rect x="50" y="358" width="12" height="12" rx="2" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+                    <text class="ts" x="68" y="368" fill="#666">Capteur infrarouge</text>
+                    <rect x="200" y="358" width="12" height="12" rx="2" fill="#FAEEDA" stroke="#854F0B" stroke-width="0.5"/>
+                    <text class="ts" x="218" y="368" fill="#666">Capteur magnétique</text>
+                    <rect x="370" y="358" width="12" height="12" rx="2" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+                    <text class="ts" x="388" y="368" fill="#666">Piston</text>
+                    <rect x="50" y="380" width="12" height="12" rx="2" fill="#E24B4A" stroke="#A32D2D" stroke-width="0.5"/>
+                    <text class="ts" x="68" y="390" fill="#666">Pièce (simulation)</text>
+                    <rect x="200" y="380" width="12" height="12" rx="2" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+                    <text class="ts" x="218" y="390" fill="#666">Stockage bois</text>
+                    <rect x="370" y="380" width="12" height="12" rx="2" fill="#FCE4F1" stroke="#C2185B" stroke-width="0.5"/>
+                    <text class="ts" x="388" y="390" fill="#666">Stockage aluminium</text>
+                    </g>
+                    </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="media-section">
+  <div class="team-section">
+    <div class="team-container">
+ 
+      <h1 class="pieuvre-titre">Diagramme des matériaux du S.P.A.M</h1>
+      <p class="pieuvre-sous-titre">Passez votre souris sur chaque matériau pour en savoir plus !</p>
+ 
+      <div class="pieuvre-diagram" id="pieuvre-diagram">
+ 
+        <!-- SVG pour les tentacules -->
+        <svg class="pieuvre-svg" id="tentacules-svg" viewBox="0 0 900 700" preserveAspectRatio="xMidYMid meet"></svg>
+ 
+        <!-- Centre -->
+        <div class="pieuvre-center" id="pieuvre-center">
+          <!-- Remplacez src par votre image de convoyeur réelle -->
+          <img src="convoyeur-droit-a-tapis-metallique.jpg"
+               alt="Convoyeur S.P.A.M"
+               onerror="this.style.display='none'">
+          <span class="pieuvre-center-label">S.P.A.M</span>
+        </div>
+ 
+         
+        <!-- 1 - Aluminium -->
+        <div class="materiau-node" data-id="0" style="left:50%; top:8%;">
+          <div class="materiau-inner">
+            <div class="materiau-front">
+              <img src="cube aluminium.jpg" alt="Aluminium">
+              <span class="mat-name">Aluminium</span>
+            </div>
+            <div class="materiau-back">
+              <p class="mat-title">Aluminium</p>
+              <p class="mat-desc">Métal léger non magnétique détecté par courant de Foucault. Conducteur électrique et résistant à la corrosion. Trié sur le convoyeur principal.</p>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- 2 - Acier -->
+        <div class="materiau-node" data-id="1" style="left:88%; top:28%;">
+          <div class="materiau-inner">
+            <div class="materiau-front">
+              <img src="cube acier.jpg" alt="Acier">
+              <span class="mat-name">Acier</span>
+            </div>
+            <div class="materiau-back">
+              <p class="mat-title">Acier</p>
+              <p class="mat-desc">Alliage ferreux détecté par capteur inductif. Très magnétique, orienté vers le convoyeur de tri dédié aux métaux ferreux.</p>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- 3 - Bois -->
+        <div class="materiau-node" data-id="2" style="left:88%; top:72%;">
+          <div class="materiau-inner">
+            <div class="materiau-front">
+              <img src="cube bois.jpg" alt="Bois">
+              <span class="mat-name">Bois</span>
+            </div>
+            <div class="materiau-back">
+              <p class="mat-title">Bois</p>
+              <p class="mat-desc">Matériau organique non métallique, non magnétique et non conducteur. Ignoré par les capteurs inductif et magnétique, il est identifié par élimination et dirigé vers le bac de stockage secondaire.</p></p>
+            </div>
+          </div>
+        </div>
+ 
+        <!-- 4 - Plastique -->
+        <div class="materiau-node" data-id="3" style="left:50%; top:92%;">
+          <div class="materiau-inner">
+            <div class="materiau-front">
+              <img src="cube plastique.webp" alt="Plastique">
+              <span class="mat-name">Plastique</span>
+            </div>
+            <div class="materiau-back">
+              <p class="mat-title">Plastique</p>
+              <p class="mat-desc">Matériau synthétique léger, non magnétique et non conducteur. Comme le bois, il n'active aucun capteur métallique et rejoint le circuit des éléments non triés comme métal.</p>            </div>
+          </div>
+        </div>
+ 
+        <!-- 5 - Caoutchouc -->
+        <div class="materiau-node" data-id="4" style="left:12%; top:72%;">
+          <div class="materiau-inner">
+            <div class="materiau-front">
+              <img src="Caoutchouc.webp" alt="Caoutchouc">
+              <span class="mat-name">Caoutchouc</span>
+            </div>
+            <div class="materiau-back">
+              <p class="mat-title">Caoutchouc</p>
+            <p class="mat-desc">Matériau souple et isolant, totalement insensible aux champs magnétiques et électriques. Traverse le système sans déclencher de tri métallique.</p>            </div>
+          </div>
+        </div>
+ 
+        <!-- 6 - Electroniques -->
+        <div class="materiau-node" data-id="5" style="left:12%; top:28%;">
+          <div class="materiau-inner">
+            <div class="materiau-front">
+              <img src="composant electronique.jpg" alt="Electronique">
+              <span class="mat-name">Electronique</span>
+            </div>
+            <div class="materiau-back">
+              <p class="mat-title">Electronique</p>
+              <p class="mat-desc">Composants mixtes contenant métaux et plastiques (cuivre, étain, résines). Détection variable selon les éléments métalliques présents, nécessitant un tri manuel complémentaire.</p>            </div>
+          </div>
+        </div>
+ 
+      </div><!-- fin .pieuvre-diagram --> 
+    </div>
+  </div>
+</div>
+
+    <div class="media-section">
+        <div class="team-section">
+                <div class="team-container">
+                    <h1>Cahier des charges :</h1>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <a href="CDC Fonctionnel Tom P, Rania E, Valentin G, Lucas B, Tom W, Nathan P.pdf" target="_blank" style="text-decoration: none; color: inherit;">
+                        <img src="logo pdf.png" alt="Logo" style="width: 120px; display: block; margin: 0 auto 10px;">
+                        <span style="font-size: 1.6rem; font-weight: bold;">Cliquer pour accéder au cahier des charges !</span>
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+<div id="Galerie_2" class="tab-content">
+
+    <!-- Section Schéma électrique -->
+    <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1>Schéma électrique :</h1>
+                <p style="text-align: center; color: #666; font-size: 1.1rem; margin-bottom: 1.5rem;">
+                    Câblage et architecture électrique du système S.P.A.M
+                </p>
+                <div class="gallery-grid" style="grid-template-columns: 1fr; max-width: 700px;">
+                    <div class="gallery-item">
+                        <img src="schema_electrique.jpeg" alt="Schéma électrique du S.P.A.M" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Schéma électrique complet</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Photos du projet réalisé -->
+    <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1>Projet réalisé :</h1>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="projet-global.png" alt="Vue globale" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Vue globale</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="Rampe-de-stockage.png" alt="Rampe de stockage" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Rampe de stockage</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="passage-entre-les-deux-convoyeur.png" alt="Passage convoyeurs" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Passage entre convoyeurs</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="vue-dessus-du-projet.png" alt="Vue dessus" onclick="openLightbox(this.src)">
+                        <div class="gallery-title-overlay">Vue du dessus</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vidéos du projet réalisé -->
+    <div class="media-section">
+        <div class="team-section">
+            <div class="team-container">
+                <h1>Vidéos :</h1>
+                <div class="gallery-grid">
+                    <div class="gallery-item video-item">
+                        <video controls>
+                            <source src="fonctionnement du projet.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                    </div>
+                    <div class="gallery-item video-item">
+                        <video controls>
+                            <source src="premier convoyeur fonctionnement.mp4" type="video/mp4">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <img id="lightbox-img" src="" alt="Image agrandie">
+</div>
+
+<script>
+function showTab(tabName, event) {
+    const contents = document.querySelectorAll('.tab-content');
+    const buttons = document.querySelectorAll('.tab-btn');
+
+    contents.forEach(content => content.classList.remove('active'));
+    buttons.forEach(button => button.classList.remove('active'));
+
+    document.getElementById(tabName).classList.add('active');
+
+    // Si appelé depuis un bouton nav, on l'active directement
+    // Sinon (footer), on retrouve le bon bouton par son onclick
+    if (event && event.target.classList.contains('tab-btn')) {
+        event.target.classList.add('active');
+    } else {
+        buttons.forEach(button => {
+            if (button.getAttribute('onclick').includes(`'${tabName}'`)) {
+                button.classList.add('active');
+            }
+        });
+    }
+if (tabName === 'galerie') {
+    setTimeout(drawTentacules, 50);
+}
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function openLightbox(imageSrc) {
+    // imageSrc = le chemin de l'image cliquée (exemple: "photo1.jpg")
+    
+    const lightbox = document.getElementById('lightbox');
+    // Récupère l'élément lightbox dans le HTML
+    
+    const lightboxImg = document.getElementById('lightbox-img');
+    // Récupère l'image à l'intérieur de la lightbox
+    
+    lightboxImg.src = imageSrc;
+    // Change la source de l'image pour afficher celle cliquée
+    
+    lightbox.classList.add('active');
+    // Ajoute la classe "active" qui rend la lightbox visible
+}
+
+// FONCTION POUR FERMER LA LIGHTBOX 
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    // Récupère l'élément lightbox
+    
+    lightbox.classList.remove('active');
+    // Retire la classe "active" qui cache la lightbox
+}
+
+// EMPÊCHER LA FERMETURE SI ON CLIQUE SUR L'IMAGE
+document.addEventListener('DOMContentLoaded', function() {
+    // Attend que la page soit complètement chargée
+    
+    const lightboxImg = document.getElementById('lightbox-img');
+    // Récupère l'image de la lightbox
+    
+    if (lightboxImg) {
+        lightboxImg.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // Empêche la propagation du clic à l'élément parent
+            // Donc si on clique sur l'image, ça ne ferme PAS la lightbox
+        });
+    }
+});
+
+function drawTentacules() {
+    const diagram = document.getElementById('pieuvre-diagram');
+    const svg     = document.getElementById('tentacules-svg');
+    if (!diagram || !svg) return;
+
+    const VW = 900, VH = 700;
+    const cx = VW * 0.50;
+    const cy = VH * 0.50;
+
+    let paths = '';
+    diagram.querySelectorAll('.materiau-node').forEach(node => {
+        const leftPct = parseFloat(node.style.left)  / 100;
+        const topPct  = parseFloat(node.style.top)   / 100;
+        const nx = VW * leftPct;
+        const ny = VH * topPct;
+        const mx = (cx + nx) / 2 + (ny - cy) * 0.18;
+        const my = (cy + ny) / 2 + (cx - nx) * 0.18;
+        paths += `<path class="tentacule" d="M${cx},${cy} Q${mx},${my} ${nx},${ny}"/>`;
+    });
+    svg.innerHTML = paths;
+}
+
+document.addEventListener('DOMContentLoaded', drawTentacules);
+window.addEventListener('resize', drawTentacules);
+
+/* ===== Schéma interactif de fonctionnement S.P.A.M ===== */
+let spamTimeouts = [];
+
+function spamClearTimeouts() {
+    spamTimeouts.forEach(id => clearTimeout(id));
+    spamTimeouts = [];
+}
+
+function spamFlash(el, color) {
+    const orig = el.getAttribute('fill');
+    el.setAttribute('fill', color);
+    setTimeout(() => el.setAttribute('fill', orig), 600);
+}
+
+function spamReset() {
+    spamClearTimeouts();
+    const piece  = document.getElementById('spam-piece');
+    const status = document.getElementById('spam-status');
+    const p1rod  = document.getElementById('spam-piston1-rod');
+    const p2rod  = document.getElementById('spam-piston2-rod');
+    if (!piece) return;
+
+    piece.setAttribute('opacity', '0');
+    piece.setAttribute('x', '66');
+    piece.setAttribute('y', '172');
+    piece.setAttribute('fill', '#E24B4A');
+    p1rod.setAttribute('width', '14');
+    p2rod.setAttribute('height', '18');
+    p2rod.setAttribute('y', '200');
+    status.textContent = 'Choisissez un matériau pour simuler le tri';
+}
+
+function spamSimAlu() {
+    spamReset();
+    const piece  = document.getElementById('spam-piece');
+    const status = document.getElementById('spam-status');
+    const ir1    = document.getElementById('spam-ir1-box');
+    const mag    = document.getElementById('spam-mag-box');
+    const p1rod  = document.getElementById('spam-piston1-rod');
+    const p2rod  = document.getElementById('spam-piston2-rod');
+
+    piece.setAttribute('fill', '#E24B4A');
+    piece.setAttribute('opacity', '1');
+    status.textContent = '① Piston 1 pousse la pièce sur le convoyeur...';
+
+    spamTimeouts.push(setTimeout(() => {
+        p1rod.setAttribute('width', '22');
+        spamFlash(mag, '#FAC775');
+        status.textContent = '② Capteur magnétique : métal détecté → aluminium !';
+        piece.setAttribute('x', '149');
+    }, 800));
+
+    spamTimeouts.push(setTimeout(() => {
+        spamFlash(ir1, '#6ee7b7');
+        status.textContent = '③ Capteur IR 1 : passage confirmé !';
+        piece.setAttribute('x', '225');
+    }, 1800));
+
+    spamTimeouts.push(setTimeout(() => {
+        status.textContent = '④ La pièce avance vers le piston 2...';
+        piece.setAttribute('x', '298');
+    }, 2600));
+
+    spamTimeouts.push(setTimeout(() => {
+        p2rod.setAttribute('height', '30');
+        p2rod.setAttribute('y', '188');
+        status.textContent = '⑤ Piston 2 s\'active → pièce éjectée vers la rampe !';
+        piece.setAttribute('y', '150');
+    }, 3400));
+
+    spamTimeouts.push(setTimeout(() => {
+        piece.setAttribute('y', '85');
+        status.textContent = '✓ Pièce en aluminium stockée dans la rampe de stockage.';
+    }, 4400));
+}
+
+function spamSimBois() {
+    spamReset();
+    const piece  = document.getElementById('spam-piece');
+    const status = document.getElementById('spam-status');
+    const ir1    = document.getElementById('spam-ir1-box');
+    const ir2    = document.getElementById('spam-ir2-box');
+    const mag    = document.getElementById('spam-mag-box');
+    const p1rod  = document.getElementById('spam-piston1-rod');
+
+    piece.setAttribute('fill', '#E24B4A');
+    piece.setAttribute('opacity', '1');
+    status.textContent = '① Piston 1 pousse la pièce sur le convoyeur...';
+
+    spamTimeouts.push(setTimeout(() => {
+        p1rod.setAttribute('width', '22');
+        spamFlash(mag, '#D3D1C7');
+        status.textContent = '② Capteur magnétique : aucun métal détecté → bois !';
+        piece.setAttribute('x', '149');
+    }, 800));
+
+    spamTimeouts.push(setTimeout(() => {
+        spamFlash(ir1, '#6ee7b7');
+        status.textContent = '③ Capteur IR 1 : passage confirmé !';
+        piece.setAttribute('x', '225');
+    }, 1800));
+
+    spamTimeouts.push(setTimeout(() => {
+        spamFlash(ir2, '#6ee7b7');
+        status.textContent = '④ Capteur IR 2 : passage détecté !';
+        piece.setAttribute('x', '355');
+    }, 2800));
+
+    spamTimeouts.push(setTimeout(() => {
+        status.textContent = '⑤ Chute vers le convoyeur 2...';
+        piece.setAttribute('x', '400');
+        piece.setAttribute('y', '268');
+    }, 3600));
+
+    spamTimeouts.push(setTimeout(() => {
+        piece.setAttribute('x', '580');
+        piece.setAttribute('y', '268');
+        status.textContent = '⑥ Pièce transportée vers la boite de stockage...';
+    }, 4400));
+
+    spamTimeouts.push(setTimeout(() => {
+        piece.setAttribute('x', '600');
+        piece.setAttribute('y', '335');
+        status.textContent = '✓ Pièce en bois stockée dans la boite de stockage.';
+    }, 5200));
+}
+
+</script>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>META Production</h3>
+            <p>Spécialiste du tri automatique de matériaux métalliques et solutions mécatroniques innovantes.</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <p><strong>Adresse :</strong>
+            42 Point de Vue
+        
+            Lieusaint, France</p>
+            <p><strong>Email :</strong> contact@metaproduction.fr</p>
+            <p><strong>Téléphone :</strong> +33 1 36 53 24 46</p>
+        </div>
+        
+        <div class="footer-section">
+            <h3>Liens rapides</h3>
+            <p><a href="#" onclick="showTab('accueil', event); return false;">Accueil</a></p>
+            <p><a href="#" onclick="showTab('entreprise', event); return false;">Qui sommes-nous ?</a></p>
+            <p><a href="#" onclick="showTab('galerie', event); return false;">Conception S.P.A.M</a></p>
+            <p><a href="#" onclick="showTab('Galerie_2', event); return false;">Réalisation S.P.A.M</a></p>
+
+        </div>
+    </div>
+    
+    <div class="footer-bottom">
+        <p>&copy; 2025 META Production - Tous droits réservés | Projet Mécatronique A4 - 2027 ICAM</p>
+    </div>
+</footer>
+
+</body>
+</html>
