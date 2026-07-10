@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projet FLOWBOT - ICAM</title>
+  
+  <style>
+    /* =========================================================
+       1. STYLE GLOBAL (Base, En-tête fixe & Pied de page)
+       ========================================================= */
+    body {
+      margin: 0;
+      padding-top: calc(2cm + 1cm + 15px); /* Évite que le contenu passe sous le menu fixe */
+      font-family: 'Arial', sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 15px;
+    }
+
+    .page-title {
+      text-align: left;
+      margin: 20px 0;
+    }
+
+    .page-title h1 {
+      font-size: 2em;
+      color: #222;
+      margin: 0;
+    }
+
+    /* Bandeau de navigation fixe en haut */
+    .top-banner {
+      width: 100%;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: fixed; 
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .top-row {
+      display: flex;
+      align-items: center; 
+      justify-content: space-between; 
+      height: 2cm;
+      padding: 0 20px;
+    }
+
+    .top-row h1 {
+      flex-grow: 1; 
+      text-align: center;
+      margin: 0;
+      font-size: 1.5rem;
+      color: #222;
+    }
+
+    .logo-left, .logo-right {
+      height: 80%;
+      max-height: 2cm;
+      object-fit: contain;
+    }
+
+    .bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 1cm;
+      padding: 0 20px;
+      border-top: 1px solid #ddd;
+      background: #f9f9f9;
+    }
+
+    .bottom-row .tab {
+      flex: 1; 
+      text-align: center;
+      font-size: 0.9rem;
+      cursor: pointer;
+      position: relative;
+      text-decoration: none;
+      color: #555;
+      padding: 5px 0;
+      font-weight: bold;
+    }
+
+    .bottom-row .tab::after {
+      content: "";
+      display: block;
+      margin: 2px auto 0;
+      width: 30%;
+      height: 2px;
+      background: #007bff;
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .bottom-row .tab:hover::after, 
+    .bottom-row .tab.active::after {
+      width: 50%;
+      background: #f39c12; /* Accentuation Orange */
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #ffffff;
+      box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+      margin-top: 50px;
+    }
+
+    .internal-nav {
+      text-align: center;
+      margin: 30px 0;
+    }
+    .internal-nav a, .external-link a {
+      color: #0056b3;
+      text-decoration: none;
+    }
+    .external-link {
+      text-align: center;
+    }
+
+    /* =========================================================
+       2. PAGE 1 : PRÉSENTATION DU PROJET (ACCUEIL)
+       ========================================================= */
+    .orange-banner-text {
+      background-color: #FFA94D;
+      min-height: 4cm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: white;
+      font-size: 1.1rem;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .text-container {
+      max-width: 1000px;
+    }
+
+    .team {
+      max-width: 1200px;
+      margin: 20px auto 40px auto;
+      text-align: center;
+    }
+
+    .team h3 {
+      font-size: 1.8rem;
+      margin-bottom: 25px;
+      color: #222;
+    }
+
+    /* Grille alignée pour afficher les 5 membres de l'équipe proprement */
+    .team-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 15px;
+      padding: 0 10px;
+    }
+
+    .team-row figure {
+      background: #fff;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      margin: 0;
+      transition: transform 0.25s ease;
+    }
+
+    .team-row figure:hover {
+      transform: translateY(-5px);
+    }
+
+    .team-row img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .team-row figcaption {
+      padding: 10px 5px;
+      font-size: 0.85rem;
+      color: #444;
+      background: #fafafa;
+      font-weight: bold;
+    }
+
+    /* Responsive Équipe pour écrans de tablettes/mobiles */
+    @media screen and (max-width: 850px) {
+      .team-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    @media screen and (max-width: 500px) {
+      .team-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* =========================================================
+       3. PAGE 2 : CAHIER DES CHARGES (Effet Damier)
+       ========================================================= */
+    .page-section-cahier {
+      max-width: 900px;
+      margin: 30px auto;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .cahier-checkerboard section {
+      padding: 25px 30px;
+    }
+
+    .cahier-checkerboard section:nth-child(odd) {
+      background-color: #FFA500;
+      color: #fff;
+    }
+
+    .cahier-checkerboard section:nth-child(even) {
+      background-color: #ffffff;
+      color: #333;
+    }
+
+    .cahier-checkerboard section h2 {
+      margin-top: 0;
+      font-size: 1.5em;
+      border-bottom: 2px solid currentColor;
+      padding-bottom: 5px;
+    }
+
+    .cahier-checkerboard ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    .cahier-checkerboard table {
+      width: 100%;
+      border-collapse: collapse;
+      color: inherit;
+    }
+
+    .cahier-checkerboard th, .cahier-checkerboard td {
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .cahier-checkerboard th {
+      background-color: rgba(0,0,0,0.1);
+    }
+
+    /* =========================================================
+       4. PAGE 3 : NOTRE FLOWBOT (Frise / Timeline)
+       ========================================================= */
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .timeline::after {
+      content: '';
+      position: absolute;
+      width: 3px;
+      background-color: #0056b3;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      margin-left: -1.5px;
+    }
+
+    .step-container {
+      padding: 10px 40px;
+      position: relative;
+      background-color: inherit;
+      width: 50%;
+      box-sizing: border-box;
+    }
+
+    .step-container::after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      right: -10px;
+      background-color: #ffffff;
+      border: 3px solid #f39c12;
+      top: 25px;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .left { left: 0; }
+    .right { left: 50%; }
+    .right::after { left: -10px; }
+
+    .timeline .content {
+      padding: 20px;
+      background-color: white;
+      position: relative;
+      border-radius: 8px;
+      border: 1px solid #f39c12;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .image-placeholder img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    @media screen and (max-width: 600px) {
+      .timeline::after { left: 31px; }
+      .step-container { width: 100%; padding-left: 70px; padding-right: 25px; }
+      .step-container::after { left: 21px; }
+      .right { left: 0%; }
+    }
+
+    /* =========================================================
+       5. PAGE 4 : PROJET FINAL (Grand Cadre Vidéo Orange Adaptatif)
+       ========================================================= */
+    .grand-conteneur-video {
+      width: 95%;
+      max-width: 1100px;
+      margin: 30px auto;
+      box-sizing: border-box;
+    }
+
+    .cadre-orange {
+      border: 8px solid #ff6b00;
+      border-radius: 12px;
+      padding: 10px;
+      background-color: #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .video-wrapper video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* =========================================================
+       6. PAGE 5 : CONTACTS
+       ========================================================= */
+    .page-contacts .team-photo {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 25px;
+    }
+
+    .contact-card {
+      background-color: #FFA500;
+      padding: 25px;
+      margin-bottom: 25px;
+      border-radius: 12px;
+      color: #fff;
+    }
+
+    .contact-card h2 {
+      margin-top: 0;
+      border-bottom: 3px solid #fff;
+      padding-bottom: 8px;
+    }
+
+    .contact-card ul { list-style: none; padding-left: 0; }
+    .contact-card li { margin-bottom: 10px; }
+
+    .contact-box {
+      background-color: #ffffff;
+      color: #333;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    .contact-box textarea {
+      width: 100%;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    .contact-box button {
+      background-color: #FFA500;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="top-banner">
+    <div class="top-row">
+      <img src="logo-flowbot.png" class="logo-left" alt="Logo Flowbot">
+      <h1>A4.8 Projet Mécatronique : FLOWBOT</h1>
+      <img src="logo-ICAM.jpg" class="logo-right" alt="Logo ICAM">
+    </div>
+    <div class="bottom-row">
+      <a class="tab active" data-page="presentation" href="#">Présentation du Projet</a>
+      <a class="tab" data-page="cahier_des_charges" href="#">Cahier des charges</a>
+      <a class="tab" data-page="notre_flowbot" href="#">Notre FLOWBOT</a>
+      <a class="tab" data-page="projet_final" href="#">Projet final</a>
+      <a class="tab" data-page="contacts" href="#">Contacts</a>
+    </div>
+  </header>
+
+  <div id="content-dynamic-target">
+
+    <main class="page-section">
+      <div class="page-title">
+        <h1>Présentation du projet</h1>
+      </div>
+
+      <section class="orange-banner-text">
+        <div class="text-container">
+          <h3>Projet Flowbot : Contexte et objectifs</h3>
+          <p>
+            Le projet Flowbot répond à la problématique de l’optimisation des flux en milieu structuré. Il repose sur le déploiement de deux unités mobiles autonomes capables de communiquer et de collaborer en temps réel. Au-delà de la simple navigation, l'enjeu réside dans l'adaptabilité du système à divers scénarios logistiques. En automatisant le transfert de composants, le projet vise à fiabiliser les processus industriels tout en réduisant l'exposition des opérateurs aux risques et à la pénibilité.
+          </p>
+        </div>
+      </section>
+
+      <section class="team">
+        <h3>Présentation de l'équipe</h3>
+        <div class="team-row">
+          <figure>
+            <img src="Photo Lucas.jpeg" alt="Lucas Goualc'h">
+            <figcaption>Lucas Goualc'h<br>— Chef de projet —</figcaption>
+          </figure>
+          <figure>
+            <img src="Photo Guerric.JPG" alt="Guerric Perrault de Jotemps">
+            <figcaption>Guerric Perrault<br>— PMO —</figcaption>
+          </figure>
+          <figure>
+            <img src="Photo arthur.jpeg" alt="Arthur Fumière">
+            <figcaption>Arthur Fumière<br>— Ingénieur projet —</figcaption>
+          </figure>
+          <figure>
+            <img src="Photo Elisabeth.jpeg" alt="Elisabeth Hubert">
+            <figcaption>Elisabeth Hubert<br>— Ingénieure projet —</figcaption>
+          </figure>
+          <figure>
+            <img src="Photo Mathys.jpg" alt="Mathys Lugez">
+            <figcaption>Mathys Lugez<br>— Ingénieur projet —</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="orange-banner-text">
+        <div class="text-container">
+          <h3>Projet Flowbot : L'Automatisation Logistique au Service de l'Industrie</h3>
+          <p>
+            Dans le cadre de notre formation d'ingénieurs à l'ICAM, notre équipe développe le projet Flowbot. Cette solution répond à un enjeu industriel majeur : l’automatisation de la logistique interne pour les charges légères. Le projet consiste à concevoir et fabriquer deux véhicules autonomes (AGV) compacts, capables de naviguer en milieu structuré. L'accent est mis sur la sécurité active par détection d'obstacles et sur la coordination intelligente des flux entre les deux unités.
+          </p>
+        </div>
+      </section>
+
+      <nav class="internal-nav">
+        <a class="tab-link" href="Cahier_des_charges.html">Page suivante</a> |
+        <a class="tab-link" href="Notre_flowbot.html">Notre Flowbot</a> |
+        <a class="tab-link" href="Contacts.html">Contact</a>
+      </nav>
+
+      <p class="external-link"><a href="https://www.icam.fr/les-campus-icam/ecole-dingenieurs-a-grand-paris-sud/" target="_blank">Visitez ce site</a></p>
+    </main>
+
+  </div>
+
+  <div id="page-templates" style="display: none;">
+
+    <div id="tpl-cahier_des_charges">
+      <main class="page-section-cahier">
+        <div class="page-title">
+          <h1>Cahier des charges</h1>
+        </div>
+        
+        <div class="cahier-checkerboard">
+          <section>
+            <h2>Présentation du projet</h2>
+            <p>Le projet Flowbot vise à concevoir deux chariots autonomes capable de transporter des charges légères dans un environnement industriel. Nous sommes un groupe d’étudiants de l’ICAM, et nous realizons ce projet mécatronique durant notre 4eme année. Notre objectif principal est d’automatiser le transport interne tout en garantissant la sécurité et l’efficacité des déplacements.</p>
+          </section>
+
+          <section>
+            <h2>Objectifs</h2>
+            <ul>
+              <li>Automatiser le transport interne de charges légères (jusqu’à 5kg).</li>
+              <li>Réduire les déplacements manuels et optimiser le temps de production.</li>
+              <li>Assurer la sécurité des employés et des biens lors du déplacement du chariot.</li>
+              <li>Faciliter l’intégration dans l’environnement industriel existant.</li>
+              <li>Fournir un prototype fonctionnel et documenté pour validation.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Contraintes</h2>
+            <ul>
+              <li>Dimensions du chariot : Doit circuler dans les couloirs et zones définies.</li>
+              <li>Autonomie : Batterie suffisante pour une journée de fonctionnement.</li>
+              <li>Normes de sécurité : Respecter les réglementations locales et les bonnes pratiques industrielles.</li>
+              <li>Budget : Limité à 1500 euros.</li>
+              <li>Environnement : Fonctionnement stable sur différents types de sols et obstacles légers.</li>
+              <li>Maintenance : Facilité d’entretien et de réparation.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Fonctionnalités attendues</h2>
+            <ul>
+              <li>Navigation autonome avec détection d’obstacles.</li>
+              <li>Transport de charges jusqu’à 5kg.</li>
+              <li>Capacité à suivre des trajets préprogrammés.</li>
+              <li>Interface de contrôle simple pour l’utilisateur.</li>
+              <li>Signalisation lumineuse pour alerter de ses déplacements.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Livrables attendus</h2>
+            <ul>
+              <li>Cahier de conception</li>
+              <li>Rapport des matériaux</li>
+              <li>Site WEB</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Planning prévisionnel</h2>
+            <table>
+              <tr><th>Phase</th><th>Durée prévue</th><th>Objectifs principaux</th></tr>
+              <tr><td>Étude de faisabilité</td><td>2 semaines</td><td>Analyse des besoins et contraintes</td></tr>
+              <tr><td>Conception mécanique</td><td>3 semaines</td><td>Dessins et choix des composants</td></tr>
+              <tr><td>Développement logiciel</td><td>2 semaines</td><td>Navigation autonome et interface</td></tr>
+              <tr><td>Assemblage prototype</td><td>4 semaines</td><td>Mise en place des composants</td></tr>
+              <tr><td>Tests et ajustements</td><td>2 semaines</td><td>Validation des performances</td></tr>
+              <tr><td>Rédaction documentation</td><td>1 semaine</td><td>Cahier technique et manuel utilisateur</td></tr>
+            </table>
+          </section>
+        </div>
+      </main>
+    </div>
+
+    <div id="tpl-notre_flowbot">
+      <main>
+        <div class="page-title">
+          <h1>Notre FLOWBOT</h1>
+        </div>
+        <div class="timeline">
+          <div class="step-container left">
+            <div class="content">
+              <div class="image-placeholder"><img src="ETAPE 0.png" alt="Châssis"></div>
+              <h3>1. Simulation mécanique</h3>
+              <p>Etude de conception mécanique. Semaine 17</p>
+            </div>
+          </div>
+          <div class="step-container right">
+            <div class="content">
+              <div class="image-placeholder"><img src="Etape 1.png" alt="Matériel"></div>
+              <h3>2. Réception du matériel</h3>
+              <p>Semaine 18</p>
+            </div>
+          </div>
+          <div class="step-container left">
+            <div class="content">
+              <div class="image-placeholder"><img src="Etape 2.jpeg" alt="Motorisation"></div>
+              <h3>3. Motorisation et Roues</h3>
+              <p>Installation des moteurs Brushless et des roues encodeuses pour un contrôle précis. Semaine 18</p>
+            </div>
+          </div>
+          <div class="step-container right">
+            <div class="content">
+              <div class="image-placeholder"><img src="Etape 3.jpeg" alt="Électronique"></div>
+              <h3>4. Intégration Électronique</h3>
+              <p>Câblage de la carte microcontrôleur et des drivers de puissance. Semaine 18</p>
+            </div>
+          </div>
+          <div class="step-container left">
+            <div class="content">
+              <div class="image-placeholder"><img src="Etape 4.jpeg" alt="Capteurs"></div>
+              <h3>5. Intégration du LiDAR</h3>
+              <p>Mise en place du LiDAR et des capteurs ultrason pour la détection d'obstacles. Semaine 18</p>
+            </div>
+          </div>
+          <div class="step-container right">
+            <div class="content">
+              <div class="image-placeholder"><img src="unnamed.jpg" alt="Tests"></div>
+              <h3>6. Tests et Calibration</h3>
+              <p>Premiers essais de roulage et calibration des algorithmes de communication.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <div id="tpl-projet_final">
+      <div>
+        <div class="page-title" style="max-width: 900px; margin: 20px auto; padding: 0 15px;">
+          <h1>Projet final</h1>
+        </div>
+
+        <div class="grand-conteneur-video">
+          <div class="cadre-orange">
+            <div class="video-wrapper">
+              <video controls poster="miniature-video.jpg">
+                <source src="Vidéo.mp4" type="video/mp4">
+                Votre navigateur ne prend pas en charge la lecture de cette vidéo.
+              </video>
+            </div>
+          </div>
+        </div>
+        <main></main>
+      </div>
+    </div>
+
+    <div id="tpl-contacts">
+      <main class="page-contacts">
+        <div class="page-title">
+          <h1>Contacts</h1>
+        </div>
+        <img src="Photo de groupe.jpeg" alt="Équipe Flowbot" class="team-photo">
+        
+        <div class="contact-card">
+          <h2>Équipe projet</h2>
+          <ul>
+            <li><strong>Lucas GOUALC'H</strong> – Chef de projet : Lucas.goual-h@2027.icam.fr</li>
+            <li><strong>Guerric PERRAULT DE JOTEMPS</strong> – PMO : Guerric.perrault-de-jotemps@2027.icam.fr</li>
+            <li><strong>Arthur FUMIERE</strong> – Ingénieur Projet : Arthur.fumiere@2027.icam.fr</li>
+            <li><strong>Elisabeth HUBERT</strong> – Ingénieure Projet : Elisabeth.hubert@2027.icam.fr</li>
+            <li><strong>Mathis LUGEZ</strong> – Ingénieur Projet : Mathis.lugez@2027.icam.fr</li>
+          </ul>
+          <p><strong>Adresse :</strong> ICAM Campus Grand Paris Sud, 34 Points de vue, 77 127 Lieusaint</p>
+        </div>
+
+        <div class="contact-card">
+          <h2>Nous contacter</h2>
+          <div class="contact-box">
+            <textarea id="message" rows="5" placeholder="Écrivez votre message ici..."></textarea>
+            <button id="btn-envoyer-message">Envoyer</button>
+            <p id="confirmation" style="margin-top:10px; color:green; display:none; font-weight:bold;">Message envoyé ! Merci pour votre contact.</p>
+          </div>
+        </div>
+      </main>
+    </div>
+
+  </div>
+
+  <footer>
+    &copy; 2025 Projet Flowbot - ICAM GPS
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const targetContainer = document.getElementById('content-dynamic-target');
+
+      // Interactivité des onglets
+      document.querySelectorAll('.bottom-row .tab').forEach(tab => {
+        tab.addEventListener('click', function(e) {
+          e.preventDefault();
+
+          document.querySelectorAll('.bottom-row .tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          const pageKey = this.getAttribute('data-page');
+          const templateSource = document.getElementById(`tpl-${pageKey}`);
+
+          if (templateSource) {
+            targetContainer.innerHTML = templateSource.innerHTML;
+            window.scrollTo(0, 0);
+            
+            if (pageKey === 'contacts') {
+              initContactForm();
+            }
+          }
+        });
+      });
+
+      // Interactivité des liens internes bas de page
+      document.querySelectorAll('.tab-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const href = this.getAttribute('href').toLowerCase();
+          let targetPage = "presentation";
+          if (href.includes("cahier")) targetPage = "cahier_des_charges";
+          else if (href.includes("notre_flowbot")) targetPage = "notre_flowbot";
+          else if (href.includes("contact")) targetPage = "contacts";
+
+          const correspondingTab = document.querySelector(`.bottom-row .tab[data-page="${targetPage}"]`);
+          if (correspondingTab) correspondingTab.click();
+        });
+      });
+
+      function initContactForm() {
+        const btnEnvoyer = document.getElementById('btn-envoyer-message');
+        if (btnEnvoyer) {
+          btnEnvoyer.addEventListener('click', function() {
+            const msg = document.getElementById('message').value;
+            if (msg.trim() !== "") {
+              document.getElementById('confirmation').style.display = 'block';
+              document.getElementById('message').value = '';
+            } else {
+              alert('Veuillez écrire un message avant d’envoyer.');
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>
